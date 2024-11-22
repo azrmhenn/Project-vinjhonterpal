@@ -3,7 +3,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 // $sql = "call pegawai()";
 // $d = $db->datasql($sql);
 ?>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"></script>
+
 <div class="content-wrapper">
 
   <section class="content-header">
@@ -32,7 +32,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
           <div class="box-body">
             <!-- tambah pegawai -->
-            <form action="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
+            <form id="form_pegawai_1" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahpegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -45,7 +45,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Nama Pegawai</label>
-                        <input type="text" name="namaK" required="required" class="form-control" placeholder="Nama Kategori ..">
+                        <input type="text" name="nama" required="required" class="form-control" placeholder="Nama Kategori ..">
                       </div>
                       <div class="form-group">
                         <label>Posisi</label>
@@ -133,7 +133,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           </button>
                         <?php } ?>
                         <!-- form edit pegawai -->
-                        <form action="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php" method="post">
+                        <form id="form_pegawai_2" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
                           <div class="modal fade" id="edit_pegawai_<?php echo $d['id_pegawai'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -143,15 +143,15 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body" style="width:100%">
                                   <div class="form-group" style="width:100%">
                                     <label>Nama Pegawai</label>
                                     <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_pegawai']; ?>">
                                     <input type="text" name="nama_pegawai" required="required" class="form-control" value="<?php echo $d['nama_pegawai']; ?>" style="width:100%">
-                                  </div>
-                                  <div class="form-group">
-                                    <label>Posisi</label>
-                                    <select class="form-control" name="posisi" required="required">
+                                  </div><br>
+                                  <div class="form-group" style="width:100%">
+                                    <label>Posisi</label><br>
+                                    <select class="form-control" name="posisi" required="required" style="width:100%">
                                       <option selected> - Pilih Posisi - </option>
                                       <?php
                                       $sql = "call posisi()";
@@ -166,31 +166,27 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                       }
                                       ?>
                                     </select>
-                                  </div>
-                                  <div class="form-group">
-                                    <label>Alamat</label>
+                                  </div><br>
+                                  <div class="form-group" style="width:100%">
+                                    <label>Alamat</label><br>
                                     <form name="addForm" method="post" action="">
-                                      <select name="propinsi_id" id="propinsi_id" class="form-control">
+                                      <select name="propinsi_id" id="propinsi_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Provinsi</option>
                                         <?php
                                         $sql = "call provinsi()";
                                         $data = $db->fetchdata($sql);
                                         foreach ($data as $dat) {
-                                          if ($d['id_'] == $dat['id_posisi'])
-                                            $selected = 'selected';
-                                          else
-                                            $selected = '';
                                           echo "<option value='" . $dat['id'] . "'>" . $dat['nama_prop'] . "</option>";
                                         }
                                         ?>
                                       </select><br>
-                                      <select name="kabupaten_id" id="kabupaten_id" class="form-control">
+                                      <select name="kabupaten_id" id="kabupaten_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Kota/Kab</option>
                                       </select><br>
-                                      <select name="kecamatan_id" id="kecamatan_id" class="form-control">
+                                      <select name="kecamatan_id" id="kecamatan_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Kecamatan</option>
                                       </select><br>
-                                      <select name="desa_id" id="desa_id" class="form-control">
+                                      <select name="desa_id" id="desa_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Desa</option>
                                       </select><br>
                                     </form>
@@ -221,7 +217,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
@@ -246,56 +242,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
 <!-- script ajax alamat -->
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#propinsi_id').change(function() {
-      var prop = $('#propinsi_id').val();
-      $.ajax({
-        type: "POST",
-        url: "../proc.php",
-        data: {
-          jenis: 'kab',
-          prop: prop
-        },
-        success: function(res) {
-          $('#kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
-          $('#kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
-          $('#desa_id').html('<option value="">Pilih Desa</option>');
-        }
-      });
-    });
-
-    $('#kabupaten_id').change(function() {
-      var kab = $('#kabupaten_id').val();
-      $.ajax({
-        type: "POST",
-        url: "../proc.php",
-        data: {
-          jenis: 'kec',
-          kab: kab
-        },
-        success: function(res) {
-          $('#kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
-          $('#desa_id').html('<option value="">Pilih Desa</option>');
-        }
-      });
-    });
-
-    $('#kecamatan_id').change(function() {
-      var kec = $('#kecamatan_id').val();
-      $.ajax({
-        type: "POST",
-        url: "../proc.php",
-        data: {
-          jenis: 'desa',
-          kec: kec
-        },
-        success: function(res) {
-          $('#desa_id').html('<option value="">Pilih Desa</option>' + res);
-        }
-      });
-    });
-  });
+  
 </script>
+
 <!-- script ajax alamat -->
 
 <?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/footer.php'; ?>

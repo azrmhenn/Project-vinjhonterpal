@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<?php
+include 'config.php';
+?>
 
 <head>
   <meta charset="utf-8">
@@ -7,29 +10,30 @@
   <title>Administrator - Sistem Informasi Keuangan</title>
 
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/Ionicons/css/ionicons.min.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/dist/css/AdminLTE.min.css">
 
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <!-- Menggunakan BASE_URL_BOWER_COMPONENT untuk file dari bower_components -->
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_DIST; ?>css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_DIST; ?>css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>morris.js/morris.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_PLUGIN; ?>bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/dist/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/morris.js/morris.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/jvectormap/jquery-jvectormap.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/bower_components/bootstrap-daterangepicker/daterangepicker.css">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/style.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL_; ?>assets/style.css">
 
   <?php
   include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
   $db = new database();
   session_start();
+  $id = $_SESSION['id'];
   if ($_SESSION['status'] != "administrator_logedin") {
-    header("location:http://localhost/MPSI/Project-vinjhonterpal/index.php?alert=belum_login");
+    header("redirect:index.php?alert=belum_login");
   }
   ?>
 
@@ -48,159 +52,169 @@
   </style>
   <div class="wrapper">
     <!-- header -->
-      <header class="main-header">
-        <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/index.php" class="logo">
-          <span class="logo-lg"><b><img src="http://localhost/vinjhonterpal/gambar/sistem/LOGO UMKM.png" style="width: 30px;height: auto"> Vin Jhon Terpal</b></span>
+    <header class="main-header">
+      <a href="<?php echo BASE_URL_; ?> admin/index.php" class="logo">
+        <span class="logo-lg"><b><img src="<?php echo BASE_URL_IMG_SYS; ?>LOGO UMKM.png" style="width: 30px;height: auto"> Vin Jhon Terpal</b></span>
+      </a>
+      <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <span class="sr-only">Toggle navigation</span>
         </a>
-        <nav class="navbar navbar-static-top">
-          <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-            <span class="sr-only">Toggle navigation</span>
-          </a>
 
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
+        <!-- foto user header -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
 
-              <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <?php
-                  $id_user = $_SESSION['id'];
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <?php
+                // $id = $_SESSION['id'];
 
-                  // Use the database class to fetch user profile
-                  $sql = "SELECT * FROM user WHERE id_user='$id_user'";
-                  $result = $db->sqlquery($sql);
+                // Use the database class to fetch user profile
+                $sql = "SELECT * FROM user WHERE id_user='$id'";
+                $result = $db->sqlquery($sql);
 
-                  if ($result->num_rows > 0) {
-                    $profil = $result->fetch_assoc();
+                if ($result->num_rows > 0) {
+                  $profil = $result->fetch_assoc();
 
-                    // Construct the image URL based on the profile picture filename
-                    $profile_picture_url = "http://localhost/MPSI/Project-vinjhonterpal/gambar/user/" . $profil['foto'];
-                  ?>
-                    <img src="<?php echo $profile_picture_url; ?>" class="user-image">
-                  <?php } else { ?>
-                    <img src="http://localhost/vinjhonterpal/MPSI/Project-gambar/sistem/user.png" class="user-image">
-                  <?php } ?>
-                  <span class="hidden-xs"><?php echo $_SESSION['nama']; ?> - <?php echo $_SESSION['level']; ?></span>
-                </a>
-              </li>
-              <li>
-                <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
-                  <i class="fa fa-sign-out"></i> LOGOUT
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
+                  // Construct the image URL based on the profile picture filename
+                  $profile_picture_url = BASE_URL_IMG_USR . $profil['foto'];
+                ?>
+                  <img src="<?php echo $profile_picture_url; ?>" class="user-image">
+                <?php } else { ?>
+                  <img src="<?php echo BASE_URL_IMG_SYS; ?>user.png" class="user-image">
+                <?php } ?>
+                <span class="hidden-xs"><?php echo $_SESSION['nama']; ?> - <?php echo $_SESSION['level']; ?></span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo BASE_URL_; ?>admin/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
+                <i class="fa fa-sign-out"></i> LOGOUT
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- foto user header -->
+
+      </nav>
+    </header>
     <!-- header -->
 
     <!-- sidebar -->
-      <aside class="main-sidebar">
-        <section class="sidebar">
-          <div class="user-panel">
-            <div class="pull-left image">
-              <?php
-              $id_user = $_SESSION['id'];
+    <aside class="main-sidebar">
+      <section class="sidebar">
 
-              // Use the database class to fetch user profile
-              $sql = "SELECT * FROM user WHERE id_user='$id_user'";
-              $result = $db->sqlquery($sql);
+        <!-- foto user sidebar -->
+        <div class="user-panel">
+          <div class="pull-left image">
+            <?php
 
-              if ($result->num_rows > 0) {
-                $profil = $result->fetch_assoc();
 
-                // Construct the image URL based on the profile picture filename
-                $profile_picture_url = "http://localhost/MPSI/Project-vinjhonterpal/gambar/user/" . $profil['foto'];
-              ?>
-                <img src="<?php echo $profile_picture_url; ?>" class="img-circle" style="max-height:45px">
-              <?php } else { ?>
-                <img src="http://localhost/MPSI/Project-vinjhonterpal/gambar/sistem/user.png" class="img-circle" style="max-height:45px">
-              <?php } ?>
-            </div>
-            <div class="pull-left info">
-              <p><?php echo $_SESSION['nama']; ?></p>
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div> 1
+            // Use the database class to fetch user profile
+            $sql = "SELECT * FROM user WHERE id_user='$id'";
+            $result = $db->sqlquery($sql);
+
+            if ($result->num_rows > 0) {
+              $profil = $result->fetch_assoc();
+
+              // Construct the image URL based on the profile picture filename
+              $profile_picture_url = BASE_URL_ . "gambar/user/" . $profil['foto'];
+            ?>
+              <img src="<?php echo $profile_picture_url; ?>" class="img-circle" style="max-height:45px">
+            <?php } else { ?>
+              <img src="<?php echo BASE_URL_; ?>gambar/sistem/user.png" class="img-circle" style="max-height:45px">
+            <?php } ?>
           </div>
-          <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>
+          <div class="pull-left info">
+            <p><?php echo $_SESSION['nama']; ?></p>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          </div>
+        </div>
+        <!-- foto user sidebar -->
 
-            <li>
-              <a href="kategori.php">
-                <i class="fa fa-dashboard"></i> <span>DASHBOARD</span>
-              </a>
-            </li>
+        <!-- sidebar menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">MAIN NAVIGATION</li>
 
-            <li>
-              <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/produk.php">
-                <i class="fa fa-folder"></i> <span>PRODUK</span>
-              </a>
-            </li>
+          <li>
+            <a href="kategori.php">
+              <i class="fa fa-dashboard"></i> <span>DASHBOARD</span>
+            </a>
+          </li>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-folder"></i> <span>KATEGORI</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display: none;">
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Kategori Produk</a></li>
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php"><i class="fa fa-circle-o"></i> Data Kategori Pengeluaran</a></li>
-              </ul>
-            </li>
+          <li>
+            <a href="<?php echo BASE_URL_MENU; ?>produk.php">
+              <i class="fa fa-folder"></i> <span>PRODUK</span>
+            </a>
+          </li>
 
-            <li>
-              <a href="transaksi.php">
-                <i class="fa fa-folder"></i> <span>BAHAN</span>
-              </a>
-            </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-folder"></i> <span>KATEGORI</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+              <li><a href="<?php echo BASE_URL_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Kategori Produk</a></li>
+              <li><a href="<?php echo BASE_URL_MENU; ?>kategori_pengeluaran.php"><i class="fa fa-circle-o"></i> Data Kategori Pengeluaran</a></li>
+            </ul>
+          </li>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-file"></i> <span>PEGAWAI</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display: none;">
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
-              </ul>
-            </li>
+          <li>
+            <a href="<?php echo BASE_URL_MENU; ?>kategori_pengeluaran.php">
+              <i class="fa fa-folder"></i> <span>BAHAN</span>
+            </a>
+          </li>
 
-            <li>
-              <a href="transaksi.php">
-                <i class="fa fa-folder"></i> <span>PEMASOK</span>
-              </a>
-            </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-file"></i> <span>PEGAWAI</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+              <li><a href="<?php echo BASE_URL_MENU; ?>pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
+              <li><a href="<?php echo BASE_URL_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
+              <li><a href="<?php echo BASE_URL_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
+            </ul>
+          </li>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-file"></i> <span>LAPORAN</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu" style="display: none;">
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php.php"><i class="fa fa-circle-o"></i> Keluar</a></li>
-                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php.php"><i class="fa fa-circle-o"></i> Masuk</a></li>
-              </ul>
-            </li>
+          <li>
+            <a href="<?php echo BASE_URL_MENU; ?>pemasok.php">
+              <i class="fa fa-folder"></i> <span>PEMASOK</span>
+            </a>
+          </li>
 
-            <li>
-              <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php">
-                <i class="fa fa-users"></i> <span>DATA PENGGUNA</span>
-              </a>
-            </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-file"></i> <span>LAPORAN</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none;">
+              <li><a href="<?php echo BASE_URL_MENU;; ?>kategori_produk.php.php"><i class="fa fa-circle-o"></i> Keluar</a></li>
+              <li><a href="<?php echo BASE_URL_MENU;; ?>kategori_produk.php.php"><i class="fa fa-circle-o"></i> Masuk</a></li>
+            </ul>
+          </li>
 
-            <li>
-              <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/gantipassword.php">
-                <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
-              </a>
-            </li>
+          <li>
+            <a href="<?php echo BASE_URL_MENU;; ?>user.php">
+              <i class="fa fa-users"></i> <span>DATA PENGGUNA</span>
+            </a>
+          </li>
 
-          </ul>
-        </section>
-      </aside>
+          <li>
+            <a href="<?php echo BASE_URL_MENU;; ?>gantipassword.php">
+              <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
+            </a>
+          </li>
+
+        </ul>
+        <!-- sidebar menu -->
+
+      </section>
+    </aside>
     <!-- /.sidebar -->

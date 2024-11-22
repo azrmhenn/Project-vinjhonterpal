@@ -2,10 +2,13 @@
 include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 $db = new Database();
 
+// Konstanta Base URL
+define('BASE_URL', "http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/");
+
 // Fungsi untuk mengalihkan halaman
 function redirect($url)
 {
-    header("Location: $url");
+    header("Location: " . BASE_URL . $url);
     exit();
 }
 
@@ -17,7 +20,7 @@ if (isset($_POST['add_KP'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php");
+        redirect("kategori_produk.php");
     }
 }
 
@@ -29,7 +32,7 @@ if (isset($_POST['edit_KP'])) {
     if (!$db->sqlquery($sql)) {
         die('Update data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php");
+        redirect("kategori_produk.php");
     }
 }
 
@@ -40,7 +43,7 @@ if (isset($_GET['del_KP'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php");
+        redirect("kategori_produk.php");
     }
 }
 
@@ -53,7 +56,7 @@ if (isset($_POST['add_KPG'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php");
+        redirect("kategori_pengeluaran.php");
     }
 }
 
@@ -66,7 +69,7 @@ if (isset($_POST['edit_KPG'])) {
     if (!$db->sqlquery($sql)) {
         die('Update data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php");
+        redirect("kategori_pengeluaran.php");
     }
 }
 
@@ -77,7 +80,7 @@ if (isset($_GET['del_KPG'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php");
+        redirect("kategori_pengeluaran.php");
     }
 }
 
@@ -91,7 +94,7 @@ if (isset($_POST['gantiPW'])) {
     if (!$db->sqlquery($sql)) {
         die('Update password gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/gantipassword.php?alert=sukses");
+        redirect("gantipassword.php?alert=sukses");
     }
 }
 
@@ -107,17 +110,17 @@ if (isset($_POST['USER_add'])) {
 
     if ($filename == "") {
         $db->sqlquery("call USER_add('$nama', '$username', '$password', '', '$level')");
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php");
+        redirect("user.php");
     } else {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if (!in_array($ext, $allowed)) {
-            redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php?alert=gagal");
+            redirect("user.php?alert=gagal");
         } else {
             move_uploaded_file($_FILES['foto']['tmp_name'], '../gambar/user/' . $rand . '_' . $filename);
             $file_gambar = $rand . '_' . $filename;
             $db->sqlquery("call USER_add('$nama', '$username', '$password', '$file_gambar', '$level')");
-            redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php");
+            redirect("user.php");
         }
     }
 }
@@ -138,24 +141,24 @@ if (isset($_POST['USER_edit'])) {
 
     if ($pwd == "" && $filename == "") {
         $db->sqlquery("call USER_edit_TPF('$id','$nama', '$user', '$level')");
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php");
+        redirect("user.php");
     } elseif ($pwd == "") {
         if (!in_array($ext, $allowed)) {
-            redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php");
+            redirect("user.php");
         } else {
             move_uploaded_file($_FILES['foto']['tmp_name'], 'C:/laragon/www/MPSI/Project-vinjhonterpal/gambar/user/' . $rand . '_' . $filename);
             $x = $rand . '_' . $filename;
             $db->sqlquery("call USER_edit_TP('$id','$nama', '$user', '$x', '$level')");
-            redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php?alert=berhasil");
+            redirect("user.php?alert=berhasil");
         }
     } elseif ($filename == "") {
         $db->sqlquery("call USER_edit_TF('$id','$nama', '$user', '$pass', '$level')");
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php?alert=berhasil");
+        redirect("user.php?alert=berhasil");
     } else {
         move_uploaded_file($_FILES['foto']['tmp_name'], 'C:/laragon/www//vinjhonterpal/gambar/user/' . $rand . '_' . $filename);
         $x = $rand . '_' . $filename;
         $db->sqlquery("call USER_edit('$id','$nama', '$user', '$pass','$x','$level')");
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php?alert=berhasil");
+        redirect("user.php?alert=berhasil");
     }
 }
 
@@ -167,20 +170,21 @@ if (isset($_GET['USER_del'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php");
+        redirect("user.php");
     }
 }
 
 // Action Pegawai
 if (isset($_POST['add_pegawai'])) {
     $nama = $_POST['nama'];
-    $ket = $_POST['ke'];
-    $sql = "CALL KPG_add('$nama', '$ket')";
+    $posisi = $_POST['posisi'];
+    $alamat = $_POST['desa_id'];
+    $sql = "CALL pegawai_add('$nama', '$posisi', '$alamat')";
 
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php");
+        redirect("pegawai.php");
     }
 }
 

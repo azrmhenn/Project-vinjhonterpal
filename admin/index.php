@@ -1,5 +1,5 @@
 <?php 
-include 'header_sidebar.php'; 
+require_once 'header_sidebar.php'; 
 require_once '../class_db.php'; // Pastikan file class_db.php tersedia
 $db = new database(); // Inisialisasi objek database
 ?>
@@ -148,4 +148,4 @@ $db = new database(); // Inisialisasi objek database
   </section>
 
 </div>
-<?php include 'footer.php'; ?>
+<?php require_once 'footer.php'; ?>

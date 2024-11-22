@@ -6,104 +6,134 @@
     <strong>Copyright Vin Jhon Terpal &copy; 2024</strong> - Sistem Informasi Akuntansi Vin Jhon Terpal
   </footer>
 
+  <!-- Menggunakan BASE_URL_BOWER_COMPONENT untuk file dari bower_components -->
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>jquery/dist/jquery.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>jquery-ui/jquery-ui.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>raphael/raphael.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>morris.js/morris.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="<?php echo BASE_URL_BOWER_COMPONENT; ?>datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
-  </div>
+  <!-- Menggunakan BASE_URL_PLUGIN untuk file dari plugins -->
+  <script src="<?php echo BASE_URL_PLUGIN; ?>jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>jquery-knob/dist/jquery.knob.min.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>moment/min/moment.min.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>bootstrap-daterangepicker/daterangepicker.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="<?php echo BASE_URL_PLUGIN; ?>fastclick/lib/fastclick.js"></script>
 
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Menggunakan BASE_URL_DIST untuk file dari dist -->
+  <script src="<?php echo BASE_URL_DIST; ?>js/adminlte.min.js"></script>
+  <script src="<?php echo BASE_URL_DIST; ?>js/pages/dashboard.js"></script>
+  <script src="<?php echo BASE_URL_DIST; ?>js/demo.js"></script>
+  <script src="<?php echo BASE_URL_DIST; ?>js/ckeditor.js"></script>
+  <script src="<?php echo BASE_URL_DIST; ?>js/chart.js/Chart.min.js"></script>
 
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
-
-  <script>
-    $.widget.bridge('uibutton', $.ui.button);
-  </script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/raphael/raphael.min.js"></script>
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/morris.js/morris.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/moment/min/moment.min.js"></script>
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/fastclick/lib/fastclick.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/dist/js/adminlte.min.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/dist/js/pages/dashboard.js"></script>
-
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/dist/js/demo.js"></script>
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/ckeditor/ckeditor.js"></script>
-  <script src="http://localhost/MPSI/Project-vinjhonterpal/assets/bower_components/chart.js/Chart.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"></script>
-
+  <!-- AJAX -->
   <script type="text/javascript">
     $(document).ready(function() {
-    //   $('#propinsi_id').change(function() {
-    //     var prop = $('#propinsi_id').val();
-    //     $.ajax({
-    //       type: "POST",
-    //       url: "proc.php",
-    //       data: {
-    //         jenis: 'kab',
-    //         prop: prop
-    //       },
-    //       success: function(res) {
-    //         $('#kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
-    //         $('#kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
-    //         $('#desa_id').html('<option value="">Pilih Desa</option>');
-    //       }
-    //     });
-    //   });
+      $('#form_pegawai_1 #propinsi_id').change(function() {
+        var prop = $('#form_pegawai_1 #propinsi_id').val();
+        $.ajax({
+          type: "POST",
+          url: "../proc.php",
+          data: {
+            jenis: 'kab',
+            prop: prop
+          },
+          success: function(res) {
+            $('#form_pegawai_1 #kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
+            $('#form_pegawai_1 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
+            $('#form_pegawai_1 #desa_id').html('<option value="">Pilih Desa</option>');
+          }
+        });
+      });
 
-    //   $('#kabupaten_id').change(function() {
-    //     var kab = $('#kabupaten_id').val();
-    //     $.ajax({
-    //       type: "POST",
-    //       url: "proc.php",
-    //       data: {
-    //         jenis: 'kec',
-    //         kab: kab
-    //       },
-    //       success: function(res) {
-    //         $('#kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
-    //         $('#desa_id').html('<option value="">Pilih Desa</option>');
-    //       }
-    //     });
-    //   });
+      $('#form_pegawai_1 #kabupaten_id').change(function() {
+        var kab = $('#form_pegawai_1 #kabupaten_id').val();
+        $.ajax({
+          type: "POST",
+          url: "../proc.php",
+          data: {
+            jenis: 'kec',
+            kab: kab
+          },
+          success: function(res) {
+            $('#form_pegawai_1 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
+            $('#form_pegawai_1 #desa_id').html('<option value="">Pilih Desa</option>');
+          }
+        });
+      });
 
-    //   $('#kecamatan_id').change(function() {
-    //     var kec = $('#kecamatan_id').val();
-    //     $.ajax({
-    //       type: "POST",
-    //       url: "proc.php",
-    //       data: {
-    //         jenis: 'desa',
-    //         kec: kec
-    //       },
-    //       success: function(res) {
-    //         $('#desa_id').html('<option value="">Pilih Desa</option>' + res);
-    //       }
-    //     });
-    //   });
+      $('#form_pegawai_1 #kecamatan_id').change(function() {
+        var kec = $('#form_pegawai_1 #kecamatan_id').val();
+        $.ajax({
+          type: "POST",
+          url: "../proc.php",
+          data: {
+            jenis: 'desa',
+            kec: kec
+          },
+          success: function(res) {
+            $('#form_pegawai_1 #desa_id').html('<option value="">Pilih Desa</option>' + res);
+          }
+        });
+      });
 
-    $('#table-datatable').DataTable({
+      $('#form_pegawai_2 #propinsi_id').change(function() {
+        var prop = $('#form_pegawai_2 #propinsi_id').val();
+        $.ajax({
+          type: "POST",
+          url: "../proc.php",
+          data: {
+            jenis: 'kab',
+            prop: prop
+          },
+          success: function(res) {
+            $('#form_pegawai_2 #kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
+            $('#form_pegawai_2 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
+            $('#form_pegawai_2 #desa_id').html('<option value="">Pilih Desa</option>');
+          }
+        });
+      });
+
+      $('#form_pegawai_2 #kabupaten_id').change(function() {
+        var kab = $('#form_pegawai_2 #kabupaten_id').val();
+        $.ajax({
+          type: "POST",
+          url: "../proc.php",
+          data: {
+            jenis: 'kec',
+            kab: kab
+          },
+          success: function(res) {
+            $('#form_pegawai_2 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
+            $('#form_pegawai_2 #desa_id').html('<option value="">Pilih Desa</option>');
+          }
+        });
+      });
+
+      $('#form_pegawai_2 #kecamatan_id').change(function() {
+        var kec = $('#form_pegawai_2 #kecamatan_id').val();
+        $.ajax({
+          type: "POST",
+          url: "../proc.php",
+          data: {
+            jenis: 'desa',
+            kec: kec
+          },
+          success: function(res) {
+            $('#form_pegawai_2 #desa_id').html('<option value="">Pilih Desa</option>' + res);
+          }
+        });
+      });
+
+      $('#table-datatable').DataTable({
         'paging': true,
         'lengthChange': false,
         'searching': true,
@@ -113,20 +143,23 @@
         "pageLength": 50
       });
 
-    $('#datepicker').datepicker({
-      autoclose: true,
-      format: 'dd/mm/yyyy',
-    }).datepicker("setDate", new Date());
+      $('#datepicker').datepicker({
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+      }).datepicker("setDate", new Date());
 
-    $('.datepicker2').datepicker({
-      autoclose: true,
-      format: 'yyyy/mm/dd',
+      $('.datepicker2').datepicker({
+        autoclose: true,
+        format: 'yyyy/mm/dd',
+      });
     });
-  });
   </script>
+ <!-- AJAX -->
 
-
+ <!-- Cuma script biasa -->
   <script>
+    $.widget.bridge('uibutton', $.ui.button);
+
     var randomScalingFactor = function() {
       return Math.round(Math.random() * 100)
     };
@@ -247,8 +280,6 @@
 
     }
 
-
-
     window.onload = function() {
       var ctx = document.getElementById("grafik1").getContext("2d");
       window.myBar = new Chart(ctx).Bar(barChartData, {
@@ -272,7 +303,4 @@
 
     }
   </script>
-
-  </body>
-
-  </html>
+ <!-- Cuma script biasa -->
