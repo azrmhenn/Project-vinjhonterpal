@@ -1,5 +1,5 @@
-<?php require_once 'C:/laragon/www/vinjhonterpal/admin/header_sidebar.php';
-require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 // $sql = "call pegawai()";
 // $d = $db->datasql($sql);
 ?>
@@ -32,7 +32,7 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
 
           <div class="box-body">
             <!-- tambah pegawai -->
-            <form action="http://localhost/vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
+            <form action="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahpegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -133,7 +133,7 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
                           </button>
                         <?php } ?>
                         <!-- form edit pegawai -->
-                        <form action="http://localhost/vinjhonterpal/admin/proc.php" method="post">
+                        <form action="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php" method="post">
                           <div class="modal fade" id="edit_pegawai_<?php echo $d['id_pegawai'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -221,7 +221,7 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="http://localhost/vinjhonterpal/admin/proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
@@ -298,4 +298,4 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
 </script>
 <!-- script ajax alamat -->
 
-<?php include 'C:/laragon/www/vinjhonterpal/admin/footer.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/footer.php'; ?>

@@ -25,11 +25,11 @@
   <link rel="stylesheet" href="http://localhost/vinjhonterpal/assets/style.css">
 
   <?php
-  include 'C:/laragon/www/vinjhonterpal/class_db.php';
+  include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
   $db = new database();
   session_start();
   if ($_SESSION['status'] != "administrator_logedin") {
-    header("location:http://localhost/vinjhonterpal/index.php?alert=belum_login");
+    header("location:http://localhost/MPSI/Project-vinjhonterpal/index.php?alert=belum_login");
   }
   ?>
 
@@ -49,7 +49,7 @@
   <div class="wrapper">
     <!-- header -->
       <header class="main-header">
-        <a href="http://localhost/vinjhonterpal/admin/index.php" class="logo">
+        <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/index.php" class="logo">
           <span class="logo-lg"><b><img src="http://localhost/vinjhonterpal/gambar/sistem/LOGO UMKM.png" style="width: 30px;height: auto"> Vin Jhon Terpal</b></span>
         </a>
         <nav class="navbar navbar-static-top">
@@ -73,17 +73,17 @@
                     $profil = $result->fetch_assoc();
 
                     // Construct the image URL based on the profile picture filename
-                    $profile_picture_url = "http://localhost/vinjhonterpal/gambar/user/" . $profil['foto'];
+                    $profile_picture_url = "http://localhost/MPSI/Project-vinjhonterpal/gambar/user/" . $profil['foto'];
                   ?>
                     <img src="<?php echo $profile_picture_url; ?>" class="user-image">
                   <?php } else { ?>
-                    <img src="http://localhost/vinjhonterpal/gambar/sistem/user.png" class="user-image">
+                    <img src="http://localhost/vinjhonterpal/MPSI/Project-gambar/sistem/user.png" class="user-image">
                   <?php } ?>
                   <span class="hidden-xs"><?php echo $_SESSION['nama']; ?> - <?php echo $_SESSION['level']; ?></span>
                 </a>
               </li>
               <li>
-                <a href="http://localhost/vinjhonterpal/admin/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
+                <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
                   <i class="fa fa-sign-out"></i> LOGOUT
                 </a>
               </li>
@@ -109,11 +109,11 @@
                 $profil = $result->fetch_assoc();
 
                 // Construct the image URL based on the profile picture filename
-                $profile_picture_url = "http://localhost/vinjhonterpal/gambar/user/" . $profil['foto'];
+                $profile_picture_url = "http://localhost/MPSI/Project-vinjhonterpal/gambar/user/" . $profil['foto'];
               ?>
                 <img src="<?php echo $profile_picture_url; ?>" class="img-circle" style="max-height:45px">
               <?php } else { ?>
-                <img src="http://localhost/vinjhonterpal/gambar/sistem/user.png" class="img-circle" style="max-height:45px">
+                <img src="http://localhost/MPSI/Project-vinjhonterpal/gambar/sistem/user.png" class="img-circle" style="max-height:45px">
               <?php } ?>
             </div>
             <div class="pull-left info">
@@ -131,7 +131,7 @@
             </li>
 
             <li>
-              <a href="http://localhost/vinjhonterpal/admin/menu_sidebar/produk.php">
+              <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/produk.php">
                 <i class="fa fa-folder"></i> <span>PRODUK</span>
               </a>
             </li>
@@ -144,8 +144,8 @@
                 </span>
               </a>
               <ul class="treeview-menu" style="display: none;">
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Kategori Produk</a></li>
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php"><i class="fa fa-circle-o"></i> Data Kategori Pengeluaran</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Kategori Produk</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_pengeluaran.php"><i class="fa fa-circle-o"></i> Data Kategori Pengeluaran</a></li>
               </ul>
             </li>
 
@@ -163,9 +163,9 @@
                 </span>
               </a>
               <ul class="treeview-menu" style="display: none;">
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
               </ul>
             </li>
 
@@ -183,19 +183,19 @@
                 </span>
               </a>
               <ul class="treeview-menu" style="display: none;">
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/kategori_produk.php.php"><i class="fa fa-circle-o"></i> Keluar</a></li>
-                <li><a href="http://localhost/vinjhonterpal/admin/menu_sidebar/kategori_produk.php.php"><i class="fa fa-circle-o"></i> Masuk</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php.php"><i class="fa fa-circle-o"></i> Keluar</a></li>
+                <li><a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/kategori_produk.php.php"><i class="fa fa-circle-o"></i> Masuk</a></li>
               </ul>
             </li>
 
             <li>
-              <a href="http://localhost/vinjhonterpal/admin/menu_sidebar/user.php">
+              <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/user.php">
                 <i class="fa fa-users"></i> <span>DATA PENGGUNA</span>
               </a>
             </li>
 
             <li>
-              <a href="http://localhost/vinjhonterpal/admin/menu_sidebar/gantipassword.php">
+              <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/gantipassword.php">
                 <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
               </a>
             </li>

@@ -74,7 +74,7 @@
                 </thead>
                 <tbody>
                   <?php 
-                  include 'c:\laragon\www\vinjhonterpal\koneksi.php';
+                  include 'c:\laragon\www\MPSI\Project-vinjhonterpal\koneksi.php';
                   $no=1;
                   $data = mysqli_query($koneksi,"CALL Produk();");
                   while($d = mysqli_fetch_array($data)){

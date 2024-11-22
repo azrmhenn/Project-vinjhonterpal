@@ -1,5 +1,5 @@
-<?php require_once 'C:/laragon/www/vinjhonterpal/admin/header_sidebar.php';
-require_once 'C:/laragon/www/vinjhonterpal/class_db.php'; 
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php'; 
     // $sql = "call user()";
     // $d = $db->datasql($sql);
 ?>
@@ -32,7 +32,7 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
 
           <div class="box-body">
             <!-- tambah pengguna -->
-            <form action="http://localhost/vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
+            <form action="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -115,9 +115,9 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
                       <td>
                         <center>
                           <?php if($d['foto'] == ""){ ?>
-                            <img src="http://localhost/vinjhonterpal/gambar/sistem/user.png" style="width: 80px;height: auto">
+                            <img src="http://localhost/MPSI/Project-vinjhonterpal/gambar/sistem/user.png" style="width: 80px;height: auto">
                           <?php }else{ ?>
-                            <img src="http://localhost/vinjhonterpal/gambar/user/<?php echo $d['foto'] ?>" style="width: 80px;height: auto">
+                            <img src="http://localhost/MPSI/Project-vinjhonterpal/gambar/user/<?php echo $d['foto'] ?>" style="width: 80px;height: auto">
                           <?php } ?>
                         </center>
                       </td>
@@ -131,7 +131,7 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
                           </button>
                         <?php } ?>
                         <!-- form pengguna edit -->
-                        <form action="http://localhost/vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
+                        <form action="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php" method="post" enctype="multipart/form-data">
                           <div class="modal fade" id="edit_pengguna_<?php echo $d['id_user'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -203,7 +203,7 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="http://localhost/vinjhonterpal/admin/proc.php?del_user=<?php echo $d['id_user'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="http://localhost/MPSI/Project-vinjhonterpal/admin/proc.php?del_user=<?php echo $d['id_user'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
@@ -226,4 +226,4 @@ require_once 'C:/laragon/www/vinjhonterpal/class_db.php';
   </section>
 
 </div>
-<?php require_once 'C:/laragon/www/vinjhonterpal/admin/footer.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/footer.php'; ?>
