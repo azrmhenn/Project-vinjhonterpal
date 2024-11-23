@@ -37,8 +37,8 @@
   <!-- AJAX -->
   <script type="text/javascript">
     $(document).ready(function() {
-      $('#form_pegawai_1 #propinsi_id').change(function() {
-        var prop = $('#form_pegawai_1 #propinsi_id').val();
+      $('#form_alamat_1 #propinsi_id').change(function() {
+        var prop = $('#form_alamat_1 #propinsi_id').val();
         $.ajax({
           type: "POST",
           url: "../proc.php",
@@ -47,15 +47,15 @@
             prop: prop
           },
           success: function(res) {
-            $('#form_pegawai_1 #kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
-            $('#form_pegawai_1 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
-            $('#form_pegawai_1 #desa_id').html('<option value="">Pilih Desa</option>');
+            $('#form_alamat_1 #kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
+            $('#form_alamat_1 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
+            $('#form_alamat_1 #desa_id').html('<option value="">Pilih Desa</option>');
           }
         });
       });
 
-      $('#form_pegawai_1 #kabupaten_id').change(function() {
-        var kab = $('#form_pegawai_1 #kabupaten_id').val();
+      $('#form_alamat_1 #kabupaten_id').change(function() {
+        var kab = $('#form_alamat_1 #kabupaten_id').val();
         $.ajax({
           type: "POST",
           url: "../proc.php",
@@ -64,14 +64,14 @@
             kab: kab
           },
           success: function(res) {
-            $('#form_pegawai_1 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
-            $('#form_pegawai_1 #desa_id').html('<option value="">Pilih Desa</option>');
+            $('#form_alamat_1 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
+            $('#form_alamat_1 #desa_id').html('<option value="">Pilih Desa</option>');
           }
         });
       });
 
-      $('#form_pegawai_1 #kecamatan_id').change(function() {
-        var kec = $('#form_pegawai_1 #kecamatan_id').val();
+      $('#form_alamat_1 #kecamatan_id').change(function() {
+        var kec = $('#form_alamat_1 #kecamatan_id').val();
         $.ajax({
           type: "POST",
           url: "../proc.php",
@@ -80,13 +80,13 @@
             kec: kec
           },
           success: function(res) {
-            $('#form_pegawai_1 #desa_id').html('<option value="">Pilih Desa</option>' + res);
+            $('#form_alamat_1 #desa_id').html('<option value="">Pilih Desa</option>' + res);
           }
         });
       });
 
-      $('#form_pegawai_2 #propinsi_id').change(function() {
-        var prop = $('#form_pegawai_2 #propinsi_id').val();
+      $('#form_alamat_2 #propinsi_id').change(function() {
+        var prop = $('#form_alamat_2 #propinsi_id').val();
         $.ajax({
           type: "POST",
           url: "../proc.php",
@@ -95,15 +95,15 @@
             prop: prop
           },
           success: function(res) {
-            $('#form_pegawai_2 #kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
-            $('#form_pegawai_2 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
-            $('#form_pegawai_2 #desa_id').html('<option value="">Pilih Desa</option>');
+            $('#form_alamat_2 #kabupaten_id').html('<option value="">Pilih Kota/Kab</option>' + res);
+            $('#form_alamat_2 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>');
+            $('#form_alamat_2 #desa_id').html('<option value="">Pilih Desa</option>');
           }
         });
       });
 
-      $('#form_pegawai_2 #kabupaten_id').change(function() {
-        var kab = $('#form_pegawai_2 #kabupaten_id').val();
+      $('#form_alamat_2 #kabupaten_id').change(function() {
+        var kab = $('#form_alamat_2 #kabupaten_id').val();
         $.ajax({
           type: "POST",
           url: "../proc.php",
@@ -112,14 +112,14 @@
             kab: kab
           },
           success: function(res) {
-            $('#form_pegawai_2 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
-            $('#form_pegawai_2 #desa_id').html('<option value="">Pilih Desa</option>');
+            $('#form_alamat_2 #kecamatan_id').html('<option value="">Pilih Kecamatan</option>' + res);
+            $('#form_alamat_2 #desa_id').html('<option value="">Pilih Desa</option>');
           }
         });
       });
 
-      $('#form_pegawai_2 #kecamatan_id').change(function() {
-        var kec = $('#form_pegawai_2 #kecamatan_id').val();
+      $('#form_alamat_2 #kecamatan_id').change(function() {
+        var kec = $('#form_alamat_2 #kecamatan_id').val();
         $.ajax({
           type: "POST",
           url: "../proc.php",
@@ -128,7 +128,7 @@
             kec: kec
           },
           success: function(res) {
-            $('#form_pegawai_2 #desa_id').html('<option value="">Pilih Desa</option>' + res);
+            $('#form_alamat_2 #desa_id').html('<option value="">Pilih Desa</option>' + res);
           }
         });
       });

@@ -176,8 +176,8 @@ include 'config.php';
             </a>
             <ul class="treeview-menu" style="display: none;">
               <li><a href="<?php echo BASE_URL_MENU; ?>pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
-              <li><a href="<?php echo BASE_URL_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
-              <li><a href="<?php echo BASE_URL_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
+              <li><a href="<?php echo BASE_URL_MENU; ?>absensi.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
+              <li><a href="<?php echo BASE_URL_MENU; ?>posisi.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
             </ul>
           </li>
 

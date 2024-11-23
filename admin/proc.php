@@ -1,7 +1,6 @@
 <?php
 include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 $db = new Database();
-
 // Konstanta Base URL
 define('BASE_URL', "http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/");
 
@@ -163,7 +162,6 @@ if (isset($_POST['USER_edit'])) {
 }
 
 if (isset($_GET['USER_del'])) {
-    session_start();
     $id  = $_GET['USER_del'];
     $sql = "CALL USER_del('$id')";
 
@@ -188,9 +186,67 @@ if (isset($_POST['add_pegawai'])) {
     }
 }
 
+if (isset($_POST['edit_pegawai'])) {
+    $id  = $_POST['idP'];
+    $nama = $_POST['namaP'];
+    $posisi = $_POST['posisi'];
+    $alamat = $_POST['desa_id'];
+     
+    if ($alamat == "") {
+        $db->sqlquery("CALL pegawai_edit_TA('$nama', '$posisi', '$id')");
+        redirect("pegawai.php");
+    }else{
+        $db->sqlquery("CALL pegawai_edit_full('$nama', '$posisi', '$alamat','$id')");
+        redirect("pegawai.php");
+
+    }
+}
+
+if (isset($_GET['del_pegawai'])) {
+    $id  = $_GET['del_pegawai'];
+    $sql = "CALL pegawai_del('$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Delete data gagal: ' . $sql);
+    } else {
+        redirect("pegawai.php");
+    }
+}
+
+// Action Posisi
+if (isset($_POST['add_posisi'])) {
+    $nama = $_POST['namaP'];
+    $upahP = $_POST['upahP'];
+    $upahL = $_POST['upahL'];
+    $sql = "CALL posisi_add('$nama', '$upahP', '$upahL')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Insert data gagal: ' . $sql);
+    } else {
+        redirect("posisi.php");
+    }
+}
+
+if (isset($_POST['edit_posisi'])) {
+    $id = $_POST['id'];
+    $nama = $_POST['namaP'];
+    $upahP = $_POST['upahjam'];
+    $upahL = $_POST['upahlembur'];
+    $sql = "CALL posisi_edit('$nama', '$upahP', '$upahL', '$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Insert data gagal: ' . $sql);
+    } else {
+        redirect("posisi.php");
+    }
+}
+
 // Action alamat ajax
 if (isset($_POST['jenis'])) {
     $jenis = $_POST['jenis'];
+
+    // $query = "call pegawai()"; // Query menggunakan prosedur
+    // $data = $db->fetchdata($query);
 
     if ($jenis == 'kab') {
         $prop = $_POST['prop'];
