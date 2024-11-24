@@ -50,7 +50,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <div class="form-group">
                         <label>Posisi</label>
                         <select class="form-control" name="posisi" required="required">
-                          <option selected> - Pilih Posisi - </option>
+                          <option value="">Pilih Posisi</option>
                           <?php
                           $sql = "call posisi()";
                           $data = $db->fetchdata($sql);
@@ -63,7 +63,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <div class="form-group">
                         <label>Alamat</label>
                         <form name="addForm" method="post" action="">
-                          <select name="propinsi_id" id="propinsi_id" class="form-control">
+                          <select name="propinsi_id" id="propinsi_id" class="form-control" required="required">
                             <option value="">Pilih Provinsi</option>
                             <?php
                             $sql = "call provinsi()";
@@ -73,13 +73,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                             }
                             ?>
                           </select><br>
-                          <select name="kabupaten_id" id="kabupaten_id" class="form-control">
+                          <select name="kabupaten_id" id="kabupaten_id" class="form-control" required="required">
                             <option value="">Pilih Kota/Kab</option>
                           </select><br>
-                          <select name="kecamatan_id" id="kecamatan_id" class="form-control">
+                          <select name="kecamatan_id" id="kecamatan_id" class="form-control" required="required">
                             <option value="">Pilih Kecamatan</option>
                           </select><br>
-                          <select name="desa_id" id="desa_id" class="form-control">
+                          <select name="desa_id" id="desa_id" class="form-control" required="required">
                             <option value="">Pilih Desa</option>
                           </select><br>
                         </form>
@@ -116,12 +116,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   $query = "call pegawai()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
-                  foreach ($data as $d) {
+                  foreach ($data as $d) {                 
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
                       <td><?php echo $d['nama_pegawai']; ?></td>
-                      <td><?php echo $d['nama_posisi']; ?></td>
+                      <td><?php echo $d['nama_posisi'] ? $d['nama_posisi'] : '-'; ?></td>
                       <td><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
                       <td>
                         <?php if ($d['nama_pegawai'] != 1) { ?>

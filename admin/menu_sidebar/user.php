@@ -201,7 +201,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_user=<?php echo $d['id_user'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?USER_del=<?php echo $d['id_user'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>

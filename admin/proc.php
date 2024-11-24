@@ -241,6 +241,17 @@ if (isset($_POST['edit_posisi'])) {
     }
 }
 
+if (isset($_GET['del_posisi'])) {
+    $id  = $_GET['del_posisi'];
+    $sql = "CALL posisi_del('$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Delete data gagal: ' . $sql);
+    } else {
+        redirect("posisi.php");
+    }
+}
+
 // Action alamat ajax
 if (isset($_POST['jenis'])) {
     $jenis = $_POST['jenis'];

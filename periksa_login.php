@@ -26,10 +26,10 @@ if ($result->num_rows > 0) {
     $_SESSION['level'] = $row['namaL'];
 
     // Cek level pengguna dan arahkan sesuai dengan level
-    if ($row['namaL'] == "Administrator") {
-        $_SESSION['status'] = "administrator_logedin";
+    if ($row['namaL'] == "IT Pusat") {
+        $_SESSION['status'] = "Pusat_logedin";
         header("location:admin/");
-    } elseif ($row['level'] == "2") {
+    } elseif ($row['namaL'] == "Administrator") {
         $_SESSION['status'] = "manajemen_logedin";
         header("location:manajemen/");
     } else {
