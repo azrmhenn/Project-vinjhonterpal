@@ -8,8 +8,8 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
   <section class="content-header">
     <h1>
-      Pegawai
-      <small>Data Pegawai</small>
+      Bahan
+      <small>Stok</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -24,41 +24,28 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
           <div class="box-header">
             <div class="btn-group pull-right">
-              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahpegawai">
-                <i class="fa fa-plus"></i> &nbsp Tambah Pegawai
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahbahan">
+                <i class="fa fa-plus"></i> &nbsp Tambah Stok Bahan
               </button>
             </div>
           </div>
 
           <div class="box-body">
-            <!-- tambah pegawai -->
+            <!-- tambah bahan -->
             <form id="form_alamat_1" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
-              <div class="modal fade" id="tambahpegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="tambahbahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Pegawai</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Tambah Bahan</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
                       <div class="form-group">
-                        <label>Nama Pegawai</label>
-                        <input type="text" name="nama" required="required" class="form-control" placeholder="Nama Kategori ..">
-                      </div>
-                      <div class="form-group">
-                        <label>Posisi</label>
-                        <select class="form-control" name="posisi" required="required">
-                          <option value="">Pilih Posisi</option>
-                          <?php
-                          $sql = "call posisi()";
-                          $data = $db->fetchdata($sql);
-                          foreach ($data as $dat) {
-                            echo "<option value='" . $dat['id_posisi'] . "'>" . $dat['nama_posisi'] . "</option>";
-                          }
-                          ?>
-                        </select>
+                        <label>Nama Jenis</label>
+                        <input type="text" name="nama" required="required" class="form-control" placeholder="Nama Pemasok ..">
                       </div>
                       <div class="form-group">
                         <label>Alamat</label>
@@ -87,13 +74,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary" name="add_pegawai">Simpan</button>
+                      <button type="submit" class="btn btn-primary" name="add_pemasok">Simpan</button>
                     </div>
                   </div>
                 </div>
               </div>
             </form>
-            <!-- tambah pegawai -->
+            <!-- tambah bahan -->
 
 
             <!-- tabel data -->
@@ -103,8 +90,10 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   <tr>
                     <th width="1%">NO</th>
                     <th>Nama</th>
-                    <th>Posisi</th>
-                    <th>Alamat</th>
+                    <th>Warna</th>
+                    <th>Ukuran</th>
+                    <th>Pemasok</th>
+                    <th>Stok</th>
                     <th width="10%">OPSI</th>
                   </tr>
                 </thead>
@@ -113,59 +102,43 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   // Menggunakan class database untuk koneksi dan query
                   $db = new database(); // Inisialisasi objek class database
                   $no = 1;
-                  $query = "call pegawai()"; // Query menggunakan prosedur
+                  $query = "call bahan()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
                   foreach ($data as $d) {                 
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['nama_pegawai']; ?></td>
-                      <td><?php echo $d['nama_posisi'] ? $d['nama_posisi'] : '-'; ?></td>
-                      <td><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
+                      <td><?php echo $d['namaJ']; ?></td>
+                      <td><?php echo $d['namaW']; ?></td>
+                      <td><?php echo $d['lebar'] . "x" . $d['panjang']; ?></td>
+                      <td><?php echo $d['nama'] ; ?></td>
+                      <td><?php echo $d['stok'] ; ?></td>
                       <td>
-                        <?php if ($d['nama_pegawai'] != 1) { ?>
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pegawai_<?php echo $d['id_pegawai'] ?>">
+                        <?php if ($d['nama'] != 1) { ?>
+                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pemasok_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_pegawai_<?php echo $d['id_pegawai'] ?>">
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_pemasok_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-trash"></i>
                           </button>
                         <?php } ?>
-                        <!-- form edit pegawai -->
+                        <!-- form edit behan -->
                         <form id="form_alamat_2" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
-                          <div class="modal fade" id="edit_pegawai_<?php echo $d['id_pegawai'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal fade" id="edit_pemasok_<?php echo $d['id_pemasok'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Edit Pegawai</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Edit Pemasok</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
                                 <div class="modal-body" style="width:100%">
                                   <div class="form-group" style="width:100%">
-                                    <label>Nama Pegawai</label>
-                                    <input type="hidden" name="idP" required="required" class="form-control" value="<?php echo $d['id_pegawai']; ?>">
-                                    <input type="text" name="namaP" required="required" class="form-control" value="<?php echo $d['nama_pegawai']; ?>" style="width:100%">
-                                  </div><br><br>
-                                  <div class="form-group" style="width:100%">
-                                    <label>Posisi</label><br>
-                                    <select class="form-control" name="posisi" required="required" style="width:100%">
-                                      <option value=""> - Pilih Posisi - </option>
-                                      <?php
-                                      $sql = "call posisi()";
-                                      $data = $db->fetchdata($sql);
-                                      foreach ($data as $dat) {
-                                        if ($d['id_posisi'] == $dat['id_posisi'])
-                                          $selected = 'selected';
-                                        else
-                                          $selected = '';
-                                        echo "<option value='" . $dat['id_posisi'] . "'$selected>" . $dat['nama_posisi'] . "
-                                            </option>";
-                                      }
-                                      ?>
-                                    </select>
+                                    <label>Nama Pemasok</label>
+                                    <input type="hidden" name="idP" required="required" class="form-control" value="<?php echo $d['id_pemasok']; ?>">
+                                    <input type="text" name="namaP" required="required" class="form-control" value="<?php echo $d['nama']; ?>" style="width:100%">
                                   </div><br><br>
                                   <div class="form-group" style="width:100%">
                                     <label>Alamat</label><br>
@@ -200,16 +173,16 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary" name="edit_pegawai">Simpan</button>
+                                  <button type="submit" class="btn btn-primary" name="edit_pemasok">Simpan</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </form>
-                        <!-- form edit pegawawi -->
+                        <!-- form edit behan -->
 
-                        <!-- form delete pegawai -->
-                        <div class="modal fade" id="hapus_pegawai_<?php echo $d['id_pegawai'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- form delete behan -->
+                        <div class="modal fade" id="hapus_pemasok_<?php echo $d['id_pemasok'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
@@ -223,12 +196,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_pegawai=<?php echo $d['id_pegawai'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_pemasok=<?php echo $d['id_pemasok'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <!-- form delete pegawai -->
+                        <!-- form delete behan -->
 
                       </td>
                     </tr>

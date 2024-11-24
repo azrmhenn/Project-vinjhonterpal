@@ -252,6 +252,45 @@ if (isset($_GET['del_posisi'])) {
     }
 }
 
+// Action pemasok
+if (isset($_POST['add_pemasok'])) {
+    $nama = $_POST['nama'];
+    $alamat = $_POST['desa_id'];
+    $sql = "CALL pemasok_add('$nama', '$alamat')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Insert data gagal: ' . $sql);
+    } else {
+        redirect("pemasok.php");
+    }
+}
+
+if (isset($_POST['edit_pemasok'])) {
+    $id  = $_POST['idP'];
+    $nama = $_POST['namaP'];
+    $alamat = $_POST['desa_id'];
+     
+    if ($alamat == "") {
+        $db->sqlquery("CALL pemasok_edit_TA('$nama', '$id')");
+        redirect("pemasok.php");
+    }else{
+        $db->sqlquery("CALL pemasok_edit_full('$nama', '$alamat','$id')");
+        redirect("pemasok.php");
+
+    }
+}
+
+if (isset($_GET['del_pemasok'])) {
+    $id  = $_GET['del_pemasok'];
+    $sql = "CALL pemasok_del('$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Delete data gagal: ' . $sql);
+    } else {
+        redirect("pemasok.php");
+    }
+}
+
 // Action alamat ajax
 if (isset($_POST['jenis'])) {
     $jenis = $_POST['jenis'];

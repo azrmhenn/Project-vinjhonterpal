@@ -162,14 +162,14 @@ include 'config.php';
           </li>
 
           <li>
-            <a href="<?php echo BASE_URL_MENU; ?>kategori_pengeluaran.php">
+            <a href="<?php echo BASE_URL_MENU; ?>bahan.php">
               <i class="fa fa-folder"></i> <span>BAHAN</span>
             </a>
           </li>
 
           <li class="treeview">
             <a href="#">
-              <i class="fa fa-file"></i> <span>PEGAWAI</span>
+              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
