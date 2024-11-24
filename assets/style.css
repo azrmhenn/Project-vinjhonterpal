@@ -133,3 +133,21 @@
 .center {
     text-align: center;
 }
+
+.ukuran-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .ukuran-input {
+    width: 100px;
+    text-align: center;
+  }
+  
+  .ukuran-divider {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+  }
+  

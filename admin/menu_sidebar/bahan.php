@@ -45,31 +45,54 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Nama Jenis</label>
-                        <input type="text" name="nama" required="required" class="form-control" placeholder="Nama Pemasok ..">
+                        <select class="form-control" name="namaJ" required="required">
+                          <option selected>Pilih Jenis</option>
+                          <?php
+                          $sql = "call jenis_bahan()";
+                          $data = $db->fetchdata($sql);
+                          foreach ($data as $dat) {
+                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaJ'] . " " . $dat['nama'] . "</option>";
+                          }
+                          ?>
+                        </select>
                       </div>
                       <div class="form-group">
-                        <label>Alamat</label>
-                        <form name="addForm" method="post" action="">
-                          <select name="propinsi_id" id="propinsi_id" class="form-control" required="required">
-                            <option value="">Pilih Provinsi</option>
-                            <?php
-                            $sql = "call provinsi()";
-                            $data = $db->fetchdata($sql);
-                            foreach ($data as $dat) {
-                              echo "<option value='" . $dat['id'] . "'>" . $dat['nama_prop'] . "</option>";
-                            }
-                            ?>
-                          </select><br>
-                          <select name="kabupaten_id" id="kabupaten_id" class="form-control" required="required">
-                            <option value="">Pilih Kota/Kab</option>
-                          </select><br>
-                          <select name="kecamatan_id" id="kecamatan_id" class="form-control" required="required">
-                            <option value="">Pilih Kecamatan</option>
-                          </select><br>
-                          <select name="desa_id" id="desa_id" class="form-control" required="required">
-                            <option value="">Pilih Desa</option>
-                          </select><br>
-                        </form>
+                        <label>Warna</label>
+                        <select class="form-control" name="warna" required="required">
+                          <option selected>Pilih Warna</option>
+                          <?php
+                          $sql = "call warnaBahan()";
+                          $data = $db->fetchdata($sql);
+                          foreach ($data as $dat) {
+                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaW'] . "</option>";
+                          }
+                          ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Ukuran</label>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                          <input type="number" name="lebar" required="required" class="form-control" placeholder="  L" style="width:15%">
+                          <span>X</span>
+                          <input type="number" name="panjang" required="required" class="form-control" placeholder="  P" style="width:15%">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Pemasok</label>
+                        <select class="form-control" name="pemasok" required="required">
+                          <option selected>Pilih Pemasok</option>
+                          <?php
+                          $sql = "call pemasok_single()";
+                          $data = $db->fetchdata($sql);
+                          foreach ($data as $dat) {
+                            echo "<option value='" . $dat['id_pemasok'] . "'>" . $dat['nama'] . "</option>";
+                          }
+                          ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Stok</label>
+                        <input type="text" name="stok" required="required" class="form-control" placeholder="Stok..." style="width:20%">
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -105,27 +128,27 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   $query = "call bahan()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
-                  foreach ($data as $d) {                 
+                  foreach ($data as $d) {
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaJ']; ?></td>
+                      <td><?php echo $d['namaJ'] . $d['merk']; ?></td>
                       <td><?php echo $d['namaW']; ?></td>
-                      <td><?php echo $d['lebar'] . "x" . $d['panjang']; ?></td>
-                      <td><?php echo $d['nama'] ; ?></td>
-                      <td><?php echo $d['stok'] ; ?></td>
+                      <td><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
+                      <td><?php echo $d['nama']; ?></td>
+                      <td><?php echo $d['stok']; ?></td>
                       <td>
                         <?php if ($d['nama'] != 1) { ?>
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pemasok_<?php echo $d['id_bahan'] ?>">
+                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_pemasok_<?php echo $d['id_bahan'] ?>">
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-trash"></i>
                           </button>
                         <?php } ?>
                         <!-- form edit behan -->
                         <form id="form_alamat_2" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
-                          <div class="modal fade" id="edit_pemasok_<?php echo $d['id_pemasok'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal fade" id="edit_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -134,46 +157,71 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
-                                <div class="modal-body" style="width:100%">
+                                <div class="modal-body">
                                   <div class="form-group" style="width:100%">
-                                    <label>Nama Pemasok</label>
-                                    <input type="hidden" name="idP" required="required" class="form-control" value="<?php echo $d['id_pemasok']; ?>">
-                                    <input type="text" name="namaP" required="required" class="form-control" value="<?php echo $d['nama']; ?>" style="width:100%">
-                                  </div><br><br>
-                                  <div class="form-group" style="width:100%">
-                                    <label>Alamat</label><br>
-                                    <form name="addForm" method="post" action="">
-                                      <select name="propinsi_id" id="propinsi_id" class="form-control" style="width:100%">
-                                        <option value="">Pilih Provinsi</option>
-                                        <?php
-                                        $sql = "call provinsi()";
-                                        $data = $db->fetchdata($sql);
-                                        foreach ($data as $dat) {
-                                          echo "<option value='" . $dat['id'] . "'>" . $dat['nama_prop'] . "</option>";
-                                        }
-                                        ?>
-                                      </select><br><br>
-                                      <select name="kabupaten_id" id="kabupaten_id" class="form-control" style="width:100%">
-                                        <option value="">Pilih Kota/Kab</option>
-                                        <?php
-                                        if ($d['id_k'] == $dat['id_posisi'])
+                                    <label>Nama Jenis</label><br>
+                                    <select class="form-control" name="namaJ" required="required" style="width:100%">
+                                      <?php
+                                      $sql = "call jenis_bahan()";
+                                      $data = $db->fetchdata($sql);
+                                      foreach ($data as $dat) {
+                                        if ($d['id_jenis'] == $dat['id'])
                                           $selected = 'selected';
                                         else
                                           $selected = '';
-                                        ?>
-                                      </select><br><br>
-                                      <select name="kecamatan_id" id="kecamatan_id" class="form-control" style="width:100%">
-                                        <option value="">Pilih Kecamatan</option>
-                                      </select><br><br>
-                                      <select name="desa_id" id="desa_id" class="form-control" style="width:100%">
-                                        <option value="">Pilih Desa</option>
-                                      </select><br><br>
-                                    </form>
+                                        echo "<option value='" . $dat['id'] . "'>" . $dat['namaJ'] . " " . $dat['nama'] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div><br><br>
+                                  <div class="form-group" style="width:100%">
+                                    <label>Warna</label><br>
+                                    <select class="form-control" name="warna" required="required" style="width:100%">
+                                      <?php
+                                      $sql = "call warnaBahan()";
+                                      $data = $db->fetchdata($sql);
+                                      foreach ($data as $dat) {
+                                        if ($d['id_warna'] == $dat['id'])
+                                          $selected = 'selected';
+                                        else
+                                          $selected = '';
+                                        echo "<option value='" . $dat['id'] . "'>" . $dat['namaW'] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div><br><br>
+                                  <div class="form-group">
+                                    <label>Ukuran</label><br>
+                                    <div style="display: flex; align-items: center; gap: 5px;">
+                                      <input type="number" name="lebar" required="required" class="form-control" placeholder="  L" style="width:20%">
+                                      <span>X</span>
+                                      <input type="number" name="panjang" required="required" class="form-control" placeholder="  P" style="width:20%">
+                                    </div>
+                                  </div><br><br>
+                                  <div class="form-group" style="width:100%">
+                                    <label>Pemasok</label><br>
+                                    <select class="form-control" name="pemasok" required="required" style="width:100%">
+                                      <?php
+                                      $sql = "call pemasok_single()";
+                                      $data = $db->fetchdata($sql);
+                                      foreach ($data as $dat) {
+                                        if ($d['id_pemasok'] == $dat['id_pemasok'])
+                                          $selected = 'selected';
+                                        else
+                                          $selected = '';
+                                        echo "<option value='" . $dat['id_pemasok'] . "'>" . $dat['nama'] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div><br><br>
+                                  <div class="form-group">
+                                    <label>Stok</label><br>
+                                    <input type="text" name="stok" required="required" class="form-control" placeholder="Tambah Stok..." style="width:70%">
                                   </div>
-                                </div>
+                                </div><br><br>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary" name="edit_pemasok">Simpan</button>
+                                  <button type="submit" class="btn btn-primary" name="edit_bahan">Simpan</button>
                                 </div>
                               </div>
                             </div>
