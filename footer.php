@@ -41,7 +41,7 @@
         var prop = $('#form_alamat_1 #propinsi_id').val();
         $.ajax({
           type: "POST",
-          url: "../proc.php",
+          url: "proc.php",
           data: {
             jenis: 'kab',
             prop: prop
@@ -58,7 +58,7 @@
         var kab = $('#form_alamat_1 #kabupaten_id').val();
         $.ajax({
           type: "POST",
-          url: "../proc.php",
+          url: "proc.php",
           data: {
             jenis: 'kec',
             kab: kab
@@ -74,7 +74,7 @@
         var kec = $('#form_alamat_1 #kecamatan_id').val();
         $.ajax({
           type: "POST",
-          url: "../proc.php",
+          url: "proc.php",
           data: {
             jenis: 'desa',
             kec: kec
@@ -89,7 +89,7 @@
         var prop = $('#form_alamat_2 #propinsi_id').val();
         $.ajax({
           type: "POST",
-          url: "../proc.php",
+          url: "proc.php",
           data: {
             jenis: 'kab',
             prop: prop
@@ -106,7 +106,7 @@
         var kab = $('#form_alamat_2 #kabupaten_id').val();
         $.ajax({
           type: "POST",
-          url: "../proc.php",
+          url: "proc.php",
           data: {
             jenis: 'kec',
             kab: kab
@@ -122,7 +122,7 @@
         var kec = $('#form_alamat_2 #kecamatan_id').val();
         $.ajax({
           type: "POST",
-          url: "../proc.php",
+          url: "proc.php",
           data: {
             jenis: 'desa',
             kec: kec

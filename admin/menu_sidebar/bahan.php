@@ -27,12 +27,18 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahbahan">
                 <i class="fa fa-plus"></i> &nbsp Tambah Stok Bahan
               </button>
+              <a href="pemasok.php">
+                <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
+                  &nbsp Pemasok
+                </button>
+              </a>
             </div>
           </div>
 
+
           <div class="box-body">
             <!-- tambah bahan -->
-            <form id="form_alamat_1" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
+            <form id="form_alamat_1" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahbahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -267,4 +273,4 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
   </section>
 </div>
 
-<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/footer.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>

@@ -27,12 +27,17 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahpegawai">
                 <i class="fa fa-plus"></i> &nbsp Tambah Pemasok
               </button>
+              <a href="bahan.php">
+                <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
+                  &nbsp Kembali
+                </button>
+              </a>
             </div>
           </div>
 
           <div class="box-body">
             <!-- tambah pemasok -->
-            <form id="form_alamat_1" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
+            <form id="form_alamat_1" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahpegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -118,7 +123,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           </button>
                         <?php } ?>
                         <!-- form edit pemasok -->
-                        <form id="form_alamat_2" action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
+                        <form id="form_alamat_2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
                           <div class="modal fade" id="edit_pemasok_<?php echo $d['id_pemasok'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -190,7 +195,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_pemasok=<?php echo $d['id_pemasok'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_; ?>proc.php?del_pemasok=<?php echo $d['id_pemasok'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
@@ -213,4 +218,4 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
   </section>
 </div>
 
-<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/footer.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>
