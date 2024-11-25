@@ -7,7 +7,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Administrator - Sistem Informasi Keuangan</title>
+  <title>Pegawai - Sistem Informasi Keuangan</title>
 
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -32,7 +32,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   $db = new database();
   session_start();
   $id = $_SESSION['id'];
-  if ($_SESSION['status'] != "administrator_logedin") {
+  if ($_SESSION['status'] != "pegawai_logedin") {
     header("redirect:index.php?alert=belum_login");
   }
   ?>
@@ -53,7 +53,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   <div class="wrapper">
     <!-- header -->
     <header class="main-header">
-      <a href="<?php echo BASE_URL_; ?> admin/index.php" class="logo">
+      <a href="<?php echo BASE_URL_; ?> pegawai/index.php" class="logo">
         <span class="logo-lg"><b><img src="<?php echo BASE_URL_IMG_SYS; ?>LOGO UMKM.png" style="width: 30px;height: auto"> Vin Jhon Terpal</b></span>
       </a>
       <nav class="navbar navbar-static-top">
@@ -88,7 +88,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
               </a>
             </li>
             <li>
-              <a href="<?php echo BASE_URL_; ?>admin/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
+              <a href="<?php echo BASE_URL_; ?>pegawai/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
                 <i class="fa fa-sign-out"></i> LOGOUT
               </a>
             </li>
@@ -137,119 +137,28 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
           <li class="header">MAIN NAVIGATION</li>
 
           <li>
-            <a href="<?php echo BASE_URL_ADM; ?>index.php">
+            <a href="<?php echo BASE_URL_PGW; ?>index.php">
               <i class="fa fa-dashboard"></i> <span>DASHBOARD</span>
             </a>
           </li>
 
           <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>produk.php">
-              <i class="fa fa-folder"></i> <span>PRODUK</span>
+            <a href="<?php echo BASE_URL_PGW; ?>profil.php">
+              <i class="fa fa-folder"></i> <span>PROFIL</span>
             </a>
           </li>
 
           <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">
-              <i class="fa fa-folder"></i> <span>BAHAN</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>pegawai.php">
-              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>absensi.php">
+            <a href="<?php echo BASE_URL_; ?>absensi.php">
               <i class="fa fa-folder"></i> <span>ABSENSI</span>
             </a>
           </li>
 
           <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>penjualan.php">
-              <i class="fa fa-folder"></i> <span>PENJUALAN</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>pengeluaran.php">
-              <i class="fa fa-folder"></i> <span>PENGELUARAN</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>user.php">
-              <i class="fa fa-folder"></i> <span>PENGGUNA</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU;; ?>gantipassword.php">
+            <a href="<?php echo BASE_URL_PGW_MENU;; ?>gantipassword.php">
               <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
             </a>
           </li>
-
-          <!-- <li class="treeview">
-            <a href="#">
-              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Kategori Produk</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>kategori_pengeluaran.php"><i class="fa fa-circle-o"></i> Data Kategori Pengeluaran</a></li>
-            </ul>
-          </li> -->
-
-          <!-- <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">
-              <i class="fa fa-folder"></i> <span>BAHAN</span>
-            </a>
-          </li>
-
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>absensi.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>posisi.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>pemasok.php">
-              <i class="fa fa-folder"></i> <span>PEMASOK</span>
-            </a>
-          </li>
-
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-file"></i> <span>LAPORAN</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-              <li><a href="<?php echo BASE_URL_ADM_MENU;; ?>kategori_produk.php.php"><i class="fa fa-circle-o"></i> Keluar</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU;; ?>kategori_produk.php.php"><i class="fa fa-circle-o"></i> Masuk</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU;; ?>user.php">
-              <i class="fa fa-users"></i> <span>DATA PENGGUNA</span>
-            </a>
-          </li> -->
-
-          
-
         </ul>
         <!-- sidebar menu -->
 

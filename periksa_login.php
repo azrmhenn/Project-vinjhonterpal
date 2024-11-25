@@ -26,13 +26,16 @@ if ($result->num_rows > 0) {
     $_SESSION['level'] = $row['namaL'];
 
     // Cek level pengguna dan arahkan sesuai dengan level
-    if ($row['namaL'] == "IT Pusat") {
-        $_SESSION['status'] = "Pusat_logedin";
+    if ($row['namaL'] == "Administrator") {
+        $_SESSION['status'] = "Administrator_logedin";
         header("location:admin/");
-    } elseif ($row['namaL'] == "Administrator") {
-        $_SESSION['status'] = "manajemen_logedin";
-        header("location:manajemen/");
-    } else {
+    } elseif ($row['namaL'] == "Pegawai") {
+        $_SESSION['status'] = "pegawai_logedin";
+        header("location:pegawai/");
+    } elseif ($row['namaL'] == "Owner") {
+        $_SESSION['status'] = "Owner_logedin";
+        header("location:Owner/");
+    }else {
         header("location:index.php?alert=gagal");
     }
 } else {
