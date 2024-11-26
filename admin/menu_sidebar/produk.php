@@ -1,15 +1,19 @@
-<?php include '../header_sidebar.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
+// $sql = "call pegawai()";
+// $d = $db->datasql($sql);
+?>
 
 <div class="content-wrapper">
 
   <section class="content-header">
     <h1>
       Produk
-      <small>Data Produk</small>
+      <small>Stok</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo BASE_URL_ADM; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><a href="<?php echo BASE_URL_ADM_MENU; ?>produk.php">Produk</a></li>
     </ol>
   </section>
 
@@ -19,53 +23,82 @@
         <div class="box box-info">
 
           <div class="box-header">
-            <!-- <h3 class="box-title">Produk</h3> -->
-            <div class="btn-group pull-right">            
-
-              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-plus"></i> &nbsp Tambah Produk
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahbahan">
+                <i class="fa fa-plus"></i> &nbsp Tambah Stok Produk
               </button>
+              <!-- <a href="kategori_produk.php">
+                <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
+                  &nbsp Kategori Produk
+                </button>
+              </a> -->
             </div>
           </div>
-          <div class="box-body">
 
-            <!-- Modal -->
-            <form action="kategori_act.php" method="post">
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+          <div class="box-body">
+            <!-- tambah produk -->
+            <form id="form-kolam" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
+              <div class="modal fade" id="tambahbahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Tambah Produk</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-
                       <div class="form-group">
-                        <label>Nama Kategori</label>
-                        <input type="text" name="kategori" required="required" class="form-control" placeholder="Nama Kategori ..">
+                        <label>Kategori</label>
+                        <select class="form-control" name="jenis-kolam" id="jenis-kolam" required="required">
+                          <option value="">Pilih Kategori</option>
+                          <?php
+                          $sql = "call kategori_produk()";
+                          $data = $db->fetchdata($sql);
+                          foreach ($data as $dat) {
+                            echo "<option value='" . $dat['namaK'] . "'>" . $dat['namaK'] . "</option>";
+                          }
+                          ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Bahan</label>
+                        <select class="form-control" name="bahan" required="required">
+                          <option value="">Pilih Jenis</option>
+                          <?php
+                          $sql = "call bahan_only()";
+                          $data = $db->fetchdata($sql);
+                          foreach ($data as $dat) {
+                            echo "<option vcalue='" . $dat['id_bahan'] . "'>" . $dat['namaJ'] . " " . $dat['nama_merk'] ." " . $dat['namaW'] .  "</option>";
+                          }
+                          ?>
+                        </select>
                       </div>
 
+                      <div id="input-dinamis">
+                        <!-- Input tambahan akan dimuat di sini -->
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary">Simpan</button>
+                      <button type="submit" class="btn btn-primary" name="add_produk">Simpan</button>
                     </div>
                   </div>
                 </div>
               </div>
             </form>
+            <!-- tambah produk -->
 
 
+            <!-- tabel data -->
             <div class="table-responsive">
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
                     <th>Kategori</th>
-                    <th>Jenis</th>
-                    <th>Warna</th>
+                    <th>Bahan</th>
                     <th>Ukuran</th>
                     <th>Harga</th>
                     <th>Stok</th>
@@ -73,65 +106,117 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php 
-                  include 'c:\laragon\www\MPSI\Project-vinjhonterpal\koneksi.php';
-                  $no=1;
-                  $data = mysqli_query($koneksi,"CALL Produk();");
-                  while($d = mysqli_fetch_array($data)){
-                    ?>
+                  <?php
+                  // Menggunakan class database untuk koneksi dan query
+                  $db = new database(); // Inisialisasi objek class database
+                  $no = 1;
+                  $query = "call bahan()"; // Query menggunakan prosedur
+                  $data = $db->fetchdata($query);
+
+                  foreach ($data as $d) {
+                  ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaK']; ?></td>
-                      <td><?php echo $d['namaJ']; ?></td>
+                      <td><?php echo $d['namaJ'] . $d['nama_merk']; ?></td>
                       <td><?php echo $d['namaW']; ?></td>
-                      <td><?php echo $d['ukuranP']; ?></td>
-                      <td><?php echo $d['harga']; ?></td>
+                      <td><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
+                      <td><?php echo $d['nama']; ?></td>
                       <td><?php echo $d['stok']; ?></td>
-                      <td>    
-                        <?php 
-                        if($d['namaK'] != 1){
-                          ?> 
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_kategori_<?php echo $d['id_produk'] ?>">
+                      <td>
+                        <?php if ($d['namaJ'] != 1) { ?>
+                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
-
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>">
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-trash"></i>
                           </button>
-                          <?php 
-                        }
-                        ?>
-
-                        <form action="kategori_update.php" method="post">
-                          <div class="modal fade" id="edit_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <?php } ?>
+                        <!-- form edit behan -->
+                        <form id="form_alamat_2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
+                          <div class="modal fade" id="edit_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Edit Kategori</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Edit Pemasok</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
                                 <div class="modal-body">
-
                                   <div class="form-group" style="width:100%">
-                                    <label>Nama Kategori</label>
-                                    <input type="hidden" name="id" required="required" class="form-control" placeholder="Nama Kategori .." value="<?php echo $d['id_kategori_pengeluaran']; ?>">
-                                    <input type="text" name="kategori" required="required" class="form-control" placeholder="Nama Kategori .." value="<?php echo $d['kategori']; ?>" style="width:100%">
+                                    <label>Nama Jenis</label><br>
+                                    <select class="form-control" name="namaJ" style="width:100%">
+                                      <?php
+                                      $sql = "call jenis_bahan()";
+                                      $data = $db->fetchdata($sql);
+                                      foreach ($data as $dat) {
+                                        if ($d['id_jenis'] == $dat['idJ'])
+                                          $selected = 'selected';
+                                        else
+                                          $selected = '';
+                                        echo "<option value='" . $dat['idJ'] . "'$selected>" . $dat['namaJ'] . " " . $dat['nama_merk'] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div><br><br>
+                                  <div class="form-group" style="width:100%">
+                                    <label>Warna</label><br>
+                                    <select class="form-control" name="warna" required="required">
+                                      <?php
+                                      $sql = "call warnaBahan()";
+                                      $data = $db->fetchdata($sql);
+                                      foreach ($data as $dat) {
+                                        if ($d['id_warna'] == $dat['id'])
+                                          $selected = 'selected';
+                                        else
+                                          $selected = '';
+                                        echo "<option value='" . $dat['id'] . "'$selected>" . $dat['namaW'] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div><br><br>
+                                  <div class="form-group">
+                                    <label>Ukuran</label><br>
+                                    <div style="display: flex; align-items: center; gap: 5px;">
+                                      <input type="number" name="lebar" required="required" class="form-control" value="<?php echo $d['lebar']; ?>" style="width:20%">
+                                      <span>X</span>
+                                      <input type="number" name="panjang" required="required" class="form-control" value="<?php echo $d['panjang']; ?>" style="width:20%">
+                                    </div>
+                                  </div><br><br>
+                                  <div class="form-group" style="width:100%">
+                                    <label>Pemasok</label><br>
+                                    <select class="form-control" name="pemasok" required="required" style="width:100%">
+                                      <?php
+                                      $sql = "call pemasok_single()";
+                                      $data = $db->fetchdata($sql);
+                                      foreach ($data as $dat) {
+                                        if ($d['id_pemasok'] == $dat['id_pemasok'])
+                                          $selected = 'selected';
+                                        else
+                                          $selected = '';
+                                        echo "<option value='" . $dat['id_pemasok'] . "'>" . $dat['nama'] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div><br><br>
+                                  <div class="form-group">
+                                    <label>Stok</label><br>
+                                    <input type="text" name="stok" class="form-control" placeholder="Tambah Stok..." style="width:70%">
                                   </div>
-
-                                </div>
+                                </div><br><br>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary">Simpan</button>
+                                  <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_bahan']; ?>">
+                                  <button type="submit" class="btn btn-primary" name="edit_bahan">Simpan</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </form>
+                        <!-- form edit behan -->
 
-                        <!-- modal hapus -->
-                        <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- form delete behan -->
+                        <div class="modal fade" id="hapus_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
@@ -141,32 +226,31 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <p>Yakin ingin menghapus data ini ?</p>
-
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="kategori_hapus.php?id=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_; ?>proc.php?del_bahan=<?php echo $d['id_bahan'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <!-- form delete behan -->
 
                       </td>
                     </tr>
-                    <?php 
+                  <?php
                   }
                   ?>
                 </tbody>
               </table>
             </div>
+            <!-- tabel data -->
           </div>
-
         </div>
       </section>
     </div>
   </section>
-
 </div>
-<?php include '../footer.php'; ?>
+
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>

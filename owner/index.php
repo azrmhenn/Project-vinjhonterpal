@@ -1,12 +1,15 @@
-<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
-      require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php'; ?>
+<?php 
+require_once 'header_sidebar.php'; 
+require_once '../class_db.php'; // Pastikan file class_db.php tersedia
+$db = new database(); // Inisialisasi objek database
+?>
 
 <div class="content-wrapper">
 
   <section class="content-header">
     <h1>
       Kategori
-      <small>Pengeluaran</small>
+      <small>Data kategori</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -16,25 +19,26 @@
 
   <section class="content">
     <div class="row">
-      <section class="col-lg-10 col-lg-offset-1">
+      <section class="col-lg-12">
         <div class="box box-info">
 
           <div class="box-header">
-            <div class="btn-group pull-right">
+            <h3 class="box-title">Kategori Transaksi Keuangan</h3>
+            <div class="btn-group pull-right">            
               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-plus"></i> &nbsp Tambah Kategori Pengeluaran
+                <i class="fa fa-plus"></i> &nbsp Tambah Kategori
               </button>
             </div>
           </div>
-
           <div class="box-body">
-            <!-- tambah kategori pengeluaran -->
-            <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
+
+            <!-- Modal -->
+            <form action="kategori_act.php" method="post">
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori Pengeluaran</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -42,65 +46,53 @@
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Nama Kategori</label>
-                        <input type="text" name="namaK" required="required" class="form-control" placeholder="Nama Kategori ..">
-                      </div>
-                      <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" name="ket" required="required" class="form-control" placeholder="Keterangan ..">
+                        <input type="text" name="kategori" required="required" class="form-control" placeholder="Nama Kategori ..">
                       </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary" name="add_KPG">Simpan</button>
+                      <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                   </div>
                 </div>
               </div>
             </form>
-            <!-- tambah kategori pengeluaran -->
 
-
-            <!-- tabel data -->
             <div class="table-responsive">
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>Nama</th>
-                    <th>Keterangan</th>
+                    <th>NAMA</th>
                     <th width="10%">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-                  // Menggunakan class database untuk koneksi dan query
-                  $db = new database(); // Inisialisasi objek class database
+                  <?php 
                   $no = 1;
-                  $query = "CALL kategori_png();"; // Query menggunakan prosedur
-                  $data = $db->fetchdata($query);
-
+                  $data = $db->fetchdata("SELECT * FROM tb_kategori_pengeluaran ORDER BY id_kategori_pengeluaran ASC");
                   foreach ($data as $d) {
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaK']; ?></td>
-                      <td><?php echo $d['keterangan']; ?></td>
-                      <td>
-                        <?php if ($d['namaK'] != 1) { ?>
+                      <td><?php echo htmlspecialchars($d['namaK']); ?></td>
+                      <td>    
+                        <?php if ($d['namaK'] != 1) { ?> 
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>">
-                            <i class="fa fa-pencil"></i>
+                            <i class="fa fa-cog"></i>
                           </button>
+
                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>">
                             <i class="fa fa-trash"></i>
                           </button>
                         <?php } ?>
-                        <!-- form edit kategori pengeluaran -->
-                        <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
+
+                        <form action="kategori_update.php" method="post">
                           <div class="modal fade" id="edit_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Edit Kategori Pengeluaran</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Edit Kategori</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
@@ -109,24 +101,19 @@
                                   <div class="form-group" style="width:100%">
                                     <label>Nama Kategori</label>
                                     <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_kategori_pengeluaran']; ?>">
-                                    <input type="text" name="namaK" required="required" class="form-control" value="<?php echo $d['namaK']; ?>" style="width:100%">
-                                  </div>
-                                  <div class="form-group" style="width:100%">
-                                    <label>keterangan</label>
-                                    <input type="text" name="ket" required="required" class="form-control" value="<?php echo $d['keterangan']; ?>" style="width:100%">
+                                    <input type="text" name="kategori" required="required" class="form-control" value="<?php echo htmlspecialchars($d['namaK']); ?>" style="width:100%">
                                   </div>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary" name="edit_KPG">Simpan</button>
+                                  <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </form>
-                        <!-- form edit kategori pengeluaran -->
-                          
-                        <!-- form delete kategori pengeluaran -->
+
+                        <!-- modal hapus -->
                         <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -141,27 +128,24 @@
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_; ?>proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="kategori_hapus.php?id=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <!-- form delete kategori pengeluaran -->
 
                       </td>
                     </tr>
-                  <?php
-                  }
-                  ?>
+                  <?php } ?>
                 </tbody>
               </table>
             </div>
-            <!-- tabel data -->
           </div>
+
         </div>
       </section>
     </div>
   </section>
 
 </div>
-<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>
+<?php require_once 'footer.php'; ?>

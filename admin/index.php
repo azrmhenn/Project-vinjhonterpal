@@ -148,4 +148,4 @@ $db = new database(); // Inisialisasi objek database
   </section>
 
 </div>
-<?php require_once 'footer.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>

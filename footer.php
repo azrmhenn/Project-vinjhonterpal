@@ -33,6 +33,7 @@
   <script src="<?php echo BASE_URL_DIST; ?>js/demo.js"></script>
   <script src="<?php echo BASE_URL_DIST; ?>js/ckeditor.js"></script>
   <script src="<?php echo BASE_URL_DIST; ?>js/chart.js/Chart.min.js"></script>
+  
 
   <!-- AJAX -->
   <script type="text/javascript">
@@ -41,7 +42,7 @@
         var prop = $('#form_alamat_1 #propinsi_id').val();
         $.ajax({
           type: "POST",
-          url: "proc.php",
+          url: "<?php echo BASE_URL_ ?>proc.php",
           data: {
             jenis: 'kab',
             prop: prop
@@ -58,7 +59,7 @@
         var kab = $('#form_alamat_1 #kabupaten_id').val();
         $.ajax({
           type: "POST",
-          url: "proc.php",
+          url: "<?php echo BASE_URL_ ?>proc.php",
           data: {
             jenis: 'kec',
             kab: kab
@@ -74,7 +75,7 @@
         var kec = $('#form_alamat_1 #kecamatan_id').val();
         $.ajax({
           type: "POST",
-          url: "proc.php",
+          url: "<?php echo BASE_URL_ ?>proc.php",
           data: {
             jenis: 'desa',
             kec: kec
@@ -89,7 +90,7 @@
         var prop = $('#form_alamat_2 #propinsi_id').val();
         $.ajax({
           type: "POST",
-          url: "proc.php",
+          url: "<?php echo BASE_URL_ ?>proc.php",
           data: {
             jenis: 'kab',
             prop: prop
@@ -106,7 +107,7 @@
         var kab = $('#form_alamat_2 #kabupaten_id').val();
         $.ajax({
           type: "POST",
-          url: "proc.php",
+          url: "<?php echo BASE_URL_ ?>proc.php",
           data: {
             jenis: 'kec',
             kab: kab
@@ -122,7 +123,7 @@
         var kec = $('#form_alamat_2 #kecamatan_id').val();
         $.ajax({
           type: "POST",
-          url: "proc.php",
+          url: "<?php echo BASE_URL_ ?>proc.php",
           data: {
             jenis: 'desa',
             kec: kec
@@ -132,6 +133,31 @@
           }
         });
       });
+
+      $('#jenis-kolam').change(function() {
+        var jenisKolam = $(this).val(); // Ambil value yang dipilih dari dropdown
+
+        if (jenisKolam) { // Jika ada pilihan yang dipilih
+          $.ajax({
+            type: "POST",
+            url: "<?php echo BASE_URL_; ?>proc.php", // Pastikan URL sudah benar
+            data: {
+              jenis: jenisKolam // Kirim value yang dipilih dari dropdown ke proc.php
+            },
+            success: function(response) {
+              $('#input-dinamis').html(response); // Masukkan respons HTML dari server ke dalam div #input-dinamis
+            }
+          });
+        } else {
+          $('#input-dinamis').html(''); // Jika tidak ada pilihan, kosongkan div #input-dinamis
+        }
+      });
+
+      // $('#form_bahan_edit #harga').on('input', function() {
+      //   let currency = $(this).val().replace(/\./g, '');
+      //   currency = currency.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      //   $(this).val('Rp ' + currency);
+      // });
 
       $('#table-datatable').DataTable({
         'paging': true,
@@ -154,9 +180,9 @@
       });
     });
   </script>
- <!-- AJAX -->
+  <!-- AJAX -->
 
- <!-- Cuma script biasa -->
+  <!-- Cuma script biasa -->
   <script>
     $.widget.bridge('uibutton', $.ui.button);
 
@@ -303,4 +329,4 @@
 
     }
   </script>
- <!-- Cuma script biasa -->
+  <!-- Cuma script biasa -->

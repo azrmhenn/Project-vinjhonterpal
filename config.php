@@ -13,9 +13,22 @@ define('BASE_URL_IMG_SYS', value: BASE_URL_IMG . 'sistem/');
 define('BASE_URL_ADM_MENU', value: BASE_URL_ADM . 'menu_sidebar/');
 define('BASE_URL_PGW_MENU', value: BASE_URL_PGW . 'menu_sidebar/');
 define('BASE_URL_OWN_MENU', value: BASE_URL_OWN . 'menu_sidebar/');
-function redirect($url)
+function admin($url)
 {
-    header("Location: " . BASE_URL . $url);
+    header("Location: " . BASE_URL_ADM_MENU . $url);
+    exit();
+}
+function pegawai($url)
+{
+    header("Location: " . BASE_URL_PGW_MENU . $url);
+    exit();
+}
+
+function owner($url)
+{
+    header("Location: " . BASE_URL_OWN_MENU . $url);
     exit();
 }
 ?>
+
+

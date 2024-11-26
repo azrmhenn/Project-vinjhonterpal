@@ -1,15 +1,7 @@
 <?php
-include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
+include 'class_db.php';
+include 'config.php';
 $db = new Database();
-// Konstanta Base URL
-define('BASE_URL', "http://localhost/MPSI/Project-vinjhonterpal/admin/menu_sidebar/");
-
-// Fungsi untuk mengalihkan halaman
-function redirect($url)
-{
-    header("Location: " . BASE_URL . $url);
-    exit();
-}
 
 // Action kategori produk
 if (isset($_POST['add_KP'])) {
@@ -19,7 +11,7 @@ if (isset($_POST['add_KP'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("kategori_produk.php");
+        admin("kategori_produk.php");
     }
 }
 
@@ -31,7 +23,7 @@ if (isset($_POST['edit_KP'])) {
     if (!$db->sqlquery($sql)) {
         die('Update data gagal: ' . $sql);
     } else {
-        redirect("kategori_produk.php");
+        admin("kategori_produk.php");
     }
 }
 
@@ -42,7 +34,7 @@ if (isset($_GET['del_KP'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("kategori_produk.php");
+        admin("kategori_produk.php");
     }
 }
 
@@ -55,7 +47,7 @@ if (isset($_POST['add_KPG'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("kategori_pengeluaran.php");
+        admin("kategori_pengeluaran.php");
     }
 }
 
@@ -68,7 +60,7 @@ if (isset($_POST['edit_KPG'])) {
     if (!$db->sqlquery($sql)) {
         die('Update data gagal: ' . $sql);
     } else {
-        redirect("kategori_pengeluaran.php");
+        admin("kategori_pengeluaran.php");
     }
 }
 
@@ -79,7 +71,7 @@ if (isset($_GET['del_KPG'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("kategori_pengeluaran.php");
+        admin("kategori_pengeluaran.php");
     }
 }
 
@@ -87,13 +79,18 @@ if (isset($_GET['del_KPG'])) {
 if (isset($_POST['gantiPW'])) {
     session_start();
     $id = $_SESSION['id'];
+    $SName = $_SESSION['username'];
     $password = md5($_POST['password']);
     $sql = "CALL PW_edit('$password', '$id')";
 
     if (!$db->sqlquery($sql)) {
         die('Update password gagal: ' . $sql);
-    } else {
-        redirect("gantipassword.php?alert=sukses");
+    } else if ($SName == "Administrator") {
+        admin("gantipassword.php?alert=sukses");
+    } else if ($SName == "Pegawai") {
+        pegawai("gantipassword.php?alert=sukses");
+    } else if ($SName == "Owner") {
+        owner("gantipassword.php?alert=sukses");
     }
 }
 
@@ -109,17 +106,17 @@ if (isset($_POST['USER_add'])) {
 
     if ($filename == "") {
         $db->sqlquery("call USER_add('$nama', '$username', '$password', '', '$level')");
-        redirect("user.php");
+        admin("user.php");
     } else {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if (!in_array($ext, $allowed)) {
-            redirect("user.php?alert=gagal");
+            admin("user.php?alert=gagal");
         } else {
             move_uploaded_file($_FILES['foto']['tmp_name'], '../gambar/user/' . $rand . '_' . $filename);
             $file_gambar = $rand . '_' . $filename;
             $db->sqlquery("call USER_add('$nama', '$username', '$password', '$file_gambar', '$level')");
-            redirect("user.php");
+            admin("user.php");
         }
     }
 }
@@ -140,24 +137,24 @@ if (isset($_POST['USER_edit'])) {
 
     if ($pwd == "" && $filename == "") {
         $db->sqlquery("call USER_edit_TPF('$id','$nama', '$user', '$level')");
-        redirect("user.php");
+        admin("user.php");
     } elseif ($pwd == "") {
         if (!in_array($ext, $allowed)) {
-            redirect("user.php");
+            admin("user.php");
         } else {
             move_uploaded_file($_FILES['foto']['tmp_name'], 'C:/laragon/www/MPSI/Project-vinjhonterpal/gambar/user/' . $rand . '_' . $filename);
             $x = $rand . '_' . $filename;
             $db->sqlquery("call USER_edit_TP('$id','$nama', '$user', '$x', '$level')");
-            redirect("user.php?alert=berhasil");
+            admin("user.php?alert=berhasil");
         }
     } elseif ($filename == "") {
         $db->sqlquery("call USER_edit_TF('$id','$nama', '$user', '$pass', '$level')");
-        redirect("user.php?alert=berhasil");
+        admin("user.php?alert=berhasil");
     } else {
         move_uploaded_file($_FILES['foto']['tmp_name'], 'C:/laragon/www//vinjhonterpal/gambar/user/' . $rand . '_' . $filename);
         $x = $rand . '_' . $filename;
         $db->sqlquery("call USER_edit('$id','$nama', '$user', '$pass','$x','$level')");
-        redirect("user.php?alert=berhasil");
+        admin("user.php?alert=berhasil");
     }
 }
 
@@ -168,7 +165,7 @@ if (isset($_GET['USER_del'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("user.php");
+        admin("user.php");
     }
 }
 
@@ -182,7 +179,7 @@ if (isset($_POST['add_pegawai'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("pegawai.php");
+        admin("pegawai.php");
     }
 }
 
@@ -191,14 +188,13 @@ if (isset($_POST['edit_pegawai'])) {
     $nama = $_POST['namaP'];
     $posisi = $_POST['posisi'];
     $alamat = $_POST['desa_id'];
-     
+
     if ($alamat == "") {
         $db->sqlquery("CALL pegawai_edit_TA('$nama', '$posisi', '$id')");
-        redirect("pegawai.php");
-    }else{
+        admin("pegawai.php");
+    } else {
         $db->sqlquery("CALL pegawai_edit_full('$nama', '$posisi', '$alamat','$id')");
-        redirect("pegawai.php");
-
+        admin("pegawai.php");
     }
 }
 
@@ -209,7 +205,7 @@ if (isset($_GET['del_pegawai'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("pegawai.php");
+        admin("pegawai.php");
     }
 }
 
@@ -223,7 +219,7 @@ if (isset($_POST['add_posisi'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("posisi.php");
+        owner("posisi.php");
     }
 }
 
@@ -237,7 +233,7 @@ if (isset($_POST['edit_posisi'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("posisi.php");
+        owner("posisi.php");
     }
 }
 
@@ -248,7 +244,7 @@ if (isset($_GET['del_posisi'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("posisi.php");
+        owner("posisi.php");
     }
 }
 
@@ -261,7 +257,7 @@ if (isset($_POST['add_pemasok'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        redirect("pemasok.php");
+        admin("pemasok.php");
     }
 }
 
@@ -269,14 +265,13 @@ if (isset($_POST['edit_pemasok'])) {
     $id  = $_POST['idP'];
     $nama = $_POST['namaP'];
     $alamat = $_POST['desa_id'];
-     
+
     if ($alamat == "") {
         $db->sqlquery("CALL pemasok_edit_TA('$nama', '$id')");
-        redirect("pemasok.php");
-    }else{
+        admin("pemasok.php");
+    } else {
         $db->sqlquery("CALL pemasok_edit_full('$nama', '$alamat','$id')");
-        redirect("pemasok.php");
-
+        admin("pemasok.php");
     }
 }
 
@@ -287,9 +282,77 @@ if (isset($_GET['del_pemasok'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        redirect("pemasok.php");
+        admin("pemasok.php");
     }
 }
+
+// Action bahan
+if (isset($_POST['add_bahan'])) {
+    $nama = $_POST['namaJ'];
+    $warna = $_POST['warna'];
+    $p = $_POST['panjang'];
+    $l = $_POST['lebar'];
+    $pemasok = $_POST['pemasok'];
+    $stok = $_POST['stok'];
+    $harga = $_POST['harga'];
+
+    // Query untuk memeriksa apakah data sudah ada
+    $sql_check = "CALL bahan_cek('$nama', '$warna', '$p', '$l', '$pemasok')";
+    $result = $db->fetchdata($sql_check); // Ambil hasil dari prosedur `bahan_check`
+
+    // Jika data ditemukan, lakukan update
+    if (!empty($result)) {
+        foreach ($result as $d) {
+            $id = $d['id_bahan']; // Ambil ID bahan dari hasil query
+            $sql_update = "CALL bahan_edit('$nama', '$warna', '$p', '$l', '$pemasok', '$stok', '$id','$harga')";
+            if (!$db->sqlquery($sql_update)) {
+                die('Update data gagal: ' . $sql_update);
+            }
+        }
+    } else {
+        // Jika data tidak ditemukan, tambahkan data baru
+        $sql_insert = "CALL bahan_add('$nama', '$warna', '$p', '$l', '$pemasok', '$stok','$harga')";
+        if (!$db->sqlquery($sql_insert)) {
+            die('Insert data gagal: ' . $sql_insert);
+        }
+    }
+
+    // Redirect ke halaman bahan setelah selesai
+    admin("bahan.php");
+}
+
+if (isset($_POST['edit_bahan'])) {
+    $id = $_POST['id'];
+    $nama = $_POST['namaJ'];
+    $warna = $_POST['warna'];
+    $p = $_POST['panjang'];
+    $l = $_POST['lebar'];
+    $pemasok = $_POST['pemasok'];
+    $stok = $_POST['stok'];
+    $harga = $_POST['harga'];
+    $sql = "";
+
+    if (!empty($stok)) {
+        $db->sqlquery("CALL bahan_edit('$nama', '$warna', '$p', '$l', '$pemasok', '$stok', '$id','$harga')");
+        admin("bahan.php");
+    } else {
+        $db->sqlquery("CALL bahan_edit_TS('$nama', '$warna', '$p', '$l', '$pemasok', '$id','$harga')");
+        admin("bahan.php");
+    }
+}
+
+if (isset($_GET['del_bahan'])) {
+    $id  = $_GET['del_bahan'];
+    $sql = "CALL bahan_del('$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Delete data gagal: ' . $sql);
+    } else {
+        admin("bahan.php");
+    }
+}
+
+
 
 // Action alamat ajax
 if (isset($_POST['jenis'])) {
@@ -323,5 +386,59 @@ if (isset($_POST['jenis'])) {
         foreach ($data as $dat) {
             echo "<option value='" . $dat['id'] . "'>" . $dat['nama_desa'] . "</option>";
         }
+    }
+
+    // Jenis Kolam Bulat
+    if ($jenis == 'Kolam Bulat') {
+        // Mengirim input spesifik untuk kolam bulat
+        echo '
+    <div class="form-group">
+        <label>Ukuran</label><br><br>
+        <label for="diameter">Diameter (m)</label>
+        <input type="number" name="diameter" id="diameter" class="form-control" required placeholder="Masukkan diameter">
+    </div>
+    <div class="form-group">
+        <label for="tinggi">Tinggi (m)</label>
+        <input type="number" name="tinggi" id="tinggi" class="form-control" required placeholder="Masukkan tinggi">
+    </div>';
+    }
+
+    // Jenis Kolam Kotak
+    if ($jenis == 'Kolam Kotak') {
+        // Mengirim input spesifik untuk kolam kotak
+        echo '
+    <div class="form-group">
+        <label>Ukuran</label><br><br>
+        <label for="panjang">Panjang (m)</label>
+        <input type="number" name="panjang" id="panjang" class="form-control" required placeholder="Masukkan panjang">
+    </div>
+    <div class="form-group">
+        <label for="lebar">Lebar (m)</label>
+        <input type="number" name="lebar" id="lebar" class="form-control" required placeholder="Masukkan lebar">
+    </div>
+    <div class="form-group">
+        <label for="tinggi">Tinggi (m)</label>
+        <input type="number" name="tinggi" id="tinggi" class="form-control" required placeholder="Masukkan tinggi">
+    </div>';
+    }
+
+    // Jenis Kolam Lembaran
+    if ($jenis == 'Lembaran') {
+        // Mengirim input spesifik untuk kolam lembaran
+        echo '
+    <div class="form-group">
+        <label>Ukuran</label><br><br>
+        <label for="panjang">Panjang (m)</label>
+        <input type="number" name="panjang" id="panjang" class="form-control" required placeholder="Masukkan panjang">
+    </div>
+    <div class="form-group">
+        <label for="lebar">Lebar (m)</label>
+        <input type="number" name="lebar" id="lebar" class="form-control" required placeholder="Masukkan lebar">
+    </div>';
+    }
+
+    // Jika jenis kolam tidak ditemukan
+    if (!in_array($jenis, ['Kolam Bulat', 'Kolam Kotak', 'Lembaran'])) {
+        echo '<p>Jenis kolam tidak valid.</p>';
     }
 }

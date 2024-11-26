@@ -1,5 +1,5 @@
-<?php require_once '../header_sidebar.php';
-      require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php'; ?>
 
 <div class="content-wrapper">
 
@@ -9,8 +9,9 @@
       <small>Produk</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo BASE_URL_ADM; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="non-active"><a href="<?php echo BASE_URL_ADM_MENU; ?>produk.php">Produk</a></li>
+      <li class="non-active"><a href="<?php echo BASE_URL_ADM_MENU; ?>kategori_produk.php">Kategori Produk</a></li>
     </ol>
   </section>
 
@@ -29,7 +30,7 @@
 
           <div class="box-body">
             <!-- tambah kategori produk -->
-            <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post">
+            <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -61,7 +62,7 @@
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
-                    <th width="1%" >NO</th>
+                    <th width="1%">NO</th>
                     <th>Nama</th>
                     <th width="10%">OPSI</th>
                   </tr>
@@ -89,7 +90,7 @@
                           </button>
                         <?php } ?>
                         <!-- form edit kategori produk -->
-                        <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post">
+                        <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
                           <div class="modal fade" id="edit_kategori_<?php echo $d['id_kategori_produk'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -115,7 +116,7 @@
                           </div>
                         </form>
                         <!-- form edit kategori produk -->
-                          
+
                         <!-- form delete kategori produk -->
                         <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_produk'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -131,7 +132,7 @@
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_KP=<?php echo $d['id_kategori_produk'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_; ?>proc.php?del_KP=<?php echo $d['id_kategori_produk'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
@@ -154,4 +155,5 @@
   </section>
 
 </div>
-<?php require_once '../footer.php'; ?>
+
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>
