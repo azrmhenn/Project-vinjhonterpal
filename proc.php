@@ -352,7 +352,40 @@ if (isset($_GET['del_bahan'])) {
     }
 }
 
+//Action produk
+if (isset($_POST['add_produk'])) {
+    $jenis = $_POST['jenis'];
+    $warna = $_POST['warna'];
+    $p = $_POST['panjang'];
+    $l = $_POST['lebar'];
+    $pemasok = $_POST['pemasok'];
+    $stok = $_POST['stok'];
+    $harga = $_POST['harga'];
 
+    // Query untuk memeriksa apakah data sudah ada
+    $sql_check = "CALL kategori_cek('$nama', '$warna', '$p', '$l', '$pemasok')";
+    $result = $db->fetchdata($sql_check); // Ambil hasil dari prosedur `bahan_check`
+
+    // Jika data ditemukan, lakukan update
+    if (!empty($result)) {
+        foreach ($result as $d) {
+            $id = $d['id_bahan']; // Ambil ID bahan dari hasil query
+            $sql_update = "CALL bahan_edit('$nama', '$warna', '$p', '$l', '$pemasok', '$stok', '$id','$harga')";
+            if (!$db->sqlquery($sql_update)) {
+                die('Update data gagal: ' . $sql_update);
+            }
+        }
+    } else {
+        // Jika data tidak ditemukan, tambahkan data baru
+        $sql_insert = "CALL bahan_add('$nama', '$warna', '$p', '$l', '$pemasok', '$stok','$harga')";
+        if (!$db->sqlquery($sql_insert)) {
+            die('Insert data gagal: ' . $sql_insert);
+        }
+    }
+
+    // Redirect ke halaman bahan setelah selesai
+    admin("bahan.php");
+}
 
 // Action alamat ajax
 if (isset($_POST['jenis'])) {

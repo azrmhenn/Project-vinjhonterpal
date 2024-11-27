@@ -51,7 +51,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Kategori</label>
-                        <select class="form-control" name="jenis-kolam" id="jenis-kolam" required="required">
+                        <select class="form-control" name="jenis" id="jenis-kolam" required="required">
                           <option value="">Pilih Kategori</option>
                           <?php
                           $sql = "call kategori_produk()";
@@ -110,28 +110,28 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   // Menggunakan class database untuk koneksi dan query
                   $db = new database(); // Inisialisasi objek class database
                   $no = 1;
-                  $query = "call bahan()"; // Query menggunakan prosedur
+                  $query = "call produk()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
                   foreach ($data as $d) {
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaJ'] . $d['nama_merk']; ?></td>
-                      <td><?php echo $d['namaW']; ?></td>
-                      <td><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
-                      <td><?php echo $d['nama']; ?></td>
+                      <td><?php echo $d['namaK']; ?></td>
+                      <td><?php echo $d['namaJ']." ".$d['nama_merk']." ".$d['namaW']; ?></td>
+                      <td><?php echo $d['ukuran']; ?></td>
+                      <td><?php echo $d['harga']; ?></td>
                       <td><?php echo $d['stok']; ?></td>
                       <td>
-                        <?php if ($d['namaJ'] != 1) { ?>
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
+                        <?php if ($d['namaK'] != 1) { ?>
+                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_produk'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_bahan_<?php echo $d['id_bahan'] ?>">
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_bahan_<?php echo $d['id_produk'] ?>">
                             <i class="fa fa-trash"></i>
                           </button>
                         <?php } ?>
-                        <!-- form edit behan -->
+                        <!-- form edit produk -->
                         <form id="form_alamat_2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
                           <div class="modal fade" id="edit_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -213,7 +213,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                             </div>
                           </div>
                         </form>
-                        <!-- form edit behan -->
+                        <!-- form edit produk -->
 
                         <!-- form delete behan -->
                         <div class="modal fade" id="hapus_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
