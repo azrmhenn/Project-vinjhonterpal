@@ -33,10 +33,19 @@
   <script src="<?php echo BASE_URL_DIST; ?>js/demo.js"></script>
   <script src="<?php echo BASE_URL_DIST; ?>js/ckeditor.js"></script>
   <script src="<?php echo BASE_URL_DIST; ?>js/chart.js/Chart.min.js"></script>
-  
+
 
   <!-- AJAX -->
   <script type="text/javascript">
+    // Mengambil nilai luas ketika opsi dipilih
+    $('#form-kolam #bahan').change(function() {
+      // Ambil atribut data-luas dari option yang dipilih
+      var luas = $(this).find('option:selected').data('harga');
+
+      // Simpan nilai luas ke input hidden
+      $('#form-kolam #harga-bahan').val(luas);
+    });
+
     $(document).ready(function() {
       $('#form_alamat_1 #propinsi_id').change(function() {
         var prop = $('#form_alamat_1 #propinsi_id').val();
@@ -184,6 +193,15 @@
 
   <!-- Cuma script biasa -->
   <script>
+    // Menangani perubahan pada dropdown bahan
+    document.getElementById('bahan').addEventListener('change', function() {
+      // Ambil nilai luas dari option yang dipilih
+      var selectedOption = this.options[this.selectedIndex];
+      var luasB = selectedOption.getAttribute('data-luas');
+
+      // Set nilai luasB ke dalam input hidden
+      document.getElementById('luasB').value = luasB;
+    });
     $.widget.bridge('uibutton', $.ui.button);
 
     var randomScalingFactor = function() {

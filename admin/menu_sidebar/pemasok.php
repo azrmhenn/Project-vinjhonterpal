@@ -12,8 +12,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
       <small>Data Pemasok</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo BASE_URL_; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">Bahan</a></li>
+      <li class="active"><a href="<?php echo BASE_URL_ADM_MENU; ?>pemasok.php">Pemasok</a></li>
     </ol>
   </section>
 
@@ -94,9 +95,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>Nama</th>
-                    <th>Alamat</th>
-                    <th width="10%">OPSI</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Alamat</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -107,13 +108,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   $query = "call pemasok()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
-                  foreach ($data as $d) {                 
+                  foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['nama']; ?></td>
-                      <td><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
-                      <td>
+                      <td style="text-align: center;"><?php echo $no++; ?></td>
+                      <td style="text-align: center;"><?php echo $d['nama']; ?></td>
+                      <td style="text-align: center;"><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
+                      <td style="text-align: center;">
                         <?php if ($d['nama'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pemasok_<?php echo $d['id_pemasok'] ?>">
                             <i class="fa fa-pencil"></i>

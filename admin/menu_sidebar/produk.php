@@ -57,28 +57,38 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           $sql = "call kategori_produk()";
                           $data = $db->fetchdata($sql);
                           foreach ($data as $dat) {
-                            echo "<option value='" . $dat['namaK'] . "'>" . $dat['namaK'] . "</option>";
+                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . "</option>";
                           }
                           ?>
                         </select>
                       </div>
                       <div class="form-group">
                         <label>Bahan</label>
-                        <select class="form-control" name="bahan" required="required">
+                        <select class="form-control" name="bahan" id="bahan" required="required">
                           <option value="">Pilih Jenis</option>
                           <?php
                           $sql = "call bahan_only()";
                           $data = $db->fetchdata($sql);
                           foreach ($data as $dat) {
-                            echo "<option vcalue='" . $dat['id_bahan'] . "'>" . $dat['namaJ'] . " " . $dat['nama_merk'] ." " . $dat['namaW'] .  "</option>";
+                            $Harga = $dat['harga'];
+                            echo "<option value='" . $dat['id_bahan'] . "' data-harga='" . $Harga . "''>" . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] .  "</option>";
+                            
                           }
                           ?>
                         </select>
                       </div>
-
+                      <input type="hidden" name="harga-bahan" id="harga-bahan" value="">
                       <div id="input-dinamis">
                         <!-- Input tambahan akan dimuat di sini -->
                       </div>
+                      <div class="form-group">
+                        <label>Stok</label>
+                        <input type="number" name="stok" required="required" class="form-control" placeholder="Stok..." style="width:20%">
+                      </div>
+                      <!-- <div class="form-group">
+                        <label>Harga/m²</label>
+                        <input type="number" name="harga" required="required" class="form-control" placeholder="Harga..." style="width:40%">
+                      </div> -->
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -96,13 +106,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
-                    <th width="1%">NO</th>
-                    <th>Kategori</th>
-                    <th>Bahan</th>
-                    <th>Ukuran</th>
-                    <th>Harga</th>
-                    <th>Stok</th>
-                    <th width="10%">OPSI</th>
+                    <th width="1%" style="text-align: center;">NO</th>
+                    <th style="text-align: center;">Kategori</th>
+                    <th style="text-align: center;">Bahan</th>
+                    <th style="text-align: center;">Ukuran</th>
+                    <th style="text-align: center;">Harga Satuan</th>
+                    <th style="text-align: center;">Stok</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -116,13 +126,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaK']; ?></td>
-                      <td><?php echo $d['namaJ']." ".$d['nama_merk']." ".$d['namaW']; ?></td>
-                      <td><?php echo $d['ukuran']; ?></td>
-                      <td><?php echo $d['harga']; ?></td>
-                      <td><?php echo $d['stok']; ?></td>
-                      <td>
+                      <td style="text-align: center;"><?php echo $no++; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaK']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaJ'] . " " . $d['nama_merk'] . " " . $d['namaW']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['ukuran']; ?></td>
+                      <td style="text-align: right;"><?php echo "Rp. ".number_format($d['harga'], 0, ',', '.'); ?></td>
+                      <td style="text-align: center;"><?php echo $d['stok']; ?></td>
+                      <td style="text-align: center;">
                         <?php if ($d['namaK'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_produk'] ?>">
                             <i class="fa fa-pencil"></i>
@@ -132,7 +142,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           </button>
                         <?php } ?>
                         <!-- form edit produk -->
-                        <form id="form_alamat_2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
+                        <form id="form_produk_2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
                           <div class="modal fade" id="edit_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">

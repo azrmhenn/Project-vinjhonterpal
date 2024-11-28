@@ -88,11 +88,11 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Foto</th>
-                    <th width="10%">OPSI</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Username</th>
+                    <th style="text-align: center;">Level</th>
+                    <th style="text-align: center;">Foto</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,10 +106,10 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['nama']; ?></td>
-                      <td><?php echo $d['username']; ?></td>
-                      <td><?php echo $d['namaL']; ?></td>
+                      <td style="text-align: center;"><?php echo $no++; ?></td>
+                      <td style="text-align: center;"><?php echo $d['nama']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['username']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaL']; ?></td>
                       <td>
                         <center>
                           <?php if($d['foto'] == ""){ ?>
@@ -119,7 +119,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           <?php } ?>
                         </center>
                       </td>
-                      <td>
+                      <td style="text-align: center;">
                         <?php if ($d['nama'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pengguna_<?php echo $d['id_user'] ?>">
                             <i class="fa fa-pencil"></i>

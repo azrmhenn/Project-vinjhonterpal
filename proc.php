@@ -288,7 +288,7 @@ if (isset($_GET['del_pemasok'])) {
 
 // Action bahan
 if (isset($_POST['add_bahan'])) {
-    $nama = $_POST['namaJ'];
+    $jenis = $_POST['jenis'];
     $warna = $_POST['warna'];
     $p = $_POST['panjang'];
     $l = $_POST['lebar'];
@@ -297,21 +297,21 @@ if (isset($_POST['add_bahan'])) {
     $harga = $_POST['harga'];
 
     // Query untuk memeriksa apakah data sudah ada
-    $sql_check = "CALL bahan_cek('$nama', '$warna', '$p', '$l', '$pemasok')";
+    $sql_check = "CALL bahan_cek('$jenis','$warna', '$p', '$l', '$pemasok','$harga')";
     $result = $db->fetchdata($sql_check); // Ambil hasil dari prosedur `bahan_check`
 
     // Jika data ditemukan, lakukan update
     if (!empty($result)) {
         foreach ($result as $d) {
             $id = $d['id_bahan']; // Ambil ID bahan dari hasil query
-            $sql_update = "CALL bahan_edit('$nama', '$warna', '$p', '$l', '$pemasok', '$stok', '$id','$harga')";
+            $sql_update = "CALL bahan_edit('$jenis','$warna', '$p', '$l', '$pemasok', '$stok', '$id','$harga')";
             if (!$db->sqlquery($sql_update)) {
                 die('Update data gagal: ' . $sql_update);
             }
         }
     } else {
         // Jika data tidak ditemukan, tambahkan data baru
-        $sql_insert = "CALL bahan_add('$nama', '$warna', '$p', '$l', '$pemasok', '$stok','$harga')";
+        $sql_insert = "CALL bahan_add('$jenis', '$warna', '$p', '$l', '$pemasok', '$stok','$harga')";
         if (!$db->sqlquery($sql_insert)) {
             die('Insert data gagal: ' . $sql_insert);
         }
@@ -352,40 +352,83 @@ if (isset($_GET['del_bahan'])) {
     }
 }
 
+if (isset($_POST['cek'])) {
+    $hargaBahan = $_POST['harga-bahan'];
+    
+    // Pastikan nilai yang diterima adalah decimal
+    $hargaBahanDecimal = floatval($hargaBahan);  // Mengonversi menjadi tipe data decimal (float)
+
+    // Debugging
+    var_dump($hargaBahanDecimal);  // Untuk memastikan apa yang dikirim oleh form dan sudah dalam format decimal
+}
+
+
 //Action produk
 if (isset($_POST['add_produk'])) {
-    $jenis = $_POST['jenis'];
-    $warna = $_POST['warna'];
-    $p = $_POST['panjang'];
-    $l = $_POST['lebar'];
-    $pemasok = $_POST['pemasok'];
+    $jenis = $_POST['jenis']; // ID kategori
+    $bahan = $_POST['bahan'];
+    $T = ($jenis == '1' || $jenis == '2') ? $_POST['tinggi'] : 0;
+    $P = ($jenis == '2'|| $jenis == '3')?$_POST['panjang']:0;
+    $L = ($jenis == '2' || $jenis == '3')?$_POST['lebar']:0;
+    $D = ($jenis == '1') ? $_POST['diameter'] :0; // Diameter hanya relevan untuk kolam bulat
+    $hargaB = round(floatval($_POST['harga-bahan']), 2);  // Membulatkan harga menjadi 2 desimal
     $stok = $_POST['stok'];
-    $harga = $_POST['harga'];
+    
+
+    $luas = 0; // Variabel untuk menyimpan hasil luas
+
+    // Hitung luas berdasarkan jenis kolam
+    if ($jenis == '1') { // Kolam bulat
+        $radius = $D; // Radius dalam (m²)
+        $luas = M_PI * pow($radius, 2); // Hitung luas alas (m²)
+        $luas += 2 * M_PI * $radius * $T; // Tambahkan luas dinding (m²)
+        $hargaB *= $luas;
+    } elseif ($jenis == '2') { // Kolam kotak
+        $luas = $P * $L; // Luas alas (m²)
+        $luas += 2 * ($P * $T + $L * $T);
+        $luas /= 10000; // Tambahkan luas dinding (m²)
+        $hargaB *= $luas;
+    } elseif ($jenis == '3') { // Lembaran
+        $luas = $P * $L; // Luas lembaran (m²)
+        $hargaB *= $luas;
+    }   $hargaB = round($hargaB);
+
+    // Simpan data ke database
+    $ukuran = ""; // Variabel ukuran seperti sebelumnya
+    if ($jenis == '1') { // Kolam bulat
+        $ukuran = "D{$D} T{$T}";
+    } elseif ($jenis == '2') { // Kolam kotak
+        $ukuran = "{$P} x {$L} x {$T}";
+    } elseif ($jenis == '3') { // Lembaran
+        $ukuran = "{$P} x {$L}";
+    }
 
     // Query untuk memeriksa apakah data sudah ada
-    $sql_check = "CALL kategori_cek('$nama', '$warna', '$p', '$l', '$pemasok')";
-    $result = $db->fetchdata($sql_check); // Ambil hasil dari prosedur `bahan_check`
+    $sql_check = "CALL produk_cek('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB')";
+    echo "SQL Check Query: $sql_check<br>";
+    $result = $db->fetchdata($sql_check); // Ambil hasil dari prosedur `produk_cek`
 
     // Jika data ditemukan, lakukan update
     if (!empty($result)) {
         foreach ($result as $d) {
-            $id = $d['id_bahan']; // Ambil ID bahan dari hasil query
-            $sql_update = "CALL bahan_edit('$nama', '$warna', '$p', '$l', '$pemasok', '$stok', '$id','$harga')";
+            $id = $d['id_produk']; // Ambil ID produk dari hasil query
+            $sql_update = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB', '$id')";
             if (!$db->sqlquery($sql_update)) {
                 die('Update data gagal: ' . $sql_update);
             }
         }
     } else {
         // Jika data tidak ditemukan, tambahkan data baru
-        $sql_insert = "CALL bahan_add('$nama', '$warna', '$p', '$l', '$pemasok', '$stok','$harga')";
+        $sql_insert = "CALL produk_add('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB')";
         if (!$db->sqlquery($sql_insert)) {
             die('Insert data gagal: ' . $sql_insert);
         }
     }
 
-    // Redirect ke halaman bahan setelah selesai
-    admin("bahan.php");
+    admin("produk.php");
 }
+
+
 
 // Action alamat ajax
 if (isset($_POST['jenis'])) {
@@ -422,56 +465,56 @@ if (isset($_POST['jenis'])) {
     }
 
     // Jenis Kolam Bulat
-    if ($jenis == 'Kolam Bulat') {
+    if ($jenis == '1') {
         // Mengirim input spesifik untuk kolam bulat
         echo '
     <div class="form-group">
         <label>Ukuran</label><br><br>
         <label for="diameter">Diameter (m)</label>
-        <input type="number" name="diameter" id="diameter" class="form-control" required placeholder="Masukkan diameter">
+        <input type="number" name="diameter" id="diameter" class="form-control" required placeholder="Masukkan diameter" step="0.01">
     </div>
     <div class="form-group">
         <label for="tinggi">Tinggi (m)</label>
-        <input type="number" name="tinggi" id="tinggi" class="form-control" required placeholder="Masukkan tinggi">
+        <input type="number" name="tinggi" id="tinggi" class="form-control" required placeholder="Masukkan tinggi" step="0.01">
     </div>';
     }
 
     // Jenis Kolam Kotak
-    if ($jenis == 'Kolam Kotak') {
+    if ($jenis == '2') {
         // Mengirim input spesifik untuk kolam kotak
         echo '
     <div class="form-group">
         <label>Ukuran</label><br><br>
-        <label for="panjang">Panjang (m)</label>
+        <label for="panjang">Panjang (cm)</label>
         <input type="number" name="panjang" id="panjang" class="form-control" required placeholder="Masukkan panjang">
     </div>
     <div class="form-group">
-        <label for="lebar">Lebar (m)</label>
+        <label for="lebar">Lebar (cm)</label>
         <input type="number" name="lebar" id="lebar" class="form-control" required placeholder="Masukkan lebar">
     </div>
     <div class="form-group">
-        <label for="tinggi">Tinggi (m)</label>
+        <label for="tinggi">Tinggi (cm)</label>
         <input type="number" name="tinggi" id="tinggi" class="form-control" required placeholder="Masukkan tinggi">
     </div>';
     }
 
     // Jenis Kolam Lembaran
-    if ($jenis == 'Lembaran') {
+    if ($jenis == '3') {
         // Mengirim input spesifik untuk kolam lembaran
         echo '
     <div class="form-group">
         <label>Ukuran</label><br><br>
         <label for="panjang">Panjang (m)</label>
-        <input type="number" name="panjang" id="panjang" class="form-control" required placeholder="Masukkan panjang">
+        <input type="number" name="panjang" id="panjang" class="form-control" required placeholder="Masukkan panjang" step="0.01">
     </div>
     <div class="form-group">
         <label for="lebar">Lebar (m)</label>
-        <input type="number" name="lebar" id="lebar" class="form-control" required placeholder="Masukkan lebar">
+        <input type="number" name="lebar" id="lebar" class="form-control" required placeholder="Masukkan lebar" step="0.01">
     </div>';
     }
 
     // Jika jenis kolam tidak ditemukan
-    if (!in_array($jenis, ['Kolam Bulat', 'Kolam Kotak', 'Lembaran'])) {
+    if (!in_array($jenis, ['1', '2', '3'])) {
         echo '<p>Jenis kolam tidak valid.</p>';
     }
 }

@@ -12,8 +12,8 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
       <small>Stok</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo BASE_URL_ADM; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">Bahan</a></li>
     </ol>
   </section>
 
@@ -30,6 +30,11 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <a href="pemasok.php">
                 <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
                   &nbsp Pemasok
+                </button>
+              </a>
+              <a href="jenis_bahan.php">
+                <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
+                  &nbsp Jenis Bahan
                 </button>
               </a>
             </div>
@@ -51,13 +56,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Jenis</label>
-                        <select class="form-control" name="namaJ" required="required">
+                        <select class="form-control" name="jenis" required="required">
                           <option value="">Pilih Jenis</option>
                           <?php
                           $sql = "call jenis_bahan()";
                           $data = $db->fetchdata($sql);
                           foreach ($data as $dat) {
-                            echo "<option value='" . $dat['idJ'] . "'>" . $dat['namaJ'] . " " . $dat['nama_merk'] . "</option>";
+                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaJ'] . " " . $dat['nama_merk'] . "</option>";
                           }
                           ?>
                         </select>
@@ -121,15 +126,17 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
-                    <th width="1%">NO</th>
-                    <th>Nama</th>
-                    <th>Warna</th>
-                    <th>Ukuran</th>
-                    <th>Harga/m²</th>
-                    <th>Pemasok</th>
-                    <th>Stok</th>
-                    <th width="10%">OPSI</th>
+                    <th width="1%" style="text-align: center;">NO</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Warna</th>
+                    <th style="text-align: center;">Ukuran</th>
+                    <th style="text-align: center;">Harga/m²</th>
+                    <th style="text-align: center;">Pemasok</th>
+                    <th style="text-align: center;">Stok</th>
+                    <th style="text-align: center;">Luas total/m²</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
+
                 </thead>
                 <tbody>
                   <?php
@@ -142,14 +149,15 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaJ'] . $d['nama_merk']; ?></td>
-                      <td><?php echo $d['namaW']; ?></td>
-                      <td><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
-                      <td><?php echo "Rp. ".number_format($d['harga'], 0, ',', '.'); ?></td>
-                      <td><?php echo $d['nama']; ?></td>
-                      <td><?php echo $d['stok']; ?></td>
-                      <td>
+                      <td style="text-align: center;"><?php echo $no++; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaJ'] . " " . $d['nama_merk']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaW']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
+                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
+                      <td style="text-align: center;"><?php echo $d['nama']; ?></td>
+                      <td style="text-align: center;"><?php echo round($d['stok'], 2); ?></td>
+                      <td style="text-align: right;"><?php echo $d['luas_total'] . "m²"; ?></td>
+                      <td style="text-align: center;">
                         <?php if ($d['namaJ'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
@@ -177,11 +185,11 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                       $sql = "call jenis_bahan()";
                                       $data = $db->fetchdata($sql);
                                       foreach ($data as $dat) {
-                                        if ($d['id_jenis'] == $dat['idJ'])
+                                        if ($d['id_jenis'] == $dat['id'])
                                           $selected = 'selected';
                                         else
                                           $selected = '';
-                                        echo "<option value='" . $dat['idJ'] . "'$selected>" . $dat['namaJ'] . " " . $dat['nama_merk'] . "</option>";
+                                        echo "<option value='" . $dat['id'] . "'$selected>" . $dat['namaJ'] . " " . $dat['nama_merk'] . "</option>";
                                       }
                                       ?>
                                     </select>
@@ -228,11 +236,11 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                   </div><br><br>
                                   <div class="form-group">
                                     <label>Stok</label><br>
-                                    <input type="number" name="stok" class="form-control" placeholder="Tambah Stok..." style="width:70%" >
+                                    <input type="number" name="stok" class="form-control" placeholder="Tambah Stok..." style="width:70%">
                                   </div><br><br>
                                   <div class="form-group">
                                     <label>Harga</label><br>
-                                    <input type="number" name="harga" id="harga"  class="form-control" placeholder="Harga..." value="<?php echo $d['harga']; ?>" style="width:70%" >
+                                    <input type="number" name="harga" id="harga" class="form-control" placeholder="Harga..." value="<?php echo $d['harga']; ?>" style="width:70%">
                                   </div>
                                 </div><br><br>
                                 <div class="modal-footer">
