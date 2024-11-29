@@ -143,7 +143,7 @@
         });
       });
 
-      $('#jenis-kolam').change(function() {
+      $('#form-kolam-1 #jenis-kolam').change(function() {
         var jenisKolam = $(this).val(); // Ambil value yang dipilih dari dropdown
 
         if (jenisKolam) { // Jika ada pilihan yang dipilih
@@ -154,11 +154,30 @@
               jenis: jenisKolam // Kirim value yang dipilih dari dropdown ke proc.php
             },
             success: function(response) {
-              $('#input-dinamis').html(response); // Masukkan respons HTML dari server ke dalam div #input-dinamis
+              $('#form-kolam-1 #input-dinamis').html(response); // Masukkan respons HTML dari server ke dalam div #input-dinamis
             }
           });
         } else {
-          $('#input-dinamis').html(''); // Jika tidak ada pilihan, kosongkan div #input-dinamis
+          $('#form-kolam-1 #input-dinamis').html(''); // Jika tidak ada pilihan, kosongkan div #input-dinamis
+        }
+      });
+
+      $('#form-kolam-2 #jenis-kolam').change(function() {
+        var jenisKolam = $(this).val(); // Ambil value yang dipilih dari dropdown
+
+        if (jenisKolam) { // Jika ada pilihan yang dipilih
+          $.ajax({
+            type: "POST",
+            url: "<?php echo BASE_URL_; ?>proc.php", // Pastikan URL sudah benar
+            data: {
+              jenis2: jenisKolam // Kirim value yang dipilih dari dropdown ke proc.php
+            },
+            success: function(response) {
+              $('#form-kolam-2 #input-dinamis').html(response); // Masukkan respons HTML dari server ke dalam div #input-dinamis
+            }
+          });
+        } else {
+          $('#form-kolam-2 #input-dinamis').html(''); // Jika tidak ada pilihan, kosongkan div #input-dinamis
         }
       });
 

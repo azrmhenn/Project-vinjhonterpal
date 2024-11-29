@@ -100,7 +100,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   // Menggunakan class database untuk koneksi dan query
                   $db = new database(); // Inisialisasi objek class database
                   $no = 1;
-                  $query = "call user()"; // Query menggunakan prosedur
+                  $query = "call user_TO()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
                   foreach ($data as $d) {

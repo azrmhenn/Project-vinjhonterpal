@@ -38,7 +38,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
           <div class="box-body">
             <!-- tambah produk -->
-            <form id="form-kolam" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
+            <form id="form-kolam-1" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahbahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -51,7 +51,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Kategori</label>
-                        <select class="form-control" name="jenis" id="jenis-kolam" required="required">
+                        <select class="form-control" name="jenis2" id="jenis-kolam" required="required">
                           <option value="">Pilih Kategori</option>
                           <?php
                           $sql = "call kategori_produk()";
@@ -72,7 +72,6 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           foreach ($data as $dat) {
                             $Harga = $dat['harga'];
                             echo "<option value='" . $dat['id_bahan'] . "' data-harga='" . $Harga . "''>" . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] .  "</option>";
-                            
                           }
                           ?>
                         </select>
@@ -106,13 +105,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
-                    <th width="1%" style="text-align: center;">NO</th>
-                    <th style="text-align: center;">Kategori</th>
-                    <th style="text-align: center;">Bahan</th>
-                    <th style="text-align: center;">Ukuran</th>
-                    <th style="text-align: center;">Harga Satuan</th>
-                    <th style="text-align: center;">Stok</th>
-                    <th width="10%" style="text-align: center;">OPSI</th>
+                    <th width="1%">NO</th>
+                    <th>Kategori</th>
+                    <th>Bahan</th>
+                    <th>Ukuran</th>
+                    <th>Harga Satuan</th>
+                    <th>Stok</th>
+                    <th width="10%">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -126,15 +125,15 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td style="text-align: center;"><?php echo $no++; ?></td>
-                      <td style="text-align: center;"><?php echo $d['namaK']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['namaJ'] . " " . $d['nama_merk'] . " " . $d['namaW']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['ukuran']; ?></td>
-                      <td style="text-align: right;"><?php echo "Rp. ".number_format($d['harga'], 0, ',', '.'); ?></td>
-                      <td style="text-align: center;"><?php echo $d['stok']; ?></td>
-                      <td style="text-align: center;">
+                      <td><?php echo $no++; ?></td>
+                      <td><?php echo $d['namaK']; ?></td>
+                      <td><?php echo $d['namaJ'] . " " . $d['nama_merk'] . " " . $d['namaW']; ?></td>
+                      <td><?php echo $d['ukuran']; ?></td>
+                      <td><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
+                      <td><?php echo $d['stok']; ?></td>
+                      <td>
                         <?php if ($d['namaK'] != 1) { ?>
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_produk'] ?>">
+                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_produk_<?php echo $d['id_produk'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_bahan_<?php echo $d['id_produk'] ?>">
@@ -142,8 +141,8 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           </button>
                         <?php } ?>
                         <!-- form edit produk -->
-                        <form id="form_produk_2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
-                          <div class="modal fade" id="edit_bahan_<?php echo $d['id_bahan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <form id="form-kolam-2" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
+                          <div class="modal fade" id="edit_produk_<?php echo $d['id_produk'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -153,66 +152,43 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  <div class="form-group" style="width:100%">
-                                    <label>Nama Jenis</label><br>
-                                    <select class="form-control" name="namaJ" style="width:100%">
+                                  <div class="form-group" style="width: 100%;">
+                                    <label>Kategori</label><br>
+                                    <select class="form-control" name="jenis" id="jenis-kolam" required="required" style="width: 100%;">
                                       <?php
-                                      $sql = "call jenis_bahan()";
+                                      $sql = "call kategori_produk()";
                                       $data = $db->fetchdata($sql);
                                       foreach ($data as $dat) {
-                                        if ($d['id_jenis'] == $dat['idJ'])
-                                          $selected = 'selected';
-                                        else
-                                          $selected = '';
-                                        echo "<option value='" . $dat['idJ'] . "'$selected>" . $dat['namaJ'] . " " . $dat['nama_merk'] . "</option>";
+                                        echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . "</option>";
                                       }
                                       ?>
                                     </select>
                                   </div><br><br>
-                                  <div class="form-group" style="width:100%">
-                                    <label>Warna</label><br>
-                                    <select class="form-control" name="warna" required="required">
+                                  <div class="form-group" style="width: 100%;">
+                                    <label>Bahan</label><br>
+                                    <select class="form-control" name="bahan" id="bahan" required="required" style="width: 100%;">
                                       <?php
-                                      $sql = "call warnaBahan()";
+                                      $sql = "call bahan_only()";
                                       $data = $db->fetchdata($sql);
                                       foreach ($data as $dat) {
-                                        if ($d['id_warna'] == $dat['id'])
-                                          $selected = 'selected';
-                                        else
-                                          $selected = '';
-                                        echo "<option value='" . $dat['id'] . "'$selected>" . $dat['namaW'] . "</option>";
+                                        $Harga = $dat['harga'];
+                                        echo "<option value='" . $dat['id_bahan'] . "' data-harga='" . $Harga . "''>" . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] .  "</option>";
                                       }
                                       ?>
                                     </select>
                                   </div><br><br>
+                                  <input type="hidden" name="harga-bahan" id="harga-bahan" value="">
+                                  <div id="input-dinamis">
+                                    <!-- Input tambahan akan dimuat di sini -->
+                                  </div>
                                   <div class="form-group">
-                                    <label>Ukuran</label><br>
-                                    <div style="display: flex; align-items: center; gap: 5px;">
-                                      <input type="number" name="lebar" required="required" class="form-control" value="<?php echo $d['lebar']; ?>" style="width:20%">
-                                      <span>X</span>
-                                      <input type="number" name="panjang" required="required" class="form-control" value="<?php echo $d['panjang']; ?>" style="width:20%">
-                                    </div>
-                                  </div><br><br>
-                                  <div class="form-group" style="width:100%">
-                                    <label>Pemasok</label><br>
-                                    <select class="form-control" name="pemasok" required="required" style="width:100%">
-                                      <?php
-                                      $sql = "call pemasok_single()";
-                                      $data = $db->fetchdata($sql);
-                                      foreach ($data as $dat) {
-                                        if ($d['id_pemasok'] == $dat['id_pemasok'])
-                                          $selected = 'selected';
-                                        else
-                                          $selected = '';
-                                        echo "<option value='" . $dat['id_pemasok'] . "'>" . $dat['nama'] . "</option>";
-                                      }
-                                      ?>
-                                    </select>
+                                    <label>Stok</label><br>
+                                    <input type="number" name="stok" class="form-control" placeholder="Stok..." style="width:70%" value="<?php echo $d['stok']; ?>">
                                   </div><br><br>
                                   <div class="form-group">
                                     <label>Stok</label><br>
-                                    <input type="text" name="stok" class="form-control" placeholder="Tambah Stok..." style="width:70%">
-                                  </div>
+                                    <input type="number" name="stok" class="form-control" placeholder="Stok..." style="width:70%" value="<?php echo $d['harga']; ?>">
+                                  </div><br><br>
                                 </div><br><br>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

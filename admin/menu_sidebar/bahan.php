@@ -126,15 +126,16 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
-                    <th width="1%" style="text-align: center;">NO</th>
-                    <th style="text-align: center;">Nama</th>
-                    <th style="text-align: center;">Warna</th>
-                    <th style="text-align: center;">Ukuran</th>
-                    <th style="text-align: center;">Harga/m²</th>
-                    <th style="text-align: center;">Pemasok</th>
-                    <th style="text-align: center;">Stok</th>
-                    <th style="text-align: center;">Luas total/m²</th>
-                    <th width="10%" style="text-align: center;">OPSI</th>
+                    <th width="1%">NO</th>
+                    <th>Jenis</th>
+                    <th>Merk</th>
+                    <th>Warna</th>
+                    <th>Ukuran</th>
+                    <th>Harga/m²</th>
+                    <th>Pemasok</th>
+                    <th>Stok</th>
+                    <th>Luas total/m²</th>
+                    <th width="10%">OPSI</th>
                   </tr>
 
                 </thead>
@@ -149,16 +150,17 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td style="text-align: center;"><?php echo $no++; ?></td>
-                      <td style="text-align: center;"><?php echo $d['namaJ'] . " " . $d['nama_merk']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['namaW']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
-                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
-                      <td style="text-align: center;"><?php echo $d['nama']; ?></td>
-                      <td style="text-align: center;"><?php echo round($d['stok'], 2); ?></td>
-                      <td style="text-align: right;"><?php echo $d['luas_total'] . "m²"; ?></td>
-                      <td style="text-align: center;">
-                        <?php if ($d['namaJ'] != 1) { ?>
+                      <td><?php echo $no++; ?></td>
+                      <td><?php echo $d['namaJ']; ?></td>
+                      <td><?php echo $d['nama_merk']; ?></td>
+                      <td><?php echo $d['namaW']; ?></td>
+                      <td><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
+                      <td><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
+                      <td><?php echo $d['nama']; ?></td>
+                      <td><?php echo round($d['stok'], 2); ?></td>
+                      <td><?php echo $d['luas_total'] . "m²"; ?></td>
+                      <td>
+                        <?php if ($d['namaJ']!= 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
