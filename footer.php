@@ -38,12 +38,12 @@
   <!-- AJAX -->
   <script type="text/javascript">
     // Mengambil nilai luas ketika opsi dipilih
-    $('#form-kolam #bahan').change(function() {
+    $('#form-kolam-1 #bahan').change(function() {
       // Ambil atribut data-luas dari option yang dipilih
       var luas = $(this).find('option:selected').data('harga');
 
       // Simpan nilai luas ke input hidden
-      $('#form-kolam #harga-bahan').val(luas);
+      $('#form-kolam-1 #harga-bahan').val(luas);
     });
 
     $(document).ready(function() {
@@ -194,7 +194,7 @@
         'ordering': false,
         'info': true,
         'autoWidth': true,
-        "pageLength": 50
+        "pageLength": 10
       });
 
       $('#datepicker').datepicker({

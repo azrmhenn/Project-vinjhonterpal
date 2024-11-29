@@ -353,8 +353,11 @@ if (isset($_GET['del_bahan'])) {
 }
 
 if (isset($_POST['cek'])) {
+    $panjang = $_POST['panjang'];
+    $panjang = $_POST['id'];
+    echo $panjang;
     $hargaBahan = $_POST['harga-bahan'];
-    
+
     // Pastikan nilai yang diterima adalah decimal
     $hargaBahanDecimal = floatval($hargaBahan);  // Mengonversi menjadi tipe data decimal (float)
 
@@ -368,12 +371,12 @@ if (isset($_POST['add_produk'])) {
     $jenis = $_POST['jenis']; // ID kategori
     $bahan = $_POST['bahan'];
     $T = ($jenis == '1' || $jenis == '2') ? $_POST['tinggi'] : 0;
-    $P = ($jenis == '2'|| $jenis == '3')?$_POST['panjang']:0;
-    $L = ($jenis == '2' || $jenis == '3')?$_POST['lebar']:0;
-    $D = ($jenis == '1') ? $_POST['diameter'] :0; // Diameter hanya relevan untuk kolam bulat
+    $P = ($jenis == '2' || $jenis == '3') ? $_POST['panjang'] : 0;
+    $L = ($jenis == '2' || $jenis == '3') ? $_POST['lebar'] : 0;
+    $D = ($jenis == '1') ? $_POST['diameter'] : 0; // Diameter hanya relevan untuk kolam bulat
     $hargaB = round(floatval($_POST['harga-bahan']), 2);  // Membulatkan harga menjadi 2 desimal
     $stok = $_POST['stok'];
-    
+
 
     $luas = 0; // Variabel untuk menyimpan hasil luas
 
@@ -391,7 +394,8 @@ if (isset($_POST['add_produk'])) {
     } elseif ($jenis == '3') { // Lembaran
         $luas = $P * $L; // Luas lembaran (m²)
         $hargaB *= $luas;
-    }   $hargaB = round($hargaB);
+    }
+    $hargaB = round($hargaB);
 
     // Simpan data ke database
     $ukuran = ""; // Variabel ukuran seperti sebelumnya
@@ -412,7 +416,7 @@ if (isset($_POST['add_produk'])) {
     if (!empty($result)) {
         foreach ($result as $d) {
             $id = $d['id_produk']; // Ambil ID produk dari hasil query
-            $sql_update = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB', '$id')";
+            $sql_update = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$id')";
             if (!$db->sqlquery($sql_update)) {
                 die('Update data gagal: ' . $sql_update);
             }
@@ -429,19 +433,19 @@ if (isset($_POST['add_produk'])) {
 }
 
 if (isset($_POST['edit_produk'])) {
+    $id = $_POST['id'];
     $jenis = $_POST['jenis2']; // ID kategori
     $bahan = $_POST['bahan'];
     $T = ($jenis == '1' || $jenis == '2') ? $_POST['tinggi'] : 0;
-    $P = ($jenis == '2'|| $jenis == '3')?$_POST['panjang']:0;
-    $L = ($jenis == '2' || $jenis == '3')?$_POST['lebar']:0;
-    $D = ($jenis == '1') ? $_POST['diameter'] :0; // Diameter hanya relevan untuk kolam bulat
+    $P = ($jenis == '2' || $jenis == '3') ? $_POST['panjang'] : 0;
+    $L = ($jenis == '2' || $jenis == '3') ? $_POST['lebar'] : 0;
+    $D = ($jenis == '1') ? $_POST['diameter'] : 0; // Diameter hanya relevan untuk kolam bulat
     $hargaB = round(floatval($_POST['harga-bahan']), 2);  // Membulatkan harga menjadi 2 desimal
-    $stok = $_POST['stok'];
-    
-
-    $luas = 0; // Variabel untuk menyimpan hasil luas
+    $stok = $_POST['stok'] ?: 0;
 
     // Hitung luas berdasarkan jenis kolam
+    $luas = 0; // Variabel untuk menyimpan hasil luas
+
     if ($jenis == '1') { // Kolam bulat
         $radius = $D; // Radius dalam (m²)
         $luas = M_PI * pow($radius, 2); // Hitung luas alas (m²)
@@ -449,16 +453,18 @@ if (isset($_POST['edit_produk'])) {
         $hargaB *= $luas;
     } elseif ($jenis == '2') { // Kolam kotak
         $luas = $P * $L; // Luas alas (m²)
-        $luas += 2 * ($P * $T + $L * $T);
+        $luas += 2 * ($P * $T + $L * $T); // Tambahkan luas dinding (m²)
         $luas /= 10000; // Tambahkan luas dinding (m²)
         $hargaB *= $luas;
     } elseif ($jenis == '3') { // Lembaran
         $luas = $P * $L; // Luas lembaran (m²)
         $hargaB *= $luas;
-    }   $hargaB = round($hargaB);
+    }
 
-    // Simpan data ke database
-    $ukuran = ""; // Variabel ukuran seperti sebelumnya
+    $hargaB = round($hargaB);
+
+    // Simpan data produk ke database
+    $ukuran = "";
     if ($jenis == '1') { // Kolam bulat
         $ukuran = "D{$D} T{$T}";
     } elseif ($jenis == '2') { // Kolam kotak
@@ -467,29 +473,24 @@ if (isset($_POST['edit_produk'])) {
         $ukuran = "{$P} x {$L}";
     }
 
-    // Query untuk memeriksa apakah data sudah ada
-    $sql_check = "CALL produk_cek('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB')";
-    echo "SQL Check Query: $sql_check<br>";
-    $result = $db->fetchdata($sql_check); // Ambil hasil dari prosedur `produk_cek`
-
-    // Jika data ditemukan, lakukan update
-    if (!empty($result)) {
-        foreach ($result as $d) {
-            $id = $d['id_produk']; // Ambil ID produk dari hasil query
-            $sql_update = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB', '$id')";
-            if (!$db->sqlquery($sql_update)) {
-                die('Update data gagal: ' . $sql_update);
-            }
-        }
-    } else {
-        // Jika data tidak ditemukan, tambahkan data baru
-        $sql_insert = "CALL produk_add('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$hargaB')";
-        if (!$db->sqlquery($sql_insert)) {
-            die('Insert data gagal: ' . $sql_insert);
-        }
+    // Update produk
+    $sql_produk = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$id')";
+    if (!$db->sqlquery($sql_produk)) {
+        die('Update produk gagal: ' . $sql_produk);
     }
-
+    // Redirect setelah sukses
     admin("produk.php");
+}
+
+if (isset($_GET['del_produk'])) {
+    $id  = $_GET['del_produk'];
+    $sql = "CALL produk_del('$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Delete data gagal: ' . $sql);
+    } else {
+        admin("produk.php");
+    }
 }
 
 //action jenis bahan
@@ -629,7 +630,7 @@ if (isset($_POST['jenis'])) {
     // Jika jenis kolam tidak ditemukan
     if (!in_array($jenis, ['1', '2', '3'])) {
         echo '<p>Jenis kolam tidak valid.</p>';
-    }   
+    }
 }
 
 if (isset($_POST['jenis2'])) {
@@ -687,8 +688,5 @@ if (isset($_POST['jenis2'])) {
     // Jika jenis kolam tidak ditemukan
     if (!in_array($jenis, ['1', '2', '3'])) {
         echo '<p>Jenis kolam tidak valid.</p>';
-    }   
+    }
 }
-
-
-
