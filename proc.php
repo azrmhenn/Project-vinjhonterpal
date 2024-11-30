@@ -353,8 +353,7 @@ if (isset($_GET['del_bahan'])) {
 }
 
 if (isset($_POST['cek'])) {
-    $panjang = $_POST['panjang'];
-    $panjang = $_POST['id'];
+    $panjang = $_POST['produk'];
     echo $panjang;
     $hargaBahan = $_POST['harga-bahan'];
 
@@ -362,7 +361,7 @@ if (isset($_POST['cek'])) {
     $hargaBahanDecimal = floatval($hargaBahan);  // Mengonversi menjadi tipe data decimal (float)
 
     // Debugging
-    var_dump($hargaBahanDecimal);  // Untuk memastikan apa yang dikirim oleh form dan sudah dalam format decimal
+    var_dump($panjang);  // Untuk memastikan apa yang dikirim oleh form dan sudah dalam format decimal
 }
 
 
@@ -542,6 +541,101 @@ if (isset($_GET['del_jenis_bahan'])) {
         admin("jenis_bahan.php");
     }
 }
+
+// if (isset($_POST['add_penjualan'])) {
+//     $produk = $_POST['produk'];
+//     $jml = $_POST['jml'];
+
+//         $insertQuery = "CALL penjualan_add('$produk', '$jml')";
+
+//         if (!$db->sqlquery($insertQuery)) {
+//             die('Insert data gagal: ' . $insertQuery);
+//         } else {
+//             admin("penjualan.php");
+//         }
+
+// }
+
+session_start(); 
+
+// Menampilkan pesan error jika ada
+if (isset($_SESSION['error_message'])) {
+    echo "<div id='errorMessage' class='alert alert-danger' style='position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto;'>
+            " . $_SESSION['error_message'] . "
+          </div>";
+
+    // JavaScript untuk menyembunyikan alert setelah 5 detik
+    echo "<script>
+            setTimeout(function() {
+                var errorMessage = document.getElementById('errorMessage');
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+            }, 5000); // 5000ms = 5 detik
+          </script>";
+
+    // Menghapus pesan error dari session setelah ditampilkan
+    unset($_SESSION['error_message']);
+}
+
+if (isset($_POST['add_penjualan'])) {
+    // Ambil data inputan
+    $produk = $_POST['produk'];
+    $jml = $_POST['jml'];
+
+    // Validasi input
+    if (empty($produk) || empty($jml)) {
+        $_SESSION['error_message'] = "Semua field harus diisi!";
+        admin("penjualan.php"); // Redirect kembali ke form
+        exit();
+    }
+
+    // Validasi jumlah stok (contoh validasi, sesuaikan dengan kebutuhan)
+    $sql_check_stok = "SELECT stok FROM tb_produk WHERE id_produk = '$produk'";
+    $result = $db->datasql($sql_check_stok);
+
+    if ($result) {
+        $stok = $result['stok'];
+        if ($stok < $jml) {
+            $_SESSION['error_message'] = "Stok tidak mencukupi!";
+            admin("penjualan.php"); // Redirect ke halaman admin penjualan
+            exit();
+        }
+    } else {
+        $_SESSION['error_message'] = "Produk tidak ditemukan!";
+        admin("penjualan.php"); // Redirect ke halaman admin penjualan
+        exit();
+    }
+
+    // Query untuk insert data penjualan
+    $insertQuery = "CALL penjualan_add('$produk', '$jml')";
+
+    if (!$db->sqlquery($insertQuery)) {
+        // Jika insert gagal, tampilkan error
+        $_SESSION['error_message'] = "Gagal menyimpan data penjualan!";
+        admin("penjualan.php"); // Redirect kembali ke form penjualan
+        exit();
+    } else {
+        // Jika berhasil, redirect ke halaman admin penjualan
+        admin("penjualan.php");
+        exit();
+    }
+}
+
+if (isset($_GET['del_log_penjualan'])) {
+    $id = $_GET['del_log_penjualan'];
+    $jml = $_POST['jml'];
+
+        $insertQuery = "CALL log_penjualan_del('$id')";
+
+        if (!$db->sqlquery($insertQuery)) {
+            die('Insert data gagal: ' . $insertQuery);
+        } else {
+            admin("penjualan.php");
+        }
+
+}
+
 
 
 // Action alamat ajax

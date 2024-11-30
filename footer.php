@@ -212,6 +212,14 @@
 
   <!-- Cuma script biasa -->
   <script>
+    document.getElementById('form_alamat_1').addEventListener('submit', function(event) {
+      var jumlah = document.querySelector('[name="jml"]').value;
+      var stok = <?php echo $stok; ?>; // Ambil nilai stok dari PHP
+      if (parseInt(jumlah) > stok) {
+        event.preventDefault(); // Mencegah form untuk submit
+        alert('Stok tidak mencukupi!');
+      }
+    });
     // Menangani perubahan pada dropdown bahan
     document.getElementById('bahan').addEventListener('change', function() {
       // Ambil nilai luas dari option yang dipilih
