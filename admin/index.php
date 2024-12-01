@@ -1,15 +1,13 @@
-<?php 
-require_once 'header_sidebar.php'; 
-require_once '../class_db.php'; // Pastikan file class_db.php tersedia
-$db = new database(); // Inisialisasi objek database
+<?php
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 ?>
 
 <div class="content-wrapper">
-
   <section class="content-header">
     <h1>
-      Kategori
-      <small>Data kategori</small>
+      Dashboard
+      <small>Control panel</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -19,133 +17,114 @@ $db = new database(); // Inisialisasi objek database
 
   <section class="content">
     <div class="row">
-      <section class="col-lg-12">
-        <div class="box box-info">
+      <div class="col-sm-2 col-xs-2">
+        <div class="small-box bg-green">
+          <div class="inner" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+            <?php
+            $tanggal = date('Y-m-d');
+            // Query untuk menghitung total bahan
+            $sql = "SELECT COUNT(*) AS total_bahan FROM tb_bahan";
 
-          <div class="box-header">
-            <h3 class="box-title">Kategori Transaksi Keuangan</h3>
-            <div class="btn-group pull-right">            
-              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-plus"></i> &nbsp Tambah Kategori
-              </button>
-            </div>
+            // Eksekusi query
+            $result = $db->sqlquery($sql);
+
+            // Cek apakah ada hasil yang ditemukan
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              $bahan = $row['total_bahan'] ?: 0;
+            }
+            ?>
+            <h1 style="font-weight: bolder; text-align: center;"><?php echo $bahan; ?></h1>
+            <p style="text-align: center;">Bahan</p>
           </div>
-          <div class="box-body">
-
-            <!-- Modal -->
-            <form action="kategori_act.php" method="post">
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <label>Nama Kategori</label>
-                        <input type="text" name="kategori" required="required" class="form-control" placeholder="Nama Kategori ..">
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped" id="table-datatable">
-                <thead>
-                  <tr>
-                    <th width="1%">NO</th>
-                    <th>NAMA</th>
-                    <th width="10%">OPSI</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php 
-                  $no = 1;
-                  $data = $db->fetchdata("SELECT * FROM tb_kategori_pengeluaran ORDER BY id_kategori_pengeluaran ASC");
-                  foreach ($data as $d) {
-                  ?>
-                    <tr>
-                      <td><?php echo $no++; ?></td>
-                      <td><?php echo htmlspecialchars($d['namaK']); ?></td>
-                      <td>    
-                        <?php if ($d['namaK'] != 1) { ?> 
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>">
-                            <i class="fa fa-cog"></i>
-                          </button>
-
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>">
-                            <i class="fa fa-trash"></i>
-                          </button>
-                        <?php } ?>
-
-                        <form action="kategori_update.php" method="post">
-                          <div class="modal fade" id="edit_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Edit Kategori</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="form-group" style="width:100%">
-                                    <label>Nama Kategori</label>
-                                    <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_kategori_pengeluaran']; ?>">
-                                    <input type="text" name="kategori" required="required" class="form-control" value="<?php echo htmlspecialchars($d['namaK']); ?>" style="width:100%">
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary">Simpan</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-
-                        <!-- modal hapus -->
-                        <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Peringatan!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <p>Yakin ingin menghapus data ini ?</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="kategori_hapus.php?id=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                      </td>
-                    </tr>
-                  <?php } ?>
-                </tbody>
-              </table>
-            </div>
+          <div class="icon">
+            <!-- <i class="ion ion-stats-bars"></i> -->
           </div>
-
+          <a href="bank.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
-      </section>
+      </div>
+      <div class="col-sm-2 col-xs-2">
+        <div class="small-box bg-yellow">
+          <div class="inner" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+            <?php
+            $tanggal = date('Y-m-d');
+            // Query untuk menghitung total bahan
+            $sql = "SELECT COUNT(id_produk) AS total_produk FROM tb_produk";
+
+            // Eksekusi query
+            $result = $db->sqlquery($sql);
+
+            // Cek apakah ada hasil yang ditemukan
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              $bahan = $row['total_produk'] ?: 0;
+            }
+            ?>
+            <h1 style="font-weight: bolder; text-align: center;"><?php echo $bahan; ?></h1>
+            <p style="text-align: center;">Produk</p>
+          </div>
+          <div class="icon">
+            <!-- <i class="ion ion-stats-bars"></i> -->
+          </div>
+          <a href="bank.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-2 col-xs-2">
+        <div class="small-box bg-red">
+          <div class="inner" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+            <?php
+            $tanggal = date('Y-m-d');
+            // Query untuk menghitung total bahan
+            $sql = "SELECT COUNT(id_pegawai) AS pegawai FROM tb_pegawai";
+
+            // Eksekusi query
+            $result = $db->sqlquery($sql);
+
+            // Cek apakah ada hasil yang ditemukan
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              $data = $row['pegawai'] ?: 0;
+            }
+            ?>
+            <h1 style="font-weight: bolder; text-align: center;"><?php echo $data; ?></h1>
+            <p style="text-align: center;">Pegawai</p>
+          </div>
+          <div class="icon">
+            <!-- <i class="ion ion-stats-bars"></i> -->
+          </div>
+          <a href="bank.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-2 col-xs-2">
+        <div class="small-box bg-blue">
+          <div class="inner" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+            <?php
+            $tanggal = date('Y-m-d');
+            // Query untuk menghitung total bahan
+            $sql = "SELECT COUNT(id_user) AS pengguna FROM user";
+
+            // Eksekusi query
+            $result = $db->sqlquery($sql);
+
+            // Cek apakah ada hasil yang ditemukan
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              $data = $row['pengguna'] ?: 0;
+            }
+            ?>
+            <h1 style="font-weight: bolder; text-align: center;"><?php echo $data; ?></h1>
+            <p style="text-align: center;">Pengguna</p>
+          </div>
+          <div class="icon">
+            <!-- <i class="ion ion-stats-bars"></i> -->
+          </div>
+          <a href="bank.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
     </div>
   </section>
-
 </div>
-<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>
+
+<?php
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php';
+?>

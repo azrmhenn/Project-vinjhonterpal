@@ -1,7 +1,5 @@
 <?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
 require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
-// $sql = "call pegawai()";
-// $d = $db->datasql($sql);
 ?>
 
 <div class="content-wrapper">
@@ -13,7 +11,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo BASE_URL_ADM; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active"><a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">Penjualan</a></li>
+      <li class="active"><a href="<?php echo BASE_URL_ADM_MENU; ?>penjualan.php">Penjualan</a></li>
     </ol>
   </section>
 
@@ -68,7 +66,16 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           $sql = "call view_produk()";
                           $data = $db->fetchdata($sql);
                           foreach ($data as $dat) {
-                            echo "<option value='" . $dat['id_produk'] . "'>" . $dat['id_produk'] . " " . $dat['nama_merk'] . "</option>";
+                            // echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . " " . $dat['namaJ'] . " " . $dat['nama_merk'] ." " . $dat['namaW'] . " (" . $dat['ukuran'] .") ".  "</option>";
+                            // Mengecek kondisi stok
+                            if ($dat['stok'] > 0) {
+                              $stok_status = "Ready"; // Stok tersedia
+                            } else {
+                              $stok_status = "Habis"; // Stok habis
+                            }
+
+                            // Menampilkan pilihan dengan informasi stok
+                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . " " . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] . " (" . $dat['ukuran'] . ")" . " - " . $stok_status . " (" . $dat['stok'] . ")" . "</option>";
                           }
                           ?>
                         </select>
@@ -76,13 +83,14 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <div class="form-group">
                         <label>Jumlah</label>
                         <div style="display: flex; align-items: center; gap: 5px;">
-                          <input type="number" name="jml" required="required" class="form-control" placeholder="  L" style="width:15%">
+                          <input type="number" name="jml" required="required" class="form-control" style="width:15%">
                         </div>
                       </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                       <button type="submit" class="btn btn-primary" name="add_penjualan">Simpan</button>
+                      <!-- <button type="submit" class="btn btn-primary" name="cek">Simpan</button> -->
                     </div>
                   </div>
                 </div>

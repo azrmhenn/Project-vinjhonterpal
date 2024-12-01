@@ -185,6 +185,12 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
           </li>
 
           <li>
+            <a href="<?php echo BASE_URL_ADM_MENU; ?>penggajian.php">
+              <i class="fa fa-folder"></i> <span>PENGGAJIAN</span>
+            </a>
+          </li>
+
+          <li>
             <a href="<?php echo BASE_URL_ADM_MENU;; ?>gantipassword.php">
               <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
             </a>

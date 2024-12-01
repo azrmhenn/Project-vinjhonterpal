@@ -2,6 +2,7 @@
 include 'class_db.php';
 include 'config.php';
 $db = new Database();
+session_start(); 
 
 // Action kategori produk
 if (isset($_POST['add_KP'])) {
@@ -353,15 +354,22 @@ if (isset($_GET['del_bahan'])) {
 }
 
 if (isset($_POST['cek'])) {
-    $panjang = $_POST['produk'];
-    echo $panjang;
-    $hargaBahan = $_POST['harga-bahan'];
+    $jenis = $_POST['produk']?:0;
+    $panjang = $_POST['id_kategori'] ." ".$_POST['bahan_produk']." ";
+    $p = $_POST['panjang'];
+    $l = $_POST['lebar'];
+    $pemasok = $_POST['pemasok'];
+    $stok = $_POST['stok'];
+    $harga = $_POST['harga'];
+    echo $p,$l,$stok;
+    echo $jenis;
+    // $hargaBahan = $_POST['harga-bahan'];
 
     // Pastikan nilai yang diterima adalah decimal
-    $hargaBahanDecimal = floatval($hargaBahan);  // Mengonversi menjadi tipe data decimal (float)
+    // $hargaBahanDecimal = floatval($hargaBahan);  // Mengonversi menjadi tipe data decimal (float)
 
-    // Debugging
-    var_dump($panjang);  // Untuk memastikan apa yang dikirim oleh form dan sudah dalam format decimal
+    // // Debugging
+    // var_dump($panjang);  // Untuk memastikan apa yang dikirim oleh form dan sudah dalam format decimal
 }
 
 
@@ -433,7 +441,7 @@ if (isset($_POST['add_produk'])) {
 
 if (isset($_POST['edit_produk'])) {
     $id = $_POST['id'];
-    $jenis = $_POST['jenis2']; // ID kategori
+    $jenis = $_POST['jenis2'] ?: 0; // ID kategori
     $bahan = $_POST['bahan'];
     $T = ($jenis == '1' || $jenis == '2') ? $_POST['tinggi'] : 0;
     $P = ($jenis == '2' || $jenis == '3') ? $_POST['panjang'] : 0;
@@ -542,22 +550,6 @@ if (isset($_GET['del_jenis_bahan'])) {
     }
 }
 
-// if (isset($_POST['add_penjualan'])) {
-//     $produk = $_POST['produk'];
-//     $jml = $_POST['jml'];
-
-//         $insertQuery = "CALL penjualan_add('$produk', '$jml')";
-
-//         if (!$db->sqlquery($insertQuery)) {
-//             die('Insert data gagal: ' . $insertQuery);
-//         } else {
-//             admin("penjualan.php");
-//         }
-
-// }
-
-session_start(); 
-
 // Menampilkan pesan error jika ada
 if (isset($_SESSION['error_message'])) {
     echo "<div id='errorMessage' class='alert alert-danger' style='position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto;'>
@@ -581,6 +573,7 @@ if (isset($_SESSION['error_message'])) {
 if (isset($_POST['add_penjualan'])) {
     // Ambil data inputan
     $produk = $_POST['produk'];
+    echo $produk;
     $jml = $_POST['jml'];
 
     // Validasi input
@@ -600,9 +593,13 @@ if (isset($_POST['add_penjualan'])) {
             $_SESSION['error_message'] = "Stok tidak mencukupi!";
             admin("penjualan.php"); // Redirect ke halaman admin penjualan
             exit();
+        }else if($stok = 0){
+            $_SESSION['error_message'] = "Stok Habis!";
+        admin("penjualan.php"); // Redirect ke halaman admin penjualan
+        exit();
         }
-    } else {
-        $_SESSION['error_message'] = "Produk tidak ditemukan!";
+    } else if ($result['stok'] == '0'){
+        $_SESSION['error_message'] = "Stok Habis!";
         admin("penjualan.php"); // Redirect ke halaman admin penjualan
         exit();
     }
@@ -635,6 +632,7 @@ if (isset($_GET['del_log_penjualan'])) {
         }
 
 }
+
 
 
 

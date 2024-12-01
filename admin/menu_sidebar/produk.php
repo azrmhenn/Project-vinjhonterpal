@@ -130,7 +130,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <td><?php echo $d['namaJ'] . " " . $d['nama_merk'] . " " . $d['namaW']; ?></td>
                       <td><?php echo $d['ukuran']; ?></td>
                       <td><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
-                      <td><?php echo $d['stok']; ?></td>
+                      <td><?php echo $d['stok']?></td>
                       <td>
                         <?php if ($d['namaK'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_produk_<?php echo $d['id_produk'] ?>">
@@ -152,9 +152,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  <div class="form-group">
-                                    <label>Kategori</label>
-                                    <select class="form-control" name="jenis2" id="jenis-kolam" required="required">
+                                  <div class="form-group" style="width: 100%;">
+                                    <label>Kategori</label><br>
+                                    <select class="form-control" name="jenis2" id="jenis-kolam" style="width: 100%;">
                                       <option value="">Pilih Kategori</option>
                                       <?php
                                       $sql = "call kategori_produk()";
@@ -192,9 +192,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                   </div><br><br>
                                 </div><br><br>
                                 <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_produk']; ?>">
+                                <input type="hidden" name="bahan_produk" required="required" class="form-control" value="<?php echo $d['bahan_produk']; ?>">
+                                <input type="hidden" name="id_kategori" required="required" class="form-control" value="<?php echo $d['id_kategori_produk']; ?>">
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                   <button type="submit" class="btn btn-primary" name="edit_produk">Simpan</button>
+                                  <!-- <button type="submit" class="btn btn-primary" name="cek">Simpan</button> -->
                                 </div>
                               </div>
                             </div>
