@@ -123,9 +123,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <td style="text-align: center;"><?php echo $d['nama_pegawai']; ?></td>
                       <td style="text-align: center;"><?php echo $d['nama_posisi'] ? $d['nama_posisi'] : '-'; ?></td>
                       <td style="text-align: center;"><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
-                      <td style="text-align: center;">
+                      <td>
                         <?php if ($d['nama_pegawai'] != 1) { ?>
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pegawai_<?php echo $d['id_pegawai'] ?>">
+                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pegawai_<?php echo $d['id_pegawai'] ?> ">
                             <i class="fa fa-pencil"></i>
                           </button>
                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_pegawai_<?php echo $d['id_pegawai'] ?>">

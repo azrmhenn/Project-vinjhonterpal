@@ -95,13 +95,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>Tanggal</th>
-                    <th>Kategori</th>
-                    <th>Produk</th>
-                    <th>Ukuran</th>
-                    <th>Jumlah</th>
-                    <th>Total</th>
-                    <th width="10%">OPSI</th>
+                    <th style="text-align: center;">Tanggal</th>
+                    <th style="text-align: center;">Kategori</th>
+                    <th style="text-align: center;">Produk</th>
+                    <th style="text-align: center;">Ukuran</th>
+                    <th style="text-align: center;">Jumlah</th>
+                    <th style="text-align: center;">Total</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
 
                 </thead>
@@ -117,12 +117,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['tanggal']; ?></td>
-                      <td><?php echo $d['kategori']; ?></td>
-                      <td><?php echo $d['produk']; ?></td>
-                      <td><?php echo $d['ukuran']; ?></td>
-                      <td><?php echo $d['jumlah']; ?></td>
-                      <td><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
+                      <td style="text-align: center;"><?php echo $d['tanggal']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['kategori']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['produk']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['ukuran']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['jumlah']; ?></td>
+                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
                       <td>
                         <?php if ($d['kategori'] != 1) { ?>
                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_log_<?php echo $d['id_log'] ?>">
