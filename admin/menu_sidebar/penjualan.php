@@ -75,7 +75,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                             }
 
                             // Menampilkan pilihan dengan informasi stok
-                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . " " . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] . " (" . $dat['ukuran'] . ")" . " - " . $stok_status . " (" . $dat['stok'] . ")" . "</option>";
+                            echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . ", " . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] . " (" . $dat['ukuran'] . ")" . " - " . $stok_status . " (" . $dat['stok'] . ")" . "</option>";
                           }
                           ?>
                         </select>

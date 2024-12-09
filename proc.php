@@ -2,7 +2,8 @@
 include 'class_db.php';
 include 'config.php';
 $db = new Database();
-session_start(); 
+session_start();
+
 
 // Action kategori produk
 if (isset($_POST['add_KP'])) {
@@ -78,7 +79,6 @@ if (isset($_GET['del_KPG'])) {
 
 // Action user
 if (isset($_POST['gantiPW'])) {
-    session_start();
     $id = $_SESSION['id'];
     $SName = $_SESSION['username'];
     $password = md5($_POST['password']);
@@ -175,7 +175,8 @@ if (isset($_POST['add_pegawai'])) {
     $nama = $_POST['nama'];
     $posisi = $_POST['posisi'];
     $alamat = $_POST['desa_id'];
-    $sql = "CALL pegawai_add('$nama', '$posisi', '$alamat')";
+    $no = $_POST['nohp'];
+    $sql = "CALL pegawai_add('$nama', '$posisi', '$alamat','$no')";
 
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
@@ -189,12 +190,13 @@ if (isset($_POST['edit_pegawai'])) {
     $nama = $_POST['namaP'];
     $posisi = $_POST['posisi'];
     $alamat = $_POST['desa_id'];
+    $no = $_POST['nohp'];
 
     if ($alamat == "") {
-        $db->sqlquery("CALL pegawai_edit_TA('$nama', '$posisi', '$id')");
+        $db->sqlquery("CALL pegawai_edit_TA('$nama', '$posisi','$id', '$no')");
         admin("pegawai.php");
     } else {
-        $db->sqlquery("CALL pegawai_edit_full('$nama', '$posisi', '$alamat','$id')");
+        $db->sqlquery("CALL pegawai_edit_full('$nama', '$posisi', '$alamat','$id','$no')");
         admin("pegawai.php");
     }
 }
@@ -354,15 +356,15 @@ if (isset($_GET['del_bahan'])) {
 }
 
 if (isset($_POST['cek'])) {
-    $jenis = $_POST['produk']?:0;
-    $panjang = $_POST['id_kategori'] ." ".$_POST['bahan_produk']." ";
-    $p = $_POST['panjang'];
-    $l = $_POST['lebar'];
-    $pemasok = $_POST['pemasok'];
-    $stok = $_POST['stok'];
-    $harga = $_POST['harga'];
-    echo $p,$l,$stok;
-    echo $jenis;
+    // $jenis = $_POST['produk']?:0;
+    $panjang = $_POST['idP'];
+    // $p = $_POST['panjang'];
+    // $l = $_POST['lebar'];
+    // $pemasok = $_POST['pemasok'];
+    // $stok = $_POST['stok'];
+    // $harga = $_POST['harga'];
+    // echo $p,$l,$stok;
+    echo $panjang;
     // $hargaBahan = $_POST['harga-bahan'];
 
     // Pastikan nilai yang diterima adalah decimal
@@ -435,14 +437,15 @@ if (isset($_POST['add_produk'])) {
             die('Insert data gagal: ' . $sql_insert);
         }
     }
-
     admin("produk.php");
 }
 
 if (isset($_POST['edit_produk'])) {
     $id = $_POST['id'];
     $jenis = $_POST['jenis2'] ?: 0; // ID kategori
+    $stokP = $_POST['stokP'];
     $bahan = $_POST['bahan'];
+    $hargaP = $_POST['hargaP'];
     $T = ($jenis == '1' || $jenis == '2') ? $_POST['tinggi'] : 0;
     $P = ($jenis == '2' || $jenis == '3') ? $_POST['panjang'] : 0;
     $L = ($jenis == '2' || $jenis == '3') ? $_POST['lebar'] : 0;
@@ -481,10 +484,28 @@ if (isset($_POST['edit_produk'])) {
     }
 
     // Update produk
-    $sql_produk = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$id')";
-    if (!$db->sqlquery($sql_produk)) {
-        die('Update produk gagal: ' . $sql_produk);
+    if (!empty($stok) && empty($L) && empty($P) && empty($T) && empty($D)) {
+        // Update stok saja
+        $sql_produk = "CALL produk_edit_stok('$stokP','$stok', '$id')";
+        if (!$db->sqlquery($sql_produk)) {
+            die('Update stok gagal: ' . $sql_produk);
+        }
+    } elseif (!empty($hargaP)) {
+        // Update harga saja
+        $sql_produk = "CALL produk_edit_harga('$hargaP', '$id')";
+        if (!$db->sqlquery($sql_produk)) {
+            die('Update harga gagal: ' . $sql_produk);
+        }
+    } elseif (!empty($L) || !empty($P) || !empty($T) || !empty($D)) {
+        // Update ukuran, bahan, atau produk lainnya
+        $sql_produk = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$id')";
+        if (!$db->sqlquery($sql_produk)) {
+            die('Update produk gagal: ' . $sql_produk);
+        }
+    } else {
+        die('Tidak ada perubahan yang disimpan.');
     }
+
     // Redirect setelah sukses
     admin("produk.php");
 }
@@ -570,6 +591,8 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['error_message']);
 }
 
+//action pengeluaran
+
 if (isset($_POST['add_penjualan'])) {
     // Ambil data inputan
     $produk = $_POST['produk'];
@@ -593,12 +616,12 @@ if (isset($_POST['add_penjualan'])) {
             $_SESSION['error_message'] = "Stok tidak mencukupi!";
             admin("penjualan.php"); // Redirect ke halaman admin penjualan
             exit();
-        }else if($stok = 0){
+        } else if ($stok = 0) {
             $_SESSION['error_message'] = "Stok Habis!";
-        admin("penjualan.php"); // Redirect ke halaman admin penjualan
-        exit();
+            admin("penjualan.php"); // Redirect ke halaman admin penjualan
+            exit();
         }
-    } else if ($result['stok'] == '0'){
+    } else if ($result['stok'] == '0') {
         $_SESSION['error_message'] = "Stok Habis!";
         admin("penjualan.php"); // Redirect ke halaman admin penjualan
         exit();
@@ -623,16 +646,94 @@ if (isset($_GET['del_log_penjualan'])) {
     $id = $_GET['del_log_penjualan'];
     $jml = $_POST['jml'];
 
-        $insertQuery = "CALL log_penjualan_del('$id')";
+    $insertQuery = "CALL log_penjualan_del('$id')";
 
-        if (!$db->sqlquery($insertQuery)) {
-            die('Insert data gagal: ' . $insertQuery);
-        } else {
-            admin("penjualan.php");
-        }
-
+    if (!$db->sqlquery($insertQuery)) {
+        die('Insert data gagal: ' . $insertQuery);
+    } else {
+        admin("penjualan.php");
+    }
 }
 
+//action pengeluaran
+
+if (isset($_POST['add_pengeluaran'])) {
+    // Ambil data inputan
+    $kategori = $_POST['kategori'];
+    $nominal = $_POST['nominal'];
+
+    $insertQuery = "CALL pengeluaran_add('$kategori', '$nominal')";
+
+    if (!$db->sqlquery($insertQuery)) {
+        admin("pengeluaran.php"); // Redirect kembali ke form penjualan
+        exit();
+    } else {
+        // Jika berhasil, redirect ke halaman admin penjualan
+        admin("pengeluaran.php");
+        exit();
+    }
+}
+
+if (isset($_GET['del_log_pengeluaran'])) {
+    $id = $_GET['del_log_pengeluaran'];
+
+    $insertQuery = "CALL log_pengeluaran_del('$id')";
+
+    if (!$db->sqlquery($insertQuery)) {
+        die('Insert data gagal: ' . $insertQuery);
+    } else {
+        admin("pengeluaran.php");
+    }
+}
+
+// Proses Check-in
+if (isset($_POST['checkin'])) {
+    $id = $_POST['idP'];
+    $id_absensi = $_POST['id_absensi'];
+
+    // Query untuk memasukkan Check-in
+    $sql_checkin = "CALL checkin_pegawai('$id', '$id_absensi')";
+    if ($db->sqlquery($sql_checkin)) {
+        // Jika berhasil, redirect ke halaman absensi
+        pegawai("absensi.php");
+    } else {
+        // Jika gagal, tampilkan pesan error
+        echo "Check-in gagal!";
+    }
+}
+
+// Proses Check-out
+if (isset($_POST['checkout'])) {
+    $id = $_POST['idP'];
+    $id_absensi = $_POST['id_absensi'];
+    $waktu_checkout = date("H:i:s"); // Waktu Check-out menggunakan waktu server
+
+    // Query untuk memasukkan Check-out
+    $sql_checkout = "CALL checkout_pegawai('$id', '$id_absensi', '$waktu_checkout')";
+    if ($db->sqlquery($sql_checkout)) {
+        // Jika berhasil, redirect ke halaman absensi
+        pegawai("absensi.php");
+    } else {
+        // Jika gagal, tampilkan pesan error
+        echo "Check-out gagal!";
+    }
+}
+
+// Proses Add Agenda Absensi
+if (isset($_POST['add_agenda'])) {
+    $agenda = $_POST['agenda']; // Nama agenda yang diinputkan
+    $tanggal = $_POST['tanggal']; // Tanggal untuk agenda absensi
+
+    // Query untuk menambahkan agenda absensi
+    $sql_add_agenda = "CALL add_agenda_absensi('$agenda', '$tanggal')";
+    if ($db->sqlquery($sql_add_agenda)) {
+        // Jika berhasil, redirect ke halaman absensi
+        admin("absensi.php");
+    } else {
+        // Jika gagal, tampilkan pesan error
+        echo "Agenda absensi gagal ditambahkan!";
+    }
+}
 
 
 

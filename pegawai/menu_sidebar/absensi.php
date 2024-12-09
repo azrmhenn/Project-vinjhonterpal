@@ -1,16 +1,26 @@
-<?php include 'C:/laragon/www/MPSI/Project-vinjhonterpal/pegawai/header_sidebar.php';
-      include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php'; ?>
+<?php
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/pegawai/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
+
+$db = new database(); // Inisialisasi objek class database
+$nama = $_SESSION['nama'];
+$sql = "SELECT * FROM tb_pegawai WHERE nama_pegawai = '$nama'";
+$result = $db->sqlquery($sql);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $id = $row['id_pegawai'];
+}
+?>
 
 <div class="content-wrapper">
-
   <section class="content-header">
     <h1>
-      Pegawai
-      <small>Absensi</small>
+      Absensi Pegawai
+      <small>Check-in dan Check-out</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li class="active">Absensi Pegawai</li>
     </ol>
   </section>
 
@@ -18,126 +28,72 @@
     <div class="row">
       <section class="col-lg-10 col-lg-offset-1">
         <div class="box box-info">
-
           <div class="box-header">
             <div class="btn-group pull-right">
-              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-plus"></i> &nbsp Tambah Absensi
-              </button>
             </div>
           </div>
 
           <div class="box-body">
-            <!-- tambah kategori produk -->
-            <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post">
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori Produk</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <label>Nama Kategori</label>
-                        <input type="text" name="namaK" required="required" class="form-control" placeholder="Nama Kategori ..">
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary" name="add_KP">Simpan</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <!-- tambah kategori produk -->
-
-
-            <!-- tabel data -->
+            <!-- Tabel Data Absensi -->
             <div class="table-responsive">
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
-                    <th width="1%" >NO</th>
-                    <th>Nama</th>
-                    <th width="10%">OPSI</th>
+                    <th width="1%">NO</th>
+                    <th>Tanggal</th>
+                    <th>Agenda</th>
+                    <th>Checkin</th>
+                    <th>Checkout</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  // Menggunakan class database untuk koneksi dan query
-                  $db = new database(); // Inisialisasi objek class database
-                  $no = 1;
-                  $query = "CALL kategori_prd();"; // Query menggunakan prosedur
-                  $data = $db->fetchdata($query);
+                  // Ambil data absensi untuk hari ini
+                  $query = "SELECT * FROM tb_absensi WHERE tanggal = CURDATE()";
+                  $data_absensi = $db->fetchdata($query);
 
-                  foreach ($data as $d) {
-                  ?>
+                  $no = 1;
+                  foreach ($data_absensi as $d) {
+                    $id_absensi = $d['id'];
+
+                    // Query untuk memeriksa status absensi pegawai
+                    $query_status = "SELECT * FROM tb_detail_absen WHERE id_absen = '$id_absensi' AND id_pegawai = '$id'";
+                    $statuses = $db->fetchdata($query_status);
+                    
+                    if (!empty($statuses)) {
+                        $status = $statuses[0];
+                        $is_checkin = isset($status['chekin']) && !empty($status['chekin']);
+                        $is_checked_out = isset($status['chekout']) && !empty($status['chekout']);
+                    } else {
+                        $is_checkin = false;
+                        $is_checked_out = false;
+                    }
+                    ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaK']; ?></td>
+                      <td><?php echo $d['tanggal']; ?></td>
+                      <td><?php echo $d['agenda']; ?></td>
                       <td>
-                        <?php if ($d['namaK'] != 1) { ?>
-                          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_kategori_<?php echo $d['id_kategori_produk'] ?>">
-                            <i class="fa fa-pencil"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus_kategori_<?php echo $d['id_kategori_produk'] ?>">
-                            <i class="fa fa-trash"></i>
-                          </button>
-                        <?php } ?>
-                        <!-- form edit kategori produk -->
-                        <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post">
-                          <div class="modal fade" id="edit_kategori_<?php echo $d['id_kategori_produk'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Edit Kategori</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="form-group" style="width:100%">
-                                    <label>Nama Kategori</label>
-                                    <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_kategori_produk']; ?>">
-                                    <input type="text" name="namaK" required="required" class="form-control" value="<?php echo $d['namaK']; ?>" style="width:100%">
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary" name="edit_KP">Simpan</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                        <form method="POST" action="<?php echo BASE_URL_; ?>proc.php">
+                          <input type="hidden" name="id_absensi" value="<?php echo $d['id']; ?>">
+                          <input type="hidden" name="idP" value="<?php echo $id; ?>">
+                          <?php if (!$is_checkin) { ?>
+                            <button type="submit" name="checkin" class="btn btn-warning">Check-In</button>
+                          <?php } else { ?>
+                            <button class="btn btn-success" disabled>Selesai</button>
+                          <?php } ?>
                         </form>
-                        <!-- form edit kategori produk -->
-                          
-                        <!-- form delete kategori produk -->
-                        <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_produk'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Peringatan!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <p>Yakin ingin menghapus data ini ?</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_KP=<?php echo $d['id_kategori_produk'] ?>" class="btn btn-primary">Hapus</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- form delete kategori produk -->
-
+                      </td>
+                      <td>
+                        <form method="POST" action="<?php echo BASE_URL_; ?>proc.php">
+                          <input type="hidden" name="id_absensi" value="<?php echo $d['id']; ?>">
+                          <input type="hidden" name="idP" value="<?php echo $id; ?>">
+                          <?php if (!$is_checked_out) { ?>
+                            <button type="submit" name="checkout" class="btn btn-warning">Check-Out</button>
+                          <?php } else { ?>
+                            <button class="btn btn-success" disabled>Selesai</button>
+                          <?php } ?>
+                        </form>
                       </td>
                     </tr>
                   <?php
@@ -146,12 +102,12 @@
                 </tbody>
               </table>
             </div>
-            <!-- tabel data -->
+            <!-- End Tabel Data Absensi -->
           </div>
         </div>
       </section>
     </div>
   </section>
-
 </div>
-<?php include '../footer.php'; ?>
+
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>

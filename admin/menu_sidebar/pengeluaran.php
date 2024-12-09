@@ -23,14 +23,14 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
           <div class="box-header">
             <div class="btn-group pull-right">
               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahpenjualan">
-                <i class="fa fa-plus"></i> &nbsp Tambah Penjualan
+                <i class="fa fa-plus"></i> &nbsp Tambah Pengeluaran
               </button>
-              <!-- <a href="pemasok.php">
+              <a href="kategori_pengeluaran.php">
                 <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
-                  &nbsp Pemasok
+                  &nbsp Kategori
                 </button>
               </a>
-              <a href="jenis_bahan.php">
+              <!-- <a href="jenis_bahan.php">
                 <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
                   &nbsp Jenis Bahan
                 </button>
@@ -52,7 +52,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Penjualan</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Tambah Pengeluaran</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -60,27 +60,28 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Produk</label>
-                        <select class="form-control" name="produk" required="required">
-                          <option value="">Pilih Produk</option>
+                        <select class="form-control" name="kategori" required="required">
+                          <option value="">Pilih Kategori Pengeluaran</option>
                           <?php
-                          $sql = "call view_produk()";
+                          $sql = "call kategori_png()";
                           $data = $db->fetchdata($sql);
                           foreach ($data as $dat) {
-                            echo "<option value='" . $dat['id_produk'] . "'>" . $dat['id_produk'] . " " . $dat['nama_merk'] . "</option>";
+                            echo "<option value='" . $dat['id_kategori_pengeluaran'] . "'>" . $dat['namaK'] . " " . $dat['keterangan'] . "</option>";
                           }
                           ?>
                         </select>
                       </div>
                       <div class="form-group">
-                        <label>Jumlah</label>
+                        <label>nominal</label>
                         <div style="display: flex; align-items: center; gap: 5px;">
-                          <input type="number" name="jml" required="required" class="form-control" placeholder="  L" style="width:15%">
+                          <input type="number" name="nominal" required="required" class="form-control" style="width:35%">
                         </div>
                       </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary" name="add_penjualan">Simpan</button>
+                      <button type="submit" class="btn btn-primary" name="add_pengeluaran">Simpan</button>
+                      <!-- <button type="submit" class="btn btn-primary" name="cek">Simpan</button> -->
                     </div>
                   </div>
                 </div>
@@ -97,9 +98,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <th width="1%">NO</th>
                     <th style="text-align: center;">Tanggal</th>
                     <th style="text-align: center;">Kategori</th>
-                    <th style="text-align: center;">Produk</th>
-                    <th style="text-align: center;">Ukuran</th>
-                    <th style="text-align: center;">Jumlah</th>
+                    <th style="text-align: center;">Keterangan</th>
                     <th style="text-align: center;">Total</th>
                     <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
@@ -110,7 +109,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   // Menggunakan class database untuk koneksi dan query
                   $db = new database(); // Inisialisasi objek class database
                   $no = 1;
-                  $query = "call log_penjualan()"; // Query menggunakan prosedur
+                  $query = "call log_pengeluaran()"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
                   foreach ($data as $d) {
@@ -119,9 +118,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <td><?php echo $no++; ?></td>
                       <td style="text-align: center;"><?php echo $d['tanggal']; ?></td>
                       <td style="text-align: center;"><?php echo $d['kategori']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['produk']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['ukuran']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['jumlah']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['keterangan']; ?></td>
                       <td style="text-align: right;"><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
                       <td>
                         <?php if ($d['kategori'] != 1) { ?>
@@ -144,7 +141,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_; ?>proc.php?del_log_penjualan=<?php echo $d['id_log'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_; ?>proc.php?del_log_pengeluaran=<?php echo $d['id_log'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>

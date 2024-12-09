@@ -84,9 +84,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>Nama</th>
-                    <th>Merk</th>
-                    <th width="10%">OPSI</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Merk</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,8 +101,8 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaJ']; ?></td>
-                      <td><?php echo $d['nama_merk']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaJ']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['nama_merk']; ?></td>
                       <td>
                         <?php if ($d['namaJ'] && $d['nama_merk'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_jenis_<?php echo $d['id'] ?>">

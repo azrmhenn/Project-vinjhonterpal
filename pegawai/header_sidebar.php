@@ -7,7 +7,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pegawai - Sistem Informasi Keuangan</title>
+  <title>Administrator - Sistem Informasi Keuangan</title>
 
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -32,7 +32,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   $db = new database();
   session_start();
   $id = $_SESSION['id'];
-  if ($_SESSION['status'] != "pegawai_logedin") {
+  if ($_SESSION['status'] != "administrator_logedin") {
     header("redirect:index.php?alert=belum_login");
   }
   ?>
@@ -53,7 +53,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   <div class="wrapper">
     <!-- header -->
     <header class="main-header">
-      <a href="<?php echo BASE_URL_; ?> pegawai/index.php" class="logo">
+      <a href="<?php echo BASE_URL_PGW; ?>index.php" class="logo">
         <span class="logo-lg"><b><img src="<?php echo BASE_URL_IMG_SYS; ?>LOGO UMKM.png" style="width: 30px;height: auto"> Vin Jhon Terpal</b></span>
       </a>
       <nav class="navbar navbar-static-top">
@@ -76,19 +76,29 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
 
                 if ($result->num_rows > 0) {
                   $profil = $result->fetch_assoc();
-
-                  // Construct the image URL based on the profile picture filename
-                  $profile_picture_url = BASE_URL_IMG_USR . $profil['foto'];
-                ?>
-                  <img src="<?php echo $profile_picture_url; ?>" class="user-image">
-                <?php } else { ?>
-                  <img src="<?php echo BASE_URL_IMG_SYS; ?>user.png" class="user-image">
-                <?php } ?>
+              
+                  if (!empty($profil['foto'])) {
+                      // Jika foto ada, gunakan URL foto
+                      $profile_picture_url = BASE_URL_IMG_USR . $profil['foto'];
+                  } else {
+                      // Jika foto NULL atau kosong, gunakan gambar default
+                      $profile_picture_url = BASE_URL_IMG_SYS . "user.png";
+                  }
+              ?>
+                  <img src="<?php echo $profile_picture_url; ?>" class="img-circle" style="max-height:20px">
+              <?php
+              } else {
+                  // Jika tidak ada data user sama sekali
+              ?>
+                  <img src="<?php echo BASE_URL_IMG_SYS; ?>user.png" class="img-circle" style="max-height:45px">
+              <?php
+              }
+              ?>
                 <span class="hidden-xs"><?php echo $_SESSION['nama']; ?> - <?php echo $_SESSION['level']; ?></span>
               </a>
             </li>
             <li>
-              <a href="<?php echo BASE_URL_; ?>pegawai/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
+              <a href="<?php echo BASE_URL_; ?>admin/logout.php" onclick="return confirm('Apakah Anda yakin untuk logout?')">
                 <i class="fa fa-sign-out"></i> LOGOUT
               </a>
             </li>
@@ -117,13 +127,23 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
             if ($result->num_rows > 0) {
               $profil = $result->fetch_assoc();
 
-              // Construct the image URL based on the profile picture filename
-              $profile_picture_url = BASE_URL_ . "gambar/user/" . $profil['foto'];
+              if (!empty($profil['foto'])) {
+                // Jika foto ada, gunakan URL foto
+                $profile_picture_url = BASE_URL_IMG_USR . $profil['foto'];
+              } else {
+                // Jika foto NULL atau kosong, gunakan gambar default
+                $profile_picture_url = BASE_URL_IMG_SYS . "user.png";
+              }
             ?>
               <img src="<?php echo $profile_picture_url; ?>" class="img-circle" style="max-height:45px">
-            <?php } else { ?>
-              <img src="<?php echo BASE_URL_; ?>gambar/sistem/user.png" class="img-circle" style="max-height:45px">
-            <?php } ?>
+            <?php
+            } else {
+              // Jika tidak ada data user sama sekali
+            ?>
+              <img src="<?php echo BASE_URL_IMG_SYS; ?>LOGO UMKM.png" class="img-circle" style="max-height:45px">
+            <?php
+            }
+            ?>
           </div>
           <div class="pull-left info">
             <p><?php echo $_SESSION['nama']; ?></p>
@@ -138,27 +158,26 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
 
           <li>
             <a href="<?php echo BASE_URL_PGW; ?>index.php">
-              <i class="fa fa-dashboard"></i> <span>DASHBOARD</span>
+              <i class="fa fa-tachometer"></i> <span>DASHBOARD</span>
             </a>
           </li>
-
           <li>
-            <a href="<?php echo BASE_URL_PGW; ?>profil.php">
-              <i class="fa fa-folder"></i> <span>PROFIL</span>
+            <a href="<?php echo BASE_URL_PGW_MENU; ?>profile.php">
+              <i class="fa fa-user"></i> <span>PROFILE</span>
             </a>
           </li>
-
           <li>
-            <a href="<?php echo BASE_URL_; ?>absensi.php">
-              <i class="fa fa-folder"></i> <span>ABSENSI</span>
+            <a href="<?php echo BASE_URL_PGW_MENU; ?>absensi.php">
+              <i class="fa fa-calendar-check-o"></i> <span>ABSENSI</span>
             </a>
           </li>
-
           <li>
-            <a href="<?php echo BASE_URL_PGW_MENU;; ?>gantipassword.php">
+            <a href="<?php echo BASE_URL_PGW_MENU; ?>gantipassword.php">
               <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
             </a>
           </li>
+
+
         </ul>
         <!-- sidebar menu -->
 

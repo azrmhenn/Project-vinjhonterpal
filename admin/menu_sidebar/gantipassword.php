@@ -8,8 +8,8 @@
       <small>Ganti Password</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo BASE_URL_ADM; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><a href="">Ganti Password</a></li>
     </ol>
   </section>
 

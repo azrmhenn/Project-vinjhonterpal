@@ -119,7 +119,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           <?php } ?>
                         </center>
                       </td>
-                      <td style="text-align: center;">
+                      <td>
                         <?php if ($d['nama'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pengguna_<?php echo $d['id_user'] ?>">
                             <i class="fa fa-pencil"></i>

@@ -1,4 +1,6 @@
-<?php include '../header_sidebar.php'; ?>
+<?php
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/pegawai/header_sidebar.php';
+require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';?>
 
 <div class="content-wrapper">
 
@@ -8,8 +10,8 @@
       <small>Ganti Password</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo BASE_URL_ADM; ?>index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><a href="">Ganti Password</a></li>
     </ol>
   </section>
 
@@ -48,4 +50,4 @@
   </section>
 
 </div>
-<?php include '../footer.php'; ?>
+<?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>

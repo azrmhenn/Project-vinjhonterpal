@@ -146,7 +146,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Edit Pemasok</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Edit Produk</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
@@ -187,11 +187,16 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                     <!-- Input tambahan akan dimuat di sini -->
                                   </div>
                                   <div class="form-group">
+                                    <label>Harga</label><br>
+                                    <input type="number" name="hargaP" class="form-control" placeholder="Harga..." style="width:70%" value="<?php echo $d['harga']; ?>">
+                                  </div><br><br>
+                                  <div class="form-group">
                                     <label>Stok</label><br>
                                     <input type="number" name="stok" class="form-control" placeholder="Stok..." style="width:70%">
                                   </div><br><br>
                                 </div><br><br>
                                 <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_produk']; ?>">
+                                <input type="hidden" name="stokP" required="required" class="form-control" value="<?php echo $d['stok']; ?>">
                                 <input type="hidden" name="bahan_produk" required="required" class="form-control" value="<?php echo $d['bahan_produk']; ?>">
                                 <input type="hidden" name="id_kategori" required="required" class="form-control" value="<?php echo $d['id_kategori_produk']; ?>">
                                 <div class="modal-footer">

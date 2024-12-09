@@ -76,7 +76,7 @@
                   // Menggunakan class database untuk koneksi dan query
                   $db = new database(); // Inisialisasi objek class database
                   $no = 1;
-                  $query = "CALL kategori_png();"; // Query menggunakan prosedur
+                  $query = "CALL kategori_png_umum();"; // Query menggunakan prosedur
                   $data = $db->fetchdata($query);
 
                   foreach ($data as $d) {

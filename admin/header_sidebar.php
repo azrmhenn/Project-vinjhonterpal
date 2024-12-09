@@ -23,6 +23,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="<?php echo BASE_URL_PLUGIN; ?>bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@6.0.0/dist/css/ionicons.min.css">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link rel="stylesheet" href="<?php echo BASE_URL_; ?>assets/style.css">
@@ -144,50 +145,63 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>produk.php">
-              <i class="fa fa-folder"></i> <span>PRODUK</span>
+              <i class="fa fa-cube"></i> <span>PRODUK</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">
-              <i class="fa fa-folder"></i> <span>BAHAN</span>
+              <i class="fa fa-archive"></i> <span>BAHAN</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>pegawai.php">
-              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
+              <i class="fa fa-users"></i> <span>PEGAWAI</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>absensi.php">
-              <i class="fa fa-folder"></i> <span>ABSENSI</span>
+              <i class="fa fa-calendar-check-o"></i> <span>ABSENSI</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>penjualan.php">
-              <i class="fa fa-folder"></i> <span>PENJUALAN</span>
+              <i class="fa fa-shopping-cart"></i> <span>PENJUALAN</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>pengeluaran.php">
-              <i class="fa fa-folder"></i> <span>PENGELUARAN</span>
+              <i class="fa fa-money"></i> <span>PENGELUARAN</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>user.php">
-              <i class="fa fa-folder"></i> <span>PENGGUNA</span>
+              <i class="fa fa-users"></i> <span>PENGGUNA</span>
             </a>
           </li>
 
           <li>
             <a href="<?php echo BASE_URL_ADM_MENU; ?>penggajian.php">
-              <i class="fa fa-folder"></i> <span>PENGGAJIAN</span>
+              <i class="fa fa-dollar"></i> <span>PENGGAJIAN</span>
             </a>
+          </li>
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-file"></i> <span>Laporan</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>laporan_penjualan.php"><i class="fa fa-file-pdf-o"></i> Laporan Penjualan</a></li>
+              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>laporan_pengeluaran.php"><i class="fa fa-file-pdf-o"></i> Laporan Pengeluaran</a></li>
+            </ul>
           </li>
 
           <li>
@@ -195,67 +209,6 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
               <i class="fa fa-lock"></i> <span>GANTI PASSWORD</span>
             </a>
           </li>
-
-          <!-- <li class="treeview">
-            <a href="#">
-              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>kategori_produk.php"><i class="fa fa-circle-o"></i> Data Kategori Produk</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>kategori_pengeluaran.php"><i class="fa fa-circle-o"></i> Data Kategori Pengeluaran</a></li>
-            </ul>
-          </li> -->
-
-          <!-- <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>bahan.php">
-              <i class="fa fa-folder"></i> <span>BAHAN</span>
-            </a>
-          </li>
-
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-folder"></i> <span>PEGAWAI</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>pegawai.php"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>absensi.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU; ?>posisi.php"><i class="fa fa-circle-o"></i> Data Posisi</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU; ?>pemasok.php">
-              <i class="fa fa-folder"></i> <span>PEMASOK</span>
-            </a>
-          </li>
-
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-file"></i> <span>LAPORAN</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu" style="display: none;">
-              <li><a href="<?php echo BASE_URL_ADM_MENU;; ?>kategori_produk.php.php"><i class="fa fa-circle-o"></i> Keluar</a></li>
-              <li><a href="<?php echo BASE_URL_ADM_MENU;; ?>kategori_produk.php.php"><i class="fa fa-circle-o"></i> Masuk</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="<?php echo BASE_URL_ADM_MENU;; ?>user.php">
-              <i class="fa fa-users"></i> <span>DATA PENGGUNA</span>
-            </a>
-          </li> -->
-
-          
-
         </ul>
         <!-- sidebar menu -->
 
