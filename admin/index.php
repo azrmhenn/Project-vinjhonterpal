@@ -147,35 +147,6 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
           <a href="menu_sidebar/penjualan.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
-      <div class="col-sm-2 col-xs-2">
-        <div class="small-box bg-green">
-          <div class="inner" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-            <?php
-            // Mendapatkan tanggal hari ini
-            $hari_ini = date('Y-m-d');  // Format YYYY-MM-DD
-
-            // Query untuk menghitung jumlah pegawai yang sudah check-in hari ini
-            $sql = "SELECT COUNT(*) AS jumlah_checkin FROM tb_detail_absen WHERE DATE(chekin) = '$hari_ini'";
-
-            // Eksekusi query
-            $result = $db->sqlquery($sql);
-
-            // Cek apakah ada hasil yang ditemukan
-            if ($result->num_rows > 0) {
-              $row = $result->fetch_assoc();
-              $jumlah_checkin = $row['jumlah_checkin'] ?: 0; // Jika tidak ada data, set nilai 0
-            }
-            ?>
-            <h1 style="font-weight: bolder; text-align: center;"><?php echo $jumlah_checkin; ?></h1>
-            <p style="text-align: center;">Pegawai Check-in Hari Ini</p>
-          </div>
-          <div class="icon">
-            <!-- <i class="ion ion-stats-bars"></i> -->
-          </div>
-          <a href="menu_sidebar/absensi.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-
     </div>
     <div class="row">
       <div class="col-sm-2 col-xs-2">

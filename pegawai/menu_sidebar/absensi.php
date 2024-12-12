@@ -15,7 +15,7 @@ if ($result->num_rows > 0) {
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Absensi Pegawai
+      Absensi Pegawai<?php echo $nama; ?>
       <small>Check-in dan Check-out</small>
     </h1>
     <ol class="breadcrumb">

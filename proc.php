@@ -78,9 +78,9 @@ if (isset($_GET['del_KPG'])) {
 }
 
 // Action user
-if (isset($_POST['gantiPW'])) {
+if (isset($_POST['gantipass'])) {
     $id = $_SESSION['id'];
-    $SName = $_SESSION['username'];
+    $SName = $_SESSION['level'];
     $password = md5($_POST['password']);
     $sql = "CALL PW_edit('$password', '$id')";
 
@@ -236,7 +236,7 @@ if (isset($_POST['edit_posisi'])) {
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
     } else {
-        owner("posisi.php");
+        admin("posisi.php");
     }
 }
 
@@ -247,7 +247,7 @@ if (isset($_GET['del_posisi'])) {
     if (!$db->sqlquery($sql)) {
         die('Delete data gagal: ' . $sql);
     } else {
-        owner("posisi.php");
+        admin("posisi.php");
     }
 }
 

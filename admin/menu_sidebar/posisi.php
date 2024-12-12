@@ -30,7 +30,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';?>
 
           <div class="box-body">
             <!-- tambah kategori posisi -->
-            <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post">
+            <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -102,7 +102,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';?>
                           </button>
                         <?php } ?>
                         <!-- form edit posisi -->
-                        <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post">
+                        <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
                           <div class="modal fade" id="edit_posisi_<?php echo $d['id_posisi'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -152,9 +152,11 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';?>
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_ADM; ?>proc.php?del_posisi=<?php echo $d['id_posisi'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_; ?>proc.php?del_posisi=<?php echo $d['id_posisi'] ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
+                          </div><div>
+                            
                           </div>
                         </div>
                         <!-- form delete posisi -->

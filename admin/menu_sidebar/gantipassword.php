@@ -37,7 +37,7 @@
                 <input type="password" class="form-control" placeholder="Masukkan Password Baru .." name="password" required="required" min="5">
               </div>
               <div class="form-group">
-                <input type="submit" name="gantiPW" class="btn btn-sm btn-primary" value="Simpan">
+                <input type="submit" name="gantipass" class="btn btn-sm btn-primary" value="Simpan">
               </div>
             </form>
           </div>

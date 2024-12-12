@@ -6,8 +6,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
   <section class="content-header">
     <h1>
-      Kategori
-      <small>Pengeluaran</small>
+      Pengguna
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -30,7 +29,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
           <div class="box-body">
             <!-- tambah pengguna -->
-            <form action="<?php echo BASE_URL_ADM; ?>proc.php" method="post" enctype="multipart/form-data">
+            <form action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -47,7 +46,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       </div>
                       <div class="form-group">
                         <label>username</label>
-                        <input type="text" name="user" required="required" class="form-control" placeholder="Keterangan ..">
+                        <input type="text" name="user" required="required" class="form-control" placeholder="Username ..">
                       </div>
                       <div class="form-group">
                         <label>Password</label>

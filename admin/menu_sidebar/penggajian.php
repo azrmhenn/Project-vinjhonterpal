@@ -158,7 +158,7 @@ if (isset($_POST['filter'])) {
                           <!-- form edit gaji -->
 
                           <!-- form delete kategori pengeluaran -->
-                          <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal fade" id="hapus_penggajian_<?php echo $d['id_pengambilan'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -172,7 +172,7 @@ if (isset($_POST['filter'])) {
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <a href="<?php echo BASE_URL_; ?>proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
+                                  <a href="<?php echo BASE_URL_; ?>proc.php?del_KPG=<?php echo $d['id_pengambilan'] ?>" class="btn btn-primary">Hapus</a>
                                 </div>
                               </div>
                             </div>
