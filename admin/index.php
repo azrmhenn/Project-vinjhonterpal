@@ -16,8 +16,6 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
   </section>
 
   <section class="content">
-
-
     <?php
     // Mengambil data untuk setiap box dashboard
     $bahan = $db->getQueryResult($db, "CALL total_bahan()", 'total_bahan');
@@ -39,43 +37,34 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
     // Menampilkan box untuk data bahan
     $db->createDashboardBox('green', 'ion ion-md-cart', 'Bahan', $bahan, 'menu_sidebar/bahan.php');
-
     // Menampilkan box untuk data produk
     $db->createDashboardBox('yellow', 'fa fa-box', 'Produk', $produk, 'menu_sidebar/produk.php');
-
     // Menampilkan box untuk data pegawai
     $db->createDashboardBox('red', 'fa fa-tags', 'Pegawai', $pegawai, 'menu_sidebar/pegawai.php');
-
     // Menampilkan box untuk data pengguna
     $db->createDashboardBox('gray', 'fa fa-users', 'Pengguna', $pengguna, 'menu_sidebar/pengguna.php');
-
     // Menampilkan box untuk data terjual
     $db->createDashboardBox('purple', 'fa fa-bag', 'Produk Terjual', $produk_terjual, 'menu_sidebar/penjualan.php');
 
     echo "</div>";
     echo "<div class='row'>";
 
-    // Menampilkan box untuk data pemasukkan harian
+    // Menampilkan box untuk data pemasukkan harian, bulanan, tahunan
     $db->createDashboardBoxMoney('blue', 'fa fa-bag', 'Pemasukan hari ini', $pemasukan_hari, 'menu_sidebar/penjualan.php');
-    // Menampilkan box untuk data pemasukkan bulanan
     $db->createDashboardBoxMoney('blue', 'fa fa-bag', 'Pemasukan Bulan ini', $pemasukan_bulanan, 'menu_sidebar/penjualan.php');
-    // Menampilkan box untuk data pemasukkan bulanan
     $db->createDashboardBoxMoney('blue', 'fa fa-bag', 'Pemasukan Tahun ini', $pemasukan_tahunan, 'menu_sidebar/penjualan.php');
 
     echo "</div>";
 
     echo "<div class='row'>";
-    // Menampilkan box untuk data pengeluaran harian
+    // Menampilkan box untuk data pengeluaran harian, bulanan, tahunan
     $db->createDashboardBoxMoney('blue', 'fa fa-bag', 'Pengeluaran hari ini', $pengeluaran_hari, 'menu_sidebar/penjualan.php');
-    // Menampilkan box untuk data pengeluaran bulanan
     $db->createDashboardBoxMoney('blue', 'fa fa-bag', 'Pengeluaran Bulan ini', $pengeluaran_bulanan, 'menu_sidebar/penjualan.php');
-    // Menampilkan box untuk data pengeluaran bulanan
     $db->createDashboardBoxMoney('blue', 'fa fa-bag', 'Pengeluaran Tahun ini', $pengeluaran_tahunan, 'menu_sidebar/penjualan.php');
     echo "</div>";
     ?>
-</section>
+  </section>
 </div>
-
 <?php
 require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php';
 ?>
