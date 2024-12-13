@@ -56,4 +56,45 @@ class database
             }
         return $res;
     }
+    function getQueryResult($db, $sql, $field)
+    {
+        $result = $db->sqlquery($sql);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row[$field] ?: 0;
+        }
+        return 0;
+    }
+    function createDashboardBox($color, $icon, $label, $data, $link)
+    {
+        echo "
+        <div class='col-sm-2 col-xs-2'>
+          <div class='small-box bg-$color'>
+            <div class='inner' style='display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;'>
+              <h1 style='font-weight: bolder; text-align: center;'>$data</h1>
+              <p style='text-align: center;'>$label</p>
+            </div>
+            <div class='icon'>
+              <i class='$icon'></i>
+            </div>
+            <a href='$link' class='small-box-footer'>More info <i class='fa fa-arrow-circle-right'></i></a>
+          </div>
+        </div>";
+    }
+    function createDashboardBoxMoney($color, $icon, $label, $data, $link)
+    {
+        echo "
+        <div class='col-sm-2 col-xs-2'>
+          <div class='small-box bg-$color'>
+            <div class='inner' style='display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;'>
+              <h1 style='font-weight: bolder; text-align: center;'>Rp. " . number_format($data, 0, ',', '.') . "</h1>
+              <p style='text-align: center;'>$label</p>
+            </div>
+            <div class='icon'>
+              <i class='$icon'></i>
+            </div>
+            <a href='$link' class='small-box-footer'>More info <i class='fa fa-arrow-circle-right'></i></a>
+          </div>
+        </div>";
+    }
 }
