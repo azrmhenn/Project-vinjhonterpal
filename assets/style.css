@@ -1,9 +1,15 @@
 .bg_login {
-    background-image: url('../gambar/bg_login.png');
-    background-repeat: no-repeat;
+    
+    background-image: url('../gambar/bg_login.png') no-repeat;
     background-size: cover; /* Ensures the image covers the entire container */
     background-position: center; /* Centers the image */
-    background-attachment: fixed; /* Optional: keeps the background fixed while scrolling */
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .login-box-body {
