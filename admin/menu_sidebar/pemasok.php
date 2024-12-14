@@ -75,6 +75,10 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           <select name="desa_id" id="desa_id" class="form-control" required="required">
                             <option value="">Pilih Desa</option>
                           </select><br>
+                          <div class="form-group">
+                            <label>Telephone</label>
+                            <input type="number" name="telp" required="required" class="form-control" placeholder="No telp ..">
+                          </div>
                         </form>
                       </div>
                     </div>
@@ -97,6 +101,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <th width="1%">NO</th>
                     <th style="text-align: center;">Nama</th>
                     <th style="text-align: center;">Alamat</th>
+                    <th style="text-align: center;">Telephone</th>
                     <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
                 </thead>
@@ -113,8 +118,9 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <tr>
                       <td style="text-align: center;"><?php echo $no++; ?></td>
                       <td style="text-align: center;"><?php echo $d['nama']; ?></td>
-                      <td style="text-align: center;"><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
-                      <td style="text-align: center;">
+                      <td style="text-align: left;"><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['no_hp']; ?></td>
+                      <td>
                         <?php if ($d['nama'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_pemasok_<?php echo $d['id_pemasok'] ?>">
                             <i class="fa fa-pencil"></i>
@@ -168,6 +174,10 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                       <select name="desa_id" id="desa_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Desa</option>
                                       </select><br><br>
+                                      <div class="form-group" style="width:100%">
+                                        <label>Telephone</label>
+                                        <input type="number" name="telp" required="required" class="form-control" value="<?php echo $d['no_hp']; ?>" style="width:100%">
+                                      </div><br><br>
                                     </form>
                                   </div>
                                 </div>

@@ -255,7 +255,8 @@ if (isset($_GET['del_posisi'])) {
 if (isset($_POST['add_pemasok'])) {
     $nama = $_POST['nama'];
     $alamat = $_POST['desa_id'];
-    $sql = "CALL pemasok_add('$nama', '$alamat')";
+    $telp = $_POST['telp'];
+    $sql = "CALL pemasok_add('$nama', '$alamat', '$telp')";
 
     if (!$db->sqlquery($sql)) {
         die('Insert data gagal: ' . $sql);
@@ -267,13 +268,14 @@ if (isset($_POST['add_pemasok'])) {
 if (isset($_POST['edit_pemasok'])) {
     $id  = $_POST['idP'];
     $nama = $_POST['namaP'];
+    $telp = $_POST['telp'];
     $alamat = $_POST['desa_id'];
 
     if ($alamat == "") {
-        $db->sqlquery("CALL pemasok_edit_TA('$nama', '$id')");
+        $db->sqlquery("CALL pemasok_edit_TA('$nama', '$id', '$telp')");
         admin("pemasok.php");
     } else {
-        $db->sqlquery("CALL pemasok_edit_full('$nama', '$alamat','$id')");
+        $db->sqlquery("CALL pemasok_edit_full('$nama', '$alamat','$id', '$telp')");
         admin("pemasok.php");
     }
 }
