@@ -37,6 +37,19 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
 
           <div class="box-body">
+            <!-- Menampilkan pesan error -->
+            <?php
+            if (isset($_SESSION['error_message'])) {
+              echo "<div id='errorMessage' class='alert alert-danger'>" . $_SESSION['error_message'] . "</div>";
+              unset($_SESSION['error_message']); // Hapus pesan setelah ditampilkan
+            }
+
+            if (isset($_SESSION['success_message'])) {
+              echo "<div id='successMessage' class='alert alert-success'>" . $_SESSION['success_message'] . "</div>";
+              unset($_SESSION['success_message']); // Hapus pesan setelah ditampilkan
+            }
+            ?>
+
             <!-- tambah produk -->
             <form id="form-kolam-1" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahbahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,8 +83,13 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                           $sql = "call bahan_only()";
                           $data = $db->fetchdata($sql);
                           foreach ($data as $dat) {
+                            if ($dat['luas_total'] > 0) {
+                              $status = "Ready"; // Stok tersedia
+                            } else {
+                              $status = "Habis"; // Stok habis
+                            }
                             $Harga = $dat['harga'];
-                            echo "<option value='" . $dat['id_bahan'] . "' data-harga='" . $Harga . "''>" . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] .  "</option>";
+                            echo "<option value='" . $dat['id_bahan'] . "' data-harga='" . $Harga . "''>" . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] . " - " . $status . " (" . round($dat['luas_total'], 2) . "m²" . ")" .  "</option>";
                           }
                           ?>
                         </select>
@@ -106,12 +124,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                 <thead>
                   <tr>
                     <th width="1%">NO</th>
-                    <th>Kategori</th>
-                    <th>Bahan</th>
-                    <th>Ukuran</th>
-                    <th>Harga Satuan</th>
-                    <th>Stok</th>
-                    <th width="10%">OPSI</th>
+                    <th style="text-align: center;">Kategori</th>
+                    <th style="text-align: center;">Bahan</th>
+                    <th style="text-align: center;">Ukuran</th>
+                    <th style="text-align: center;">Harga Satuan</th>
+                    <th style="text-align: center;">Stok</th>
+                    <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -125,12 +143,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   foreach ($data as $d) {
                   ?>
                     <tr>
-                      <td><?php echo $no++; ?></td>
-                      <td><?php echo $d['namaK']; ?></td>
-                      <td><?php echo $d['namaJ'] . " " . $d['nama_merk'] . " " . $d['namaW']; ?></td>
-                      <td><?php echo $d['ukuran']; ?></td>
-                      <td><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
-                      <td><?php echo $d['stok']?></td>
+                      <td style="text-align: center;"><?php echo $no++; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaK']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaJ'] . " " . $d['nama_merk'] . " " . $d['namaW']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['ukuran']; ?></td>
+                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
+                      <td style="text-align: center;"><?php echo $d['stok'] ?></td>
                       <td>
                         <?php if ($d['namaK'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_produk_<?php echo $d['id_produk'] ?>">
@@ -247,5 +265,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
     </div>
   </section>
 </div>
+<script type="text/javascript">
 
+</script>
 <?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/footer.php'; ?>

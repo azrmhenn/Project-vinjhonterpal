@@ -33,11 +33,22 @@
   <script src="<?php echo BASE_URL_DIST; ?>js/demo.js"></script>
   <script src="<?php echo BASE_URL_DIST; ?>js/ckeditor.js"></script>
   <script src="<?php echo BASE_URL_DIST; ?>js/chart.js/Chart.min.js"></script>
-  
 
 
   <!-- AJAX -->
   <script type="text/javascript">
+    window.onload = function() {
+      setTimeout(function() {
+        var errorMessage = document.getElementById('errorMessage');
+        var successMessage = document.getElementById('successMessage');
+        if (errorMessage) {
+          errorMessage.style.display = 'none'; // Sembunyikan pesan error
+        }
+        if (successMessage) {
+          successMessage.style.display = 'none'; // Sembunyikan pesan success
+        }
+      }, 7000); // 7000ms = 7 detik
+    };
     // Mengambil nilai luas ketika opsi dipilih
     $('#form-kolam-1 #bahan').change(function() {
       // Ambil atribut data-luas dari option yang dipilih
@@ -144,7 +155,7 @@
         });
       });
 
-      
+
 
 
       $('#form-kolam-1 #jenis-kolam').change(function() {
@@ -216,7 +227,6 @@
 
   <!-- Cuma script biasa -->
   <script>
-    
     document.getElementById('form_alamat_1').addEventListener('submit', function(event) {
       var jumlah = document.querySelector('[name="jml"]').value;
       var stok = <?php echo $stok; ?>; // Ambil nilai stok dari PHP
