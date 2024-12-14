@@ -24,7 +24,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   <link rel="stylesheet" href="<?php echo BASE_URL_BOWER_COMPONENT; ?>bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="<?php echo BASE_URL_PLUGIN; ?>bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@6.0.0/dist/css/ionicons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link rel="stylesheet" href="<?php echo BASE_URL_; ?>assets/style.css">
 

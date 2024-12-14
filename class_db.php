@@ -84,7 +84,7 @@ class database
     function createDashboardBoxMoney($color, $icon, $label, $data, $link)
     {
         echo "
-        <div class='col-sm-2 col-xs-2'>
+        <div class='col-sm-3 col-xs-2'>
           <div class='small-box bg-$color'>
             <div class='inner' style='display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;'>
               <h1 style='font-weight: bolder; text-align: center;'>Rp. " . number_format($data, 0, ',', '.') . "</h1>

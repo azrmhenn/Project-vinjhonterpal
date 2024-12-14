@@ -1,159 +1,275 @@
+/* General body styling */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Background of the login page */
 .bg_login {
-    
-    background-image: url('../gambar/bg_login.png') no-repeat;
-    background-size: cover; /* Ensures the image covers the entire container */
-    background-position: center; /* Centers the image */
+    background-image: url('../gambar/bg_login.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
+/* Login box styling */
 .login-box-body {
-    background-color: #4e9aec; /* Blue background color */
-    padding: 20px; /* Increased padding for more space inside the box */
-    border-radius: 20px; /* Increased rounding for the box */
+    background-color: #4e9aec;
+    padding: 20px;
+    border-radius: 20px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff; /* White text color */
-    width: 100%; /* Ensure full width within the container */
-    max-width: 500px; /* Max width for the box */
-    box-sizing: border-box; /* Include padding in the element's width/height calculation */
-    min-height: 400px; /* Set a minimum height to make the box taller */
-}
-
-.login-box-body h2 {
     color: #fff;
-    .login-box-body {
-    background-color: #4e9aec; /* Blue background color */
-    padding: 40px; /* Increased padding for more space inside the box */
-    border-radius: 20px; /* Increased rounding for the box */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff; /* White text color */
-    width: 100%; /* Ensure full width within the container */
-    max-width: 500px; /* Max width for the box */
-    box-sizing: border-box; /* Include padding in the element's width/height calculation */
-    min-height: 400px; /* Set a minimum height to make the box taller */
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    min-height: 400px;
+    margin: 0 auto; /* Centering the login box */
 }
 
+/* Heading in the login box */
 .login-box-body h2 {
     color: #fff;
     margin-top: 10px;
-    font-size: 24px; /* Increased font size for the heading */
+    font-size: 24px;
 }
 
+/* Form control input */
 .login-box-body .form-control {
-    background-color: #e3f2fd; /* Light blue for input fields */
+    background-color: #e3f2fd;
     border: 1px solid #007bff;
     color: #000;
-    border-radius: 15px; /* Rounded input fields */
-    padding: 15px 20px; /* Larger padding for more spacious look */
-    font-size: 16px; /* Increased font size for better readability */
+    border-radius: 15px;
+    padding: 15px 20px;
+    font-size: 16px;
+    width: 100%; /* Ensure inputs fill available space */
 }
 
+/* Button styling */
 .login-box-body .btn-primary {
-    background-color: #0056b3; /* Darker blue for the button */
+    background-color: #0056b3;
     border-color: #0056b3;
-    border-radius: 20px; /* Rounded button */
-    padding: 15px 0; /* Increased padding for the button */
-    font-size: 16px; /* Increased font size for the button */
+    border-radius: 20px;
+    padding: 15px 0;
+    font-size: 16px;
+    width: 100%; /* Button fills full width */
 }
 
 .login-box-body .btn-primary:hover {
-    background-color: #004494; /* Even darker on hover */
+    background-color: #004494;
 }
 
+/* Icon feedback on form controls */
 .login-box-body .has-feedback .form-control-feedback {
     color: #0056b3;
 }
 
+/* Bold class */
 .bold {
     font-weight: bold;
 }
 
-/* Style for the "Lupa Password?" link */
+/* Forgot password link */
 .forgot-password-link {
-    color: #ffffff; /* White color for contrast against blue background */
+    color: #ffffff;
     text-decoration: none;
-    font-size: 16px; /* Increased font size for the link */
+    font-size: 16px;
     font-weight: bold;
 }
 
 .forgot-password-link:hover {
-    text-decoration: underline; /* Underline on hover */
+    text-decoration: underline;
 }
 
-    font-size: 24px; /* Increased font size for the heading */
-}
-
-.login-box-body .form-control {
-    background-color: #e3f2fd; /* Light blue for input fields */
-    border: 1px solid #007bff;
-    color: #000;
-    border-radius: 15px; /* Rounded input fields */
-    padding: 15px 20px; /* Larger padding for more spacious look */
-    font-size: 16px; /* Increased font size for better readability */
-}
-
-.login-box-body .btn-primary {
-    background-color: #0056b3; /* Darker blue for the button */
-    border-color: #0056b3;
-    border-radius: 20px; /* Rounded button */
-    padding: 10px 0; /* Increased padding for the button */
-    font-size: 16px; /* Increased font size for the button */
-}
-
-.login-box-body .btn-primary:hover {
-    background-color: #004494; /* Even darker on hover */
-}
-
-.login-box-body .has-feedback .form-control-feedback {
-    color: #0056b3;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-/* Style for the "Lupa Password?" link */
-.forgot-password-link {
-    color: #ffffff; /* White color for contrast against blue background */
-    text-decoration: none;
-    font-size: 16px; /* Increased font size for the link */
-    font-weight: bold;
-}
-
-.forgot-password-link:hover {
-    text-decoration: underline; /* Underline on hover */
-}
-
-/* Center the text in table columns */
+/* Table center alignment */
 .table-center {
-    text-align: center; /* Center horizontally */
-    vertical-align: middle; /* Center vertically */
+    text-align: center;
+    vertical-align: middle;
 }
 
-/* Optional: Style for the table */
+/* Center text */
 .center {
     text-align: center;
 }
 
+/* Styling for ukuran-container */
 .ukuran-container {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  
-  .ukuran-input {
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+/* Input field in ukuran-container */
+.ukuran-input {
     width: 100px;
     text-align: center;
-  }
-  
-  .ukuran-divider {
+}
+
+/* Divider between elements */
+.ukuran-divider {
     font-weight: bold;
     font-size: 16px;
     color: #000;
-  }
-  
+}
+
+/* Sidebar styling */
+.main-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 230px;
+    z-index: 1000;
+    transition: all 0.3s ease; /* Smooth transition for opening/closing */
+}
+
+/* Header styling */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+}
+
+/* Content wrapper, ensuring space for sidebar */
+.content-wrapper {
+    margin-top: 50px;
+    margin-left: 230px;
+    transition: margin-left 0.3s ease; /* Smooth transition for responsiveness */
+}
+
+/* Footer styling */
+footer.main-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    z-index: 9999;
+}
+
+footer.main-footer .pull-right {
+    float: right;
+}
+
+footer.main-footer .strong {
+    font-weight: bold;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1200px) {
+    .main-sidebar {
+        width: 200px;
+    }
+    .content-wrapper {
+        margin-left: 200px;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-sidebar {
+        width: 180px;
+    }
+    .content-wrapper {
+        margin-left: 180px;
+    }
+    .login-box-body {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile-friendly changes */
+    .main-sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        display: none; /* Hide sidebar on small screens */
+    }
+    .content-wrapper {
+        margin-left: 0;
+    }
+    .login-box-body {
+        max-width: 90%;
+        padding: 15px;
+    }
+    .login-box-body h2 {
+        font-size: 20px;
+    }
+    /* Adjust input fields */
+    .login-box-body .form-control {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    .login-box-body .btn-primary {
+        font-size: 14px;
+        padding: 12px 0;
+    }
+    /* Adjust layout for smaller screens */
+    .ukuran-container {
+        justify-content: center; /* Center items on small screens */
+    }
+}
+
+@media (max-width: 576px) {
+    /* For smaller screens like Android phones */
+    .login-box-body {
+        max-width: 100%;
+        padding: 10px;
+    }
+    .login-box-body h2 {
+        font-size: 18px;
+    }
+    .login-box-body .form-control {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    .login-box-body .btn-primary {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+    /* Adjust sidebar for smaller screens */
+    .main-sidebar {
+        width: 100%;
+        position:absolute;
+    }
+    .content-wrapper {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* For very small screens like small Android phones */
+    .login-box-body {
+        padding: 10px;
+        max-width: 100%;
+    }
+    .login-box-body h2 {
+        font-size: 16px;
+    }
+    .login-box-body .form-control {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    .login-box-body .btn-primary {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+    .table-center {
+        font-size: 14px;
+    }
+    /* Remove sidebars for small screens */
+    .main-sidebar {
+        display: none;
+    }
+    .content-wrapper {
+        margin-left: 0;
+    }
+}
