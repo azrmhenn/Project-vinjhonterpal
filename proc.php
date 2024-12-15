@@ -359,7 +359,7 @@ if (isset($_GET['del_bahan'])) {
 
 if (isset($_POST['cek'])) {
     // $jenis = $_POST['produk']?:0;
-    $panjang = $_POST['idP'];
+    $panjang = $_POST['bahan'];
     // $p = $_POST['panjang'];
     // $l = $_POST['lebar'];
     // $pemasok = $_POST['pemasok'];
@@ -440,7 +440,7 @@ if (isset($_POST['add_produk'])) {
             if ($result_produk->num_rows > 0) {
                 // Produk sudah ada, lakukan update
                 $id_produk = $result_produk->fetch_assoc()['id_produk'];
-                $sql_update = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok_ditambah', '$id_produk')";
+                $sql_update = "CALL produk_edit_stok('$stok_ditambah', '$id_produk')";
                 if (!$db->sqlquery($sql_update)) {
                     die("Update produk gagal!");
                 }
@@ -469,7 +469,8 @@ if (isset($_POST['add_produk'])) {
         admin("produk.php");
         exit();
     }
-}
+} 
+
 
 
 
@@ -486,62 +487,106 @@ if (isset($_POST['edit_produk'])) {
     $hargaB = round(floatval($_POST['harga-bahan']), 2);  // Membulatkan harga menjadi 2 desimal
     $stok = $_POST['stok'] ?: 0;
 
-    // Hitung luas berdasarkan jenis kolam
-    $luas = 0; // Variabel untuk menyimpan hasil luas
+    // Jika hanya mengedit stok, tidak perlu menghitung ulang ukuran
+    if (!empty($stokP) && empty($L) && empty($P) && empty($T) && empty($D)) {
+        // Ambil bahan_produk dan ukuran sebelumnya dari tabel tb_produk
+        $sql_bahan_produk = "SELECT bahan_produk FROM tb_produk WHERE id_produk = '$id'";
+        $result_bahan_produk = $db->sqlquery($sql_bahan_produk);
 
-    if ($jenis == '1') { // Kolam bulat
-        $radius = $D; // Radius dalam (m²)
-        $luas = M_PI * pow($radius, 2); // Hitung luas alas (m²)
-        $luas += 2 * M_PI * $radius * $T; // Tambahkan luas dinding (m²)
-        $hargaB *= $luas;
-    } elseif ($jenis == '2') { // Kolam kotak
-        $luas = $P * $L; // Luas alas (m²)
-        $luas += 2 * ($P * $T + $L * $T); // Tambahkan luas dinding (m²)
-        $luas /= 10000; // Tambahkan luas dinding (m²)
-        $hargaB *= $luas;
-    } elseif ($jenis == '3') { // Lembaran
-        $luas = $P * $L; // Luas lembaran (m²)
-        $hargaB *= $luas;
-    }
+        if ($result_bahan_produk->num_rows > 0) {
+            $row_bahan_produk = $result_bahan_produk->fetch_assoc();
+            $bahan_produk = $row_bahan_produk['bahan_produk'];
+            $ukuran = $row_bahan_produk['ukuran']; // Ambil ukuran yang sudah ada sebelumnya
 
-    $hargaB = round($hargaB);
+            // Hitung total bahan produk berdasarkan stokP
+            $total_bahan_produk = $bahan_produk * $stokP;
 
-    // Simpan data produk ke database
-    $ukuran = "";
-    if ($jenis == '1') { // Kolam bulat
-        $ukuran = "D{$D} T{$T}";
-    } elseif ($jenis == '2') { // Kolam kotak
-        $ukuran = "{$P} x {$L} x {$T}";
-    } elseif ($jenis == '3') { // Lembaran
-        $ukuran = "{$P} x {$L}";
-    }
+            // Ambil luas_total dari tabel tb_bahan untuk bahan yang sesuai
+            $sql_bahan_check = "SELECT luas_total FROM tb_bahan WHERE id_bahan = '$bahan'";
+            $result_bahan_check = $db->sqlquery($sql_bahan_check);
 
-    // Update produk
-    if (!empty($stok) && empty($L) && empty($P) && empty($T) && empty($D)) {
-        // Update stok saja
-        $sql_produk = "CALL produk_edit_stok('$stokP','$stok', '$id')";
-        if (!$db->sqlquery($sql_produk)) {
-            die('Update stok gagal: ' . $sql_produk);
+            if ($result_bahan_check->num_rows > 0) {
+                $row_bahan_check = $result_bahan_check->fetch_assoc();
+                $stok_bahan = $row_bahan_check['luas_total']; // Ambil luas_total dari bahan
+            } else {
+                die('Bahan untuk produk ini tidak ditemukan!');
+            }
+
+            // Bandingkan total bahan produk dengan luas_total
+            if ($total_bahan_produk > $stok_bahan) {
+                // Jika bahan yang dibutuhkan lebih besar dari stok bahan yang tersedia
+                $_SESSION['error_message'] = "Stok bahan tidak mencukupi! Dibutuhkan: $total_bahan_produk m², Tersedia: $stok_bahan m²";
+                admin("produk.php");
+                exit();
+            } else {
+                // Update stok saja, tidak ada perubahan ukuran
+                $sql_produk = "CALL produk_edit_stok('$stok', '$id')";
+                if (!$db->sqlquery($sql_produk)) {
+                    die('Update stok gagal: ' . $sql_produk);
+                }
+
+                $_SESSION['success_message'] = "Stok produk berhasil diperbarui!";
+                admin("produk.php");
+                exit();
+            }
+        } else {
+            die('Produk bahan tidak ditemukan!');
         }
-    } elseif (!empty($hargaP)) {
+    } 
+    // Lanjutkan dengan kondisi lain jika ada perubahan ukuran atau harga
+    elseif (!empty($hargaP)) {
         // Update harga saja
         $sql_produk = "CALL produk_edit_harga('$hargaP', '$id')";
         if (!$db->sqlquery($sql_produk)) {
             die('Update harga gagal: ' . $sql_produk);
         }
-    } elseif (!empty($L) || !empty($P) || !empty($T) || !empty($D)) {
-        // Update ukuran, bahan, atau produk lainnya
+        $_SESSION['success_message'] = "Harga produk berhasil diperbarui!";
+        admin("produk.php");
+        exit();
+    }
+    // Update ukuran, bahan, atau produk lainnya jika ada perubahan
+    elseif (!empty($L) || !empty($P) || !empty($T) || !empty($D)) {
+        $luas = 0;
+        // Hitung luas berdasarkan jenis kolam
+        if ($jenis == '1') { // Kolam bulat
+            $radius = $D; // Radius dalam (m²)
+            $luas = M_PI * pow($radius, 2); // Hitung luas alas (m²)
+            $luas += 2 * M_PI * $radius * $T; // Tambahkan luas dinding (m²)
+            $hargaB *= $luas;
+        } elseif ($jenis == '2') { // Kolam kotak
+            $luas = $P * $L; // Luas alas (m²)
+            $luas += 2 * ($P * $T + $L * $T); // Tambahkan luas dinding (m²)
+            $luas /= 10000; // Tambahkan luas dinding (m²)
+            $hargaB *= $luas;
+        } elseif ($jenis == '3') { // Lembaran
+            $luas = $P * $L; // Luas lembaran (m²)
+            $hargaB *= $luas;
+        }
+        $hargaB = round($hargaB);
+
+        // Update produk
+        $ukuran = "";
+        if ($jenis == '1') { // Kolam bulat
+            $ukuran = "D{$D} T{$T}";
+        } elseif ($jenis == '2') { // Kolam kotak
+            $ukuran = "{$P} x {$L} x {$T}";
+        } elseif ($jenis == '3') { // Lembaran
+            $ukuran = "{$P} x {$L}";
+        }
+
         $sql_produk = "CALL produk_edit('$jenis', '$bahan', '$ukuran', '$luas', '$stok', '$id')";
         if (!$db->sqlquery($sql_produk)) {
             die('Update produk gagal: ' . $sql_produk);
         }
+
+        $_SESSION['success_message'] = "Produk berhasil diperbarui!";
+        admin("produk.php");
+        exit();
     } else {
         die('Tidak ada perubahan yang disimpan.');
     }
-
-    // Redirect setelah sukses
-    admin("produk.php");
 }
+
 
 if (isset($_GET['del_produk'])) {
     $id  = $_GET['del_produk'];
@@ -604,7 +649,7 @@ if (isset($_GET['del_jenis_bahan'])) {
     }
 }
 
-// Menampilkan pesan error dan success jika ada
+// Menampilkan pesan error dan succes jika ada
 if (isset($_SESSION['error_message'])) {
     echo "<div id='errorMessage' class='alert alert-danger' style='position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto;'>
             " . $_SESSION['error_message'] . "

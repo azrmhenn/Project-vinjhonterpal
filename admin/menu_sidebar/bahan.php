@@ -157,10 +157,10 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <td style="text-align: center;"><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
                       <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
                       <td style="text-align: center;"><?php echo $d['nama']; ?></td>
-                      <td style="text-align: center;"><?php echo round($d['stok'], 2); ?></td>
-                      <td style="text-align: right;"><?php echo $d['luas_total'] . "m²"; ?></td>
+                      <td style="text-align: center;"><?php echo $d['stok'] <= 0 ? 'Habis' : round($d['stok'], 2); ?></td>
+                      <td style="text-align: right;"><?php echo $d['luas_total'] <= 0 ? 'Habis' : round($d['luas_total'], 2) . " m²"; ?></td>
                       <td>
-                        <?php if ($d['namaJ']!= 1) { ?>
+                        <?php if ($d['namaJ'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>

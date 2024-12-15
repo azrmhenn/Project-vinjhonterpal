@@ -130,7 +130,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <td><?php echo $no++; ?></td>
                       <td style="text-align: center;"><?php echo $d['nama_pegawai']; ?></td>
                       <td style="text-align: center;"><?php echo $d['nama_posisi'] ? $d['nama_posisi'] : '-'; ?></td>
-                      <td style="text-align: center;"><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
+                      <td style="text-align: left;"><?php echo "Ds. " . $d['nama_desa'] . ", Kec. " . $d['nama_kec'] . ", Kab. " . $d['nama_kab'] . ", Prov. " . $d['nama_prop']; ?></td>
                       <td style="text-align: center;"><?php echo $d['no_hp']; ?></td>
                       <td>
                         <?php if ($d['nama_pegawai'] != 1) { ?>

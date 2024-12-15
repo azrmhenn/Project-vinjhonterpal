@@ -21,35 +21,27 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
     <div class="row">
       <section class="col-lg-10 col-lg-offset-1">
         <div class="box box-info">
-
           <div class="box-header">
-            <div class="btn-group pull-right">
-              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahbahan">
-                <i class="fa fa-plus"></i> &nbsp Tambah Stok Produk
-              </button>
-              <!-- <a href="kategori_produk.php">
-                <button type="button" class="btn btn-info btn-sm" style="margin-left: 10px;">
-                  &nbsp Kategori Produk
-                </button>
-              </a> -->
-            </div>
-          </div>
-
-
-          <div class="box-body">
-            <!-- Menampilkan pesan error -->
+            <!-- Pesan error dan success dipindahkan ke sini -->
             <?php
             if (isset($_SESSION['error_message'])) {
               echo "<div id='errorMessage' class='alert alert-danger'>" . $_SESSION['error_message'] . "</div>";
-              unset($_SESSION['error_message']); // Hapus pesan setelah ditampilkan
+              unset($_SESSION['error_message']);
             }
 
             if (isset($_SESSION['success_message'])) {
               echo "<div id='successMessage' class='alert alert-success'>" . $_SESSION['success_message'] . "</div>";
-              unset($_SESSION['success_message']); // Hapus pesan setelah ditampilkan
+              unset($_SESSION['success_message']);
             }
             ?>
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tambahbahan">
+                <i class="fa fa-plus"></i> &nbsp Tambah Stok Produk
+              </button>
+            </div>
+          </div>
 
+          <div class="box-body">
             <!-- tambah produk -->
             <form id="form-kolam-1" action="<?php echo BASE_URL_; ?>proc.php" method="post" enctype="multipart/form-data">
               <div class="modal fade" id="tambahbahan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -120,6 +112,18 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 
             <!-- tabel data -->
             <div class="table-responsive">
+              <!-- Menampilkan pesan error -->
+              <?php
+              if (isset($_SESSION['error_message'])) {
+                echo "<div id='errorMessage' class='alert alert-danger'>" . $_SESSION['error_message'] . "</div>";
+                unset($_SESSION['error_message']); // Hapus pesan setelah ditampilkan
+              }
+
+              if (isset($_SESSION['success_message'])) {
+                echo "<div id='successMessage' class='alert alert-success'>" . $_SESSION['success_message'] . "</div>";
+                unset($_SESSION['success_message']); // Hapus pesan setelah ditampilkan
+              }
+              ?>
               <table class="table table-bordered table-striped" id="table-datatable">
                 <thead>
                   <tr>
@@ -190,14 +194,17 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                       <?php
                                       $sql = "call bahan_only()";
                                       $data = $db->fetchdata($sql);
+
                                       foreach ($data as $dat) {
-                                        if ($d['id_bahan'] == $dat['id_bahan'])
-                                          $selected = 'selected';
-                                        else
-                                          $selected = '';
-                                        echo "<option value='" . $dat['id_bahan'] . "'$selected>" . $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW'] .  "</option>";
+                                        $selected = ($d['id_bahan'] == $dat['id_bahan']) ? 'selected' : '';
+                                        $status = ($dat['luas_total'] > 0) ? "Ready" : "Habis"; // Menentukan status stok
+                                        $luas_total = round($dat['luas_total'], 2); // Pembulatan luas total
+
+                                        // Menampilkan opsi
+                                        echo "<option value='" . $dat['id_bahan'] . "' $selected>". $dat['namaJ'] . " " . $dat['nama_merk'] . " " . $dat['namaW']. " - " . $status . " (" . $luas_total . "m²)". "</option>";
                                       }
                                       ?>
+
                                     </select>
                                   </div><br><br>
                                   <input type="hidden" name="harga-bahan" id="harga-bahan" value="">
