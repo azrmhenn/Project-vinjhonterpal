@@ -106,8 +106,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                         <input type="number" name="stok" required="required" class="form-control" placeholder="Stok..." style="width:20%">
                       </div>
                       <div class="form-group">
-                        <label>Harga/m²</label>
-                        <input type="number" name="harga" required="required" class="form-control" placeholder="Harga..." style="width:40%">
+                        <label>Harga Beli</label><br>
+                        <input type="number" name="hargaB" class="form-control" placeholder="Harga beli..." style="width:30%">
+                      </div><br>
+                      <div class="form-group">
+                        <label>Harga Jual /m²</label><br>
+                        <input type="number" name="hargaJ" class="form-control" placeholder="Harga jual..." style="width:20%">
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -128,10 +132,10 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   <tr>
                     <th width="1%">NO</th>
                     <th style="text-align: center;">Jenis</th>
-                    <th style="text-align: center;">Merk</th>
                     <th style="text-align: center;">Warna</th>
                     <th style="text-align: center;">Ukuran</th>
-                    <th style="text-align: center;">Harga/m²</th>
+                    <th style="text-align: center;">Harga Beli /m²</th>
+                    <th style="text-align: center;">Harga Jual /m²</th>
                     <th style="text-align: center;">Pemasok</th>
                     <th style="text-align: center;">Stok</th>
                     <th style="text-align: center;">Luas total/m²</th>
@@ -151,16 +155,16 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td style="text-align: center;"><?php echo $d['namaJ']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['nama_merk']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['namaJ'] . " " . $d['nama_merk']; ?></td>
                       <td style="text-align: center;"><?php echo $d['namaW']; ?></td>
                       <td style="text-align: center;"><?php echo $d['lebar'] . " x " . $d['panjang']; ?></td>
-                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga'], 0, ',', '.'); ?></td>
+                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga_beli_meter'], 0, ',', '.'); ?></td>
+                      <td style="text-align: right;"><?php echo "Rp. " . number_format($d['harga_jual_meter'], 0, ',', '.'); ?></td>
                       <td style="text-align: center;"><?php echo $d['nama']; ?></td>
                       <td style="text-align: center;"><?php echo $d['stok'] <= 0 ? 'Habis' : round($d['stok'], 2); ?></td>
                       <td style="text-align: right;"><?php echo $d['luas_total'] <= 0 ? 'Habis' : round($d['luas_total'], 2) . " m²"; ?></td>
                       <td>
-                        <?php if ($d['namaJ'] != 1) { ?>
+                        <?php if ($d['id_bahan'] != 1) { ?>
                           <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_bahan_<?php echo $d['id_bahan'] ?>">
                             <i class="fa fa-pencil"></i>
                           </button>
@@ -241,8 +245,12 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                     <input type="number" name="stok" class="form-control" placeholder="Tambah Stok..." style="width:70%">
                                   </div><br><br>
                                   <div class="form-group">
-                                    <label>Harga</label><br>
-                                    <input type="number" name="harga" id="harga" class="form-control" placeholder="Harga..." value="<?php echo $d['harga']; ?>" style="width:70%">
+                                    <label>Harga Beli</label><br>
+                                    <input type="number" name="hargaB" class="form-control" placeholder="Harga beli..." value="<?php echo $d['harga_total']; ?>" style="width:100%">
+                                  </div><br><br>
+                                  <div class="form-group">
+                                    <label>Harga Jual /m²</label><br>
+                                    <input type="number" name="hargaJ" class="form-control" placeholder="Harga jual..." value="<?php echo $d['harga_jual_meter']; ?>" style="width:70%">
                                   </div>
                                 </div><br><br>
                                 <div class="modal-footer">

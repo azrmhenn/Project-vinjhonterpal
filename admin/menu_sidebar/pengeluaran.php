@@ -99,6 +99,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                     <th style="text-align: center;">Tanggal</th>
                     <th style="text-align: center;">Kategori</th>
                     <th style="text-align: center;">Keterangan</th>
+                    <th style="text-align: center;">Jumlah</th>
                     <th style="text-align: center;">Total</th>
                     <th width="10%" style="text-align: center;">OPSI</th>
                   </tr>
@@ -118,7 +119,8 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                       <td><?php echo $no++; ?></td>
                       <td style="text-align: center;"><?php echo $d['tanggal']; ?></td>
                       <td style="text-align: center;"><?php echo $d['kategori']; ?></td>
-                      <td style="text-align: center;"><?php echo $d['keterangan']; ?></td>
+                      <td style="text-align: left;"><?php echo $d['keterangan']; ?></td>
+                      <td style="text-align: center;"><?php echo $d['jml']; ?></td>
                       <td style="text-align: right;"><?php echo "Rp. " . number_format($d['total'], 0, ',', '.'); ?></td>
                       <td>
                         <?php if ($d['kategori'] != 1) { ?>
