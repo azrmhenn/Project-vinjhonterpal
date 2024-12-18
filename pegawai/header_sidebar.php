@@ -76,24 +76,24 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
 
                 if ($result->num_rows > 0) {
                   $profil = $result->fetch_assoc();
-              
+
                   if (!empty($profil['foto'])) {
-                      // Jika foto ada, gunakan URL foto
-                      $profile_picture_url = BASE_URL_IMG_USR . $profil['foto'];
+                    // Jika foto ada, gunakan URL foto
+                    $profile_picture_url = BASE_URL_IMG_USR . $profil['foto'];
                   } else {
-                      // Jika foto NULL atau kosong, gunakan gambar default
-                      $profile_picture_url = BASE_URL_IMG_SYS . "user.png";
+                    // Jika foto NULL atau kosong, gunakan gambar default
+                    $profile_picture_url = BASE_URL_IMG_SYS . "user.png";
                   }
-              ?>
+                ?>
                   <img src="<?php echo $profile_picture_url; ?>" class="img-circle" style="max-height:20px">
-              <?php
-              } else {
+                <?php
+                } else {
                   // Jika tidak ada data user sama sekali
-              ?>
+                ?>
                   <img src="<?php echo BASE_URL_IMG_SYS; ?>user.png" class="img-circle" style="max-height:45px">
-              <?php
-              }
-              ?>
+                <?php
+                }
+                ?>
                 <span class="hidden-xs"><?php echo $_SESSION['nama']; ?> - <?php echo $_SESSION['level']; ?></span>
               </a>
             </li>

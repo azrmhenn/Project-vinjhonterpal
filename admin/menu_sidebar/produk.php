@@ -182,13 +182,15 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                       $sql = "call kategori_produk()";
                                       $data = $db->fetchdata($sql);
                                       foreach ($data as $dat) {
-                                        echo "<option value='" . $dat['id'] . "'>" . $dat['namaK'] . "</option>";
+                                        $selected = ($d['idk'] == $dat['id']) ? 'selected' : '';
+                                        echo "<option value='" . $dat['id'] . "' $selected>" . $dat['namaK'] . "</option>";
                                       }
                                       ?>
                                     </select>
 
                                   </div><br><br>
                                   <div class="form-group" style="width: 100%;">
+                                  <input type="hidden" name="bahan_lama" value="<?php echo $d['id_bahan']; ?>">
                                     <label>Bahan</label><br>
                                     <select class="form-control" name="bahan" id="bahan" required="required" style="width: 100%;">
                                       <?php
@@ -223,7 +225,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                 <input type="hidden" name="id" required="required" class="form-control" value="<?php echo $d['id_produk']; ?>">
                                 <input type="hidden" name="stokP" required="required" class="form-control" value="<?php echo $d['stok']; ?>">
                                 <input type="hidden" name="bahan_produk" required="required" class="form-control" value="<?php echo $d['bahan_produk']; ?>">
-                                <input type="hidden" name="id_kategori" required="required" class="form-control" value="<?php echo $d['id_kategori_produk']; ?>">
+                                <input type="hidden" name="id_kategori" required="required" class="form-control" value="<?php echo $d['idk']; ?>">
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                   <button type="submit" class="btn btn-primary" name="edit_produk">Simpan</button>
