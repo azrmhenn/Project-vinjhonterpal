@@ -1,6 +1,12 @@
 <?php require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
 require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
 $id = $_GET['id'];
+
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    die("ID agenda tidak ditemukan!");
+}
+
 $sql = "SELECT * FROM tb_absensi where id = '$id'";
 $result = $db->sqlquery($sql);
 
@@ -8,8 +14,10 @@ if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $agenda = $row['agenda'];
     $tgl = $row['tanggal'];
+    $idA = $row['id'];
   }
 }
+
 ?>
 
 <div class="content-wrapper">
@@ -32,12 +40,12 @@ if ($result->num_rows > 0) {
         <div class="box box-info">
 
           <div class="box-header">
+            <h3>Agenda : <?php echo $agenda ?></h3><br><span>Tanggal : <?php echo $tgl ?></span>
             <div class="btn-group pull-right">
-              <!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-plus"></i> &nbsp Tambah Kategori Pengeluaran
-              </button> -->
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-plus"></i> &nbsp Tambah Data Absensi
+              </button>
             </div>
-            <h3>Agenda <?php echo $agenda ?></h3><br><span>Tanggal : <?php echo $tgl?></span>
           </div>
 
           <div class="box-body">
@@ -47,24 +55,37 @@ if ($result->num_rows > 0) {
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori Pengeluaran</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Tambah Data Absensi</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
+                      <select name="namaP" class="form-control" required="required">
+                        <option value="">Pilih Pegawai</option>
+                        <?php
+                        $sql = "call pegawai()";
+                        $data = $db->fetchdata($sql);
+                        foreach ($data as $dat) {
+                          echo "<option value='" . $dat['id_pegawai'] . "'>" . $dat['nama_pegawai'] . " (" . $dat['nama_posisi'] . ")" . "</option>";
+                        }
+                        ?>
+                      </select><br>
                       <div class="form-group">
-                        <label>Nama Kategori</label>
-                        <input type="text" name="namaK" required="required" class="form-control" placeholder="Nama Kategori ..">
+                        <label>Check-IN</label>
+                        <input type="time" name="chekin" required="required" class="form-control">
                       </div>
                       <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" name="ket" required="required" class="form-control" placeholder="Keterangan ..">
+                        <label>Check-OUT</label>
+                        <input type="time" name="chekout" required="required" class="form-control">
                       </div>
                     </div>
                     <div class="modal-footer">
+                      <input type="hidden" name="id_agenda" required="required" class="form-control" value="<?php echo $idA; ?>">
+                      <input type="hidden" name="tgl" required="required" class="form-control" value="<?php echo $tanggal; ?>">
+                      <input type="hidden" name="agendda" required="required" class="form-control" value="<?php echo $agenda; ?>">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                      <button type="submit" class="btn btn-primary" name="add_KPG">Simpan</button>
+                      <button type="submit" class="btn btn-primary" name="add_absensi">Simpan</button>
                     </div>
                   </div>
                 </div>
@@ -112,7 +133,7 @@ if ($result->num_rows > 0) {
                             <i class="fa fa-trash"></i>
                           </button>
                         <?php } ?>
-                        <!-- form edit kategori pengeluaran -->
+                        <!-- form edit absensi -->
                         <form action="<?php echo BASE_URL_; ?>proc.php" method="post">
                           <div class="modal fade" id="edit_absen_<?php echo $d['id_pegawai'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -131,25 +152,28 @@ if ($result->num_rows > 0) {
                                   </div>
                                   <div class="form-group" style="width:100%">
                                     <label>Check-IN</label>
-                                    <input type="time" name="ket" required="required" class="form-control" value="<?php echo $d['chekin']; ?>" style="width:100%">
+                                    <input type="time" name="chekin" required="required" class="form-control" value="<?php echo $d['chekin']; ?>" style="width:100%">
                                   </div>
                                   <div class="form-group" style="width:100%">
                                     <label>Check-OUT</label>
-                                    <input type="time" name="ket" required="required" class="form-control" value="<?php echo $d['chekout']; ?>" style="width:100%">
+                                    <input type="time" name="chekout" required="required" class="form-control" value="<?php echo $d['chekout']; ?>" style="width:100%">
                                   </div>
                                 </div>
                                 <div class="modal-footer">
+                                  <input type="hidden" name="id_agenda" required="required" class="form-control" value="<?php echo $idA; ?>">
+                                  <input type="hidden" name="tgl" required="required" class="form-control" value="<?php echo $tanggal; ?>">
+                                  <input type="hidden" name="agendda" required="required" class="form-control" value="<?php echo $agenda; ?>">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <button type="submit" class="btn btn-primary" name="edit_KPG">Simpan</button>
+                                  <button type="submit" class="btn btn-primary" name="edit_absensi">Simpan</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </form>
-                        <!-- form edit kategori pengeluaran -->
+                        <!-- form edit absensi -->
 
-                        <!-- form delete kategori pengeluaran -->
-                        <div class="modal fade" id="hapus_kategori_<?php echo $d['id_kategori_pengeluaran'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- form delete absensi -->
+                        <div class="modal fade" id="hapus_kategori_<?php echo $d['id_pegawai'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
@@ -163,12 +187,12 @@ if ($result->num_rows > 0) {
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <a href="<?php echo BASE_URL_; ?>proc.php?del_KPG=<?php echo $d['id_kategori_pengeluaran'] ?>" class="btn btn-primary">Hapus</a>
+                                <a href="<?php echo BASE_URL_; ?>proc.php?del_absensi=<?php echo $d['id_pegawai']; ?>&idA=<?php echo $idA; ?>" class="btn btn-primary">Hapus</a>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <!-- form delete kategori pengeluaran -->
+                        <!-- form delete absensi -->
 
                       </td>
                     </tr>

@@ -161,12 +161,6 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                       </select><br><br>
                                       <select name="kabupaten_id" id="kabupaten_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Kota/Kab</option>
-                                        <?php
-                                        if ($d['id_k'] == $dat['id_posisi'])
-                                          $selected = 'selected';
-                                        else
-                                          $selected = '';
-                                        ?>
                                       </select><br><br>
                                       <select name="kecamatan_id" id="kecamatan_id" class="form-control" style="width:100%">
                                         <option value="">Pilih Kecamatan</option>

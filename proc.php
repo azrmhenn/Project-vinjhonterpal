@@ -792,7 +792,7 @@ if (isset($_POST['checkout'])) {
     }
 }
 
-// Proses Add Agenda Absensi
+// action agenda
 if (isset($_POST['add_agenda'])) {
     $agenda = $_POST['agenda']; // Nama agenda yang diinputkan
     $tanggal = $_POST['tanggal']; // Tanggal untuk agenda absensi
@@ -808,7 +808,7 @@ if (isset($_POST['add_agenda'])) {
     }
 }
 
-// edit gaji
+// action penggajian
 if (isset($_POST['edit_gaji'])) {
     $id = $_POST['id'];
     $gaji = $_POST['gaji'];
@@ -831,6 +831,59 @@ if (isset($_GET['del_gaji'])) {
         die('Insert data gagal: ' . $sql);
     } else {
         admin("penggajian.php");
+    }
+}
+
+// action absensi
+if (isset($_POST['add_absensi'])) {
+    $agenda = $_POST['id_agenda']; // Nama agenda yang diinputkan
+    $pegawai = $_POST['namaP']; // Tanggal untuk agenda absensi
+    $chekin = $_POST['chekin'];
+    $chekout = $_POST['chekout'];
+
+    // Query untuk menambahkan agenda absensi
+    $sql_add_agenda = "CALL absensi_add('$agenda', '$pegawai', '$chekin', '$chekout')";
+    if ($db->sqlquery($sql_add_agenda)) {
+        $_SESSION['id_agenda'] = $agenda;
+        $_SESSION['tgl'] = $tanggal;
+        $_SESSION['agenda'] = $agd;
+        // Jika berhasil, redirect ke halaman absensi
+        admin("lihat_absensi.php?id=$agenda");
+    } else {
+        // Jika gagal, tampilkan pesan error
+        echo "Agenda absensi gagal ditambahkan!";
+    }
+}
+
+if (isset($_POST['edit_absensi'])) {
+    $agenda = $_POST['id_agenda']; // Nama agenda yang diinputkan
+    $pegawai = $_POST['id']; // Tanggal untuk agenda absensi
+    $chekin = $_POST['chekin'];
+    $chekout = $_POST['chekout'];
+
+    // Query untuk menambahkan agenda absensi
+    $sql_add_agenda = "CALL absensi_edit('$pegawai', '$chekin', '$chekout')";
+    if ($db->sqlquery($sql_add_agenda)) {
+        // Jika berhasil, redirect ke halaman absensi
+        admin("lihat_absensi.php?id=$agenda");
+    } else {
+        // Jika gagal, tampilkan pesan error
+        echo "Agenda absensi gagal ditambahkan!";
+    }
+}
+
+if (isset($_GET['del_absensi'])) {
+    $idP = $_GET['del_absensi'];
+    $idA = $_GET['idA'];
+
+    $sql = "DELETE FROM tb_detail_absen WHERE id_pegawai = '$idP' AND id_absen = '$idA'";
+
+    if ($db->sqlquery($sql)) {
+        // Jika berhasil, redirect ke halaman absensi
+        admin("lihat_absensi.php?id=$idA");
+    } else {
+        // Jika gagal, tampilkan pesan error
+        echo "Agenda absensi gagal ditambahkan!";
     }
 }
 
