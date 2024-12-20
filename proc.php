@@ -487,7 +487,7 @@ if (isset($_POST['edit_produk'])) {
 
     // Cek jika stok diubah saja
     // $stok_ditambah = $_POST['stok'];
-    $stok_ditambah = isset($_POST['stok']) ? $_POST['stok'] : 0;  // Stok
+    $stok_ditambah = ($_POST['stok']) ? $_POST['stok'] : 0;  // Stok
     $harga_baru = isset($_POST['hargaP']) ? round(floatval($_POST['hargaP']), 2) : 0;  // Harga baru
 
     // Jika stok diubah saja (dan ukuran tidak diubah)
@@ -577,8 +577,6 @@ if (isset($_POST['edit_produk'])) {
         exit();
     }
 }
-
-
 
 if (isset($_GET['del_produk'])) {
     $id  = $_GET['del_produk'];
@@ -810,7 +808,31 @@ if (isset($_POST['add_agenda'])) {
     }
 }
 
+// edit gaji
+if (isset($_POST['edit_gaji'])) {
+    $id = $_POST['id'];
+    $gaji = $_POST['gaji'];
 
+    $sql = "CALL gaji_edit('$gaji', '$id')";
+
+    if (!$db->sqlquery($sql)) {
+        die('Insert data gagal: ' . $sql);
+    } else {
+        admin("penggajian.php");
+    }
+}
+
+if (isset($_GET['del_gaji'])) {
+    $id = $_GET['del_gaji'];
+
+    $sql = "DELETE FROM tb_pengambilan_gaji WHERE id_pengambilan = '$id'";
+
+    if (!$db->sqlquery($sql)) {
+        die('Insert data gagal: ' . $sql);
+    } else {
+        admin("penggajian.php");
+    }
+}
 
 // Action alamat ajax
 if (isset($_POST['jenis'])) {

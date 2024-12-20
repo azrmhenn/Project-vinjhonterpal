@@ -136,20 +136,20 @@ if (isset($_POST['filter'])) {
                                     </div>
                                     <div class="form-group" style="width:100%">
                                       <label>Jumlah Hari</label>
-                                      <input type="number" name="hari" class="form-control" value="<?php echo $d['total_hari_kerja']; ?>" style="width:100%">
+                                      <input type="number" name="hari" class="form-control" value="<?php echo $d['total_hari_kerja']; ?>" style="width:100%" readonly>
                                     </div>
                                     <div class="form-group" style="width:100%">
                                       <label>Jumlah Jam Lembur</label>
-                                      <input type="number" name="hari" class="form-control" value="<?php echo $d['total_jam_lembur']; ?>" style="width:100%">
+                                      <input type="number" name="lembur" class="form-control" value="<?php echo $d['total_jam_lembur']; ?>" style="width:100%" readonly>
                                     </div>
                                     <div class="form-group" style="width:100%">
                                       <label>Total Gaji</label>
-                                      <input type="number" name="hari" class="form-control" value="<?php echo $d['total_gaji']; ?>" style="width:100%">
+                                      <input type="number" name="gaji" class="form-control" value="<?php echo $d['total_gaji']; ?>" style="width:100%">
                                     </div>
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                    <button type="submit" class="btn btn-primary" name="edit_KPG">Simpan</button>
+                                    <button type="submit" class="btn btn-primary" name="edit_gaji">Simpan</button>
                                   </div>
                                 </div>
                               </div>
@@ -172,7 +172,7 @@ if (isset($_POST['filter'])) {
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                  <a href="<?php echo BASE_URL_; ?>proc.php?del_KPG=<?php echo $d['id_pengambilan'] ?>" class="btn btn-primary">Hapus</a>
+                                  <a href="<?php echo BASE_URL_; ?>proc.php?del_gaji=<?php echo $d['id_pengambilan'] ?>" class="btn btn-primary">Hapus</a>
                                 </div>
                               </div>
                             </div>
