@@ -235,7 +235,7 @@ require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
                                           $selected = 'selected';
                                         else
                                           $selected = '';
-                                        echo "<option value='" . $dat['id_pemasok'] . "'>" . $dat['nama'] . "</option>";
+                                        echo "<option value='" . $dat['id_pemasok'] . "'$selected>" . $dat['nama'] . "</option>";
                                       }
                                       ?>
                                     </select>
