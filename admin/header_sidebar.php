@@ -1,8 +1,23 @@
+<?php
+// Mulai session di sini
+session_start();
+$id = $_SESSION['id'];
+
+// Mengecek apakah status session sudah sesuai
+if (!isset($_SESSION['status']) || $_SESSION['status'] != 'Administrator_logedin') {
+  // Redirect ke halaman login jika status tidak sesuai
+  header("Location: ../index.php?alert=belum_login");
+  exit();  // Pastikan eksekusi script berhenti setelah redirect
+}
+
+include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
+include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
+$db = new database();
+?>
+
+
 <!DOCTYPE html>
 <html>
-<?php
-include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
-?>
 
 <head>
   <meta charset="utf-8">
@@ -28,15 +43,7 @@ include 'C:/laragon/www/MPSI/Project-vinjhonterpal/config.php';
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link rel="stylesheet" href="<?php echo BASE_URL_; ?>assets/style.css">
 
-  <?php
-  include 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
-  $db = new database();
-  session_start();
-  $id = $_SESSION['id'];
-  if ($_SESSION['status'] != "administrator_logedin") {
-    header("redirect:index.php?alert=belum_login");
-  }
-  ?>
+
 
 </head>
 

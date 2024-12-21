@@ -1,6 +1,7 @@
 <?php
 require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/admin/header_sidebar.php';
 require_once 'C:/laragon/www/MPSI/Project-vinjhonterpal/class_db.php';
+
 ?>
 
 <div class="content-wrapper">
